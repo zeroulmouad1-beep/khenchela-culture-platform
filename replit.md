@@ -20,7 +20,8 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
 - `components/ui/` — shadcn/ui base components
 - `lib/` — Constants, utilities, data
 - `lib/firebase.ts` — Firebase config (null-safe, won't crash without env vars)
-- `lib/auth-context.tsx` — Auth provider with mock mode (admin/admin) when Firebase not configured
+- `lib/auth-context.tsx` — Auth provider with server-side credential validation via API routes
+- `app/api/auth/` — Server-side auth API routes (login, logout, session) validating against ADMIN_EMAIL/ADMIN_PASSWORD env vars
 - `lib/firestore-helpers.ts` — Firestore CRUD helpers with mock fallback
 - `lib/mock-data.ts` — In-memory mock data for admin preview mode
 - `public/images/` — Local image assets
@@ -29,7 +30,7 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
 
 ## Admin Dashboard (Full CMS)
 - **Route**: `/admin` (protected, redirects to `/admin/login` if not authenticated)
-- **Mock Mode**: When Firebase env vars are missing (dev only), uses `admin/admin` credentials and in-memory mock data
+- **Authentication**: Server-side credential validation via API routes (`/api/auth/login`, `/api/auth/logout`, `/api/auth/session`). Credentials stored in env vars (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SESSION_SECRET`). Uses httpOnly signed session cookies.
 - **Dashboard**: 8 summary cards + Recharts BarChart & PieChart with live data
 - **CMS Sections** (8 sidebar items):
   - الرئيسية (Dashboard) — `/admin`
@@ -41,7 +42,7 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
   - الخدمات (Services) — `/admin/services` — Full CRUD
   - الفعاليات (Events) — `/admin/events` — Full CRUD + gallery, category, status (active/canceled/finished), featured toggle
 - **CMS Context**: `lib/cms-context.tsx` provides live Firestore-backed state for institutions, library annexes, workshops, facilities, and Khenchela sections. Uses `_seedId` mapping to preserve routing IDs (museum, cinema, library, culture-house, theater) when Firestore auto-generates document IDs. Merges Firestore data with defaults so no institution is lost. Also seeds events and news collections from mock data on first load when empty.
-- **Firebase**: Connected to live Firestore (project: khanchala-culture-platform). All 7 `NEXT_PUBLIC_FIREBASE_*` env vars are set. Auth uses mock mode in dev (admin/admin).
+- **Firebase**: Connected to live Firestore (project: khanchala-culture-platform). All 7 `NEXT_PUBLIC_FIREBASE_*` env vars are set.
 - **Firestore Collections**: `institutions`, `libraryAnnexes`, `workshops`, `facilities`, `khenchelaSections`, `events`, `news` — all seeded from mock data on first load. Dashboard stats query `facilities` (not `services`), `events`, and `news` for total counts.
 - **Public Pages**: All wired to CMS/Firestore — `events-slider.tsx` fetches from `events` collection, `bento-grid.tsx` and `institution-detail.tsx` use `useCms()` for institutions, `about-khenchela/page.tsx` uses `useCms().khenchelaSections`.
 - **Charts**: recharts (BarChart, PieChart) for dashboard statistics

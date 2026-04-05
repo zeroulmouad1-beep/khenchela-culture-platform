@@ -1,17 +1,21 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { auth, isConfigured } from '@/lib/firebase'
-import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 
-const DEV_MODE = process.env.NODE_ENV !== 'production'
-// Dev-only mock auth: allows admin/admin login without a Firebase Auth user.
-// Data operations still use live Firestore when isConfigured is true.
-// In production, Firebase Auth is required for real authentication.
-const MOCK_MODE = DEV_MODE
-const MOCK_EMAIL = 'admin'
-const MOCK_PASSWORD = 'admin'
+interface AdminUser {
+  email: string
+  uid: string
+  displayName: string | null
+}
+
+interface AuthContextType {
+  user: AdminUser | null
+  loading: boolean
+  configured: boolean
+  login: (email: string, password: string) => Promise<void>
+  logout: () => Promise<void>
+}
 
 class AuthError extends Error {
   code: string
@@ -22,73 +26,64 @@ class AuthError extends Error {
   }
 }
 
-interface MockUser {
-  email: string
-  uid: string
-  displayName: string | null
-}
-
-interface AuthContextType {
-  user: User | MockUser | null
-  loading: boolean
-  configured: boolean
-  mockMode: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => Promise<void>
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | MockUser | null>(null)
+  const [user, setUser] = useState<AdminUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const [configured, setConfigured] = useState(true)
 
   useEffect(() => {
-    if (MOCK_MODE) {
-      const saved = typeof window !== 'undefined' && sessionStorage.getItem('mock_admin_auth')
-      if (saved === 'true') {
-        setUser({ email: 'admin@mock.local', uid: 'mock-admin', displayName: 'مدير النظام' })
+    async function checkSession() {
+      try {
+        const res = await fetch('/api/auth/session')
+        const data = await res.json()
+        if (data.authenticated && data.user) {
+          setUser(data.user)
+        }
+      } catch {
+        // session check failed silently
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
-      return
     }
-    if (!auth) {
-      setLoading(false)
-      return
-    }
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user)
-      setLoading(false)
-    })
-    return () => unsubscribe()
+    checkSession()
   }, [])
 
   const login = async (email: string, password: string) => {
-    if (MOCK_MODE) {
-      if (email === MOCK_EMAIL && password === MOCK_PASSWORD) {
-        const mockUser: MockUser = { email: 'admin@mock.local', uid: 'mock-admin', displayName: 'مدير النظام' }
-        setUser(mockUser)
-        if (typeof window !== 'undefined') sessionStorage.setItem('mock_admin_auth', 'true')
-        return
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      if (data.error === 'credentials_not_configured') {
+        setConfigured(false)
+        throw new AuthError('auth/not-configured', 'Admin credentials not configured')
+      }
+      if (data.error === 'too_many_attempts') {
+        throw new AuthError('auth/too-many-requests', 'Too many login attempts')
       }
       throw new AuthError('auth/invalid-credential', 'Invalid credentials')
     }
-    if (!auth) throw new Error('Firebase not configured')
-    await signInWithEmailAndPassword(auth, email, password)
+
+    setUser(data.user)
   }
 
   const logout = async () => {
-    if (MOCK_MODE) {
-      setUser(null)
-      if (typeof window !== 'undefined') sessionStorage.removeItem('mock_admin_auth')
-      return
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch {
+      // logout request failed silently
     }
-    if (!auth) return
-    await signOut(auth)
+    setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, configured: isConfigured || MOCK_MODE, mockMode: MOCK_MODE, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, configured, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
@@ -128,16 +123,14 @@ export function AdminGuard({ children }: { children: ReactNode }) {
             ⚠
           </div>
           <h2 className="text-xl font-bold text-white mb-2" style={{ fontFamily: 'Tajawal, sans-serif' }}>
-            Firebase غير مُهيأ
+            بيانات الدخول غير مُهيأة
           </h2>
           <p className="text-sm mb-4" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
-            يرجى إضافة متغيرات البيئة الخاصة بـ Firebase لتفعيل لوحة الإدارة
+            يرجى إضافة متغيرات البيئة الخاصة بالمدير لتفعيل لوحة الإدارة
           </p>
           <div className="text-left text-xs p-3 rounded-lg" style={{ backgroundColor: '#0F172A', color: '#64748B', fontFamily: 'monospace' }} dir="ltr">
-            NEXT_PUBLIC_FIREBASE_API_KEY<br/>
-            NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN<br/>
-            NEXT_PUBLIC_FIREBASE_PROJECT_ID<br/>
-            NEXT_PUBLIC_FIREBASE_APP_ID
+            ADMIN_EMAIL<br/>
+            ADMIN_PASSWORD
           </div>
         </div>
       </div>

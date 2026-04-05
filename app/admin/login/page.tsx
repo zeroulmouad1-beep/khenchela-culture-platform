@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
-import { Lock, Mail, Eye, EyeOff, AlertCircle, Info } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff, AlertCircle } from 'lucide-react'
 
 function LoginForm() {
   const [email, setEmail] = useState('')
@@ -11,7 +11,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { login, user, configured, mockMode } = useAuth()
+  const { login, user, configured } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -28,10 +28,10 @@ function LoginForm() {
             ⚠
           </div>
           <h2 className="text-xl font-bold text-white mb-2" style={{ fontFamily: 'Tajawal, sans-serif' }}>
-            Firebase غير مُهيأ
+            بيانات الدخول غير مُهيأة
           </h2>
           <p className="text-sm" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
-            يرجى إضافة متغيرات البيئة الخاصة بـ Firebase لتفعيل تسجيل الدخول
+            يرجى إضافة متغيرات البيئة الخاصة بالمدير لتفعيل تسجيل الدخول
           </p>
         </div>
       </div>
@@ -51,6 +51,8 @@ function LoginForm() {
         setError('البريد الإلكتروني أو كلمة المرور غير صحيحة')
       } else if (code === 'auth/too-many-requests') {
         setError('تم تجاوز عدد المحاولات المسموح بها. يرجى المحاولة لاحقاً')
+      } else if (code === 'auth/not-configured') {
+        setError('بيانات الدخول غير مُهيأة في الخادم')
       } else {
         setError('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى')
       }
@@ -74,13 +76,6 @@ function LoginForm() {
           </p>
         </div>
 
-        {mockMode && (
-          <div className="mb-4 p-3 rounded-lg flex items-center gap-2 text-sm" style={{ backgroundColor: 'rgba(184, 115, 51, 0.12)', border: '1px solid rgba(184, 115, 51, 0.3)', color: '#D4956A', fontFamily: 'Tajawal, sans-serif' }}>
-            <Info size={16} className="flex-shrink-0" />
-            <span>وضع المعاينة — استخدم <strong dir="ltr" style={{ color: '#B87333' }}>admin / admin</strong> لتسجيل الدخول</span>
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="rounded-xl p-8 border" style={{ backgroundColor: '#1E293B', borderColor: '#334155' }}>
           <h2 className="text-xl font-bold text-white mb-6 text-center" style={{ fontFamily: 'Tajawal, sans-serif' }}>
             تسجيل الدخول
@@ -95,18 +90,18 @@ function LoginForm() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" style={{ color: '#D4956A', fontFamily: 'Tajawal, sans-serif' }}>
-              {mockMode ? 'اسم المستخدم' : 'البريد الإلكتروني'}
+              البريد الإلكتروني
             </label>
             <div className="relative">
               <input
-                type={mockMode ? 'text' : 'email'}
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 pr-10 rounded-lg text-white text-sm outline-none transition-all"
                 style={{ backgroundColor: '#0F172A', border: '1px solid #334155', fontFamily: 'Tajawal, sans-serif' }}
                 onFocus={(e) => e.target.style.borderColor = '#B87333'}
                 onBlur={(e) => e.target.style.borderColor = '#334155'}
-                placeholder={mockMode ? 'admin' : 'admin@example.com'}
+                placeholder="admin@example.com"
                 required
                 dir="ltr"
               />
@@ -127,7 +122,7 @@ function LoginForm() {
                 style={{ backgroundColor: '#0F172A', border: '1px solid #334155', fontFamily: 'Tajawal, sans-serif' }}
                 onFocus={(e) => e.target.style.borderColor = '#B87333'}
                 onBlur={(e) => e.target.style.borderColor = '#334155'}
-                placeholder={mockMode ? 'admin' : '••••••••'}
+                placeholder="••••••••"
                 required
                 dir="ltr"
               />
