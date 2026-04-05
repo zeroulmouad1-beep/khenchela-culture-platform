@@ -6,6 +6,9 @@ import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'f
 import { useRouter } from 'next/navigation'
 
 const DEV_MODE = process.env.NODE_ENV !== 'production'
+// Dev-only mock auth: allows admin/admin login without a Firebase Auth user.
+// Data operations still use live Firestore when isConfigured is true.
+// In production, Firebase Auth is required for real authentication.
 const MOCK_MODE = DEV_MODE
 const MOCK_EMAIL = 'admin'
 const MOCK_PASSWORD = 'admin'
