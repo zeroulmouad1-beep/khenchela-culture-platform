@@ -34,8 +34,7 @@ function ServicesContent() {
     if (!form.name.trim()) return
     setSaving(true)
     try {
-      const data: Record<string, string> = { name: form.name, iconName: form.iconName }
-      if (form.subtitle.trim()) data.subtitle = form.subtitle
+      const data: Record<string, string> = { name: form.name, iconName: form.iconName, subtitle: form.subtitle.trim() }
       if (editingId) {
         await updateFacility(editingId, data)
         showToast('تم تحديث الخدمة بنجاح', 'success')
