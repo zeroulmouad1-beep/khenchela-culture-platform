@@ -3,16 +3,25 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
+import { fetchCollection, isMockMode } from '@/lib/firestore-helpers'
 
-// Deep Indigo & Copper palette
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
 const INDIGO_DEEP = '#0F172A'
 const INDIGO_MEDIUM = '#1E293B'
 
-const events = [
+interface EventItem {
+  id: string
+  title: string
+  date: string
+  image: string
+  category: string
+  href?: string
+}
+
+const defaultEvents: EventItem[] = [
   {
-    id: 1,
+    id: '1',
     title: 'مهرجان الفنون الخنشلي',
     date: 'مايو 2024',
     image: '/images/cultural-festival.jpg',
@@ -20,21 +29,21 @@ const events = [
     href: '/festivals',
   },
   {
-    id: 2,
+    id: '2',
     title: 'معرض الآثار التاريخية',
     date: 'يونيو 2024',
     image: '/images/archaeological-exhibition.jpg',
     category: 'معرض',
   },
   {
-    id: 3,
+    id: '3',
     title: 'حفل الموسيقى الكلاسيكية',
     date: 'يوليو 2024',
     image: '/images/music-concert.jpg',
     category: 'حفل',
   },
   {
-    id: 4,
+    id: '4',
     title: 'ورشة الفنون التشكيلية',
     date: 'أغسطس 2024',
     image: '/images/art-workshop.jpg',
@@ -46,7 +55,31 @@ export function EventsSlider() {
   const containerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [events, setEvents] = useState<EventItem[]>(defaultEvents)
+
+  useEffect(() => {
+    async function loadEvents() {
+      if (isMockMode) return
+      try {
+        const docs = await fetchCollection('events', 'date')
+        const active = docs.filter((d: Record<string, unknown>) => d.active !== false)
+        if (active.length > 0) {
+          setEvents(active.map((d: Record<string, unknown>) => ({
+            id: d.id as string,
+            title: (d.title as string) || '',
+            date: (d.date as string) || '',
+            image: (d.imageUrl as string) || (d.image as string) || '/images/cultural-festival.jpg',
+            category: (d.category as string) || (d.type as string) || 'فعالية',
+            href: (d.href as string) || undefined,
+          })))
+        }
+      } catch (err) {
+        console.error('Failed to load events from Firestore:', err)
+      }
+    }
+    loadEvents()
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(

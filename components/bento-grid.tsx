@@ -1,64 +1,26 @@
 'use client'
 
 import Link from 'next/link'
-import { Palette, Film, BookOpen, Music, Drama } from 'lucide-react'
+import { Palette, Film, BookOpen, Music, Drama, LucideIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { useCms } from '@/lib/cms-context'
+import type { IconName } from '@/lib/institutions-data'
 
-// Deep Indigo & Copper palette
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
 const INDIGO_DEEP = '#0F172A'
 const INDIGO_LIGHT = '#334155'
 
-const institutions = [
-  {
-    id: 'museum',
-    title: 'المتحف العمومي الوطني',
-    description: 'متحف الآثار والتراث الخنشلي',
-    icon: Palette,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1774793547954-h5WWAy5VWDHTLXGuoXioEKWpbVLqVH.png',
-    iconBg: COPPER,
-    ambientColor: 'rgba(184, 115, 51, 0.15)',
-  },
-  {
-    id: 'cinema',
-    title: 'قاعة السينيماتيك',
-    description: '',
-    icon: Film,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1774795667583-TGPHZqsJcqyVXpUY9kWIQvHLg4CjFu.png',
-    iconBg: INDIGO_LIGHT,
-    ambientColor: 'rgba(51, 65, 85, 0.15)',
-  },
-  {
-    id: 'library',
-    title: 'المكتبة الرئيسية للمطالعة العمومية',
-    description: '',
-    icon: BookOpen,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1774810625631-D7LXz11tS6JipsAEbz3zRkSScB8q9H.png',
-    iconBg: COPPER_LIGHT,
-    ambientColor: 'rgba(212, 149, 106, 0.15)',
-  },
-  {
-    id: 'culture-house',
-    title: 'دار الثقافة',
-    description: 'مركز الفنون والآداب',
-    icon: Music,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1774869219177-9FA2lSqhYeac1F5z9G8fcynSqwJsRF.png',
-    iconBg: COPPER,
-    ambientColor: 'rgba(184, 115, 51, 0.15)',
-  },
-  {
-    id: 'theater',
-    title: 'مسرح الهواء الطلق',
-    description: 'عروض مسرحية فنية',
-    icon: Drama,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1774870644717-NBL1epahbVNZ3kIG7YNHqQtNKPB1EP.png',
-    iconBg: '#2D5A43',
-    ambientColor: 'rgba(45, 90, 67, 0.15)',
-  },
-]
+const bentoIconMap: Record<IconName, LucideIcon> = {
+  'palette': Palette,
+  'film': Film,
+  'book-open': BookOpen,
+  'music': Music,
+  'drama': Drama,
+}
 
 export function BentoGrid() {
+  const { institutions } = useCms()
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -132,7 +94,7 @@ export function BentoGrid() {
 
         <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-5 md:overflow-visible md:pb-0">
           {institutions.map((inst, idx) => {
-            const Icon = inst.icon
+            const Icon = bentoIconMap[inst.iconName] || Palette
             const isHovered = hoveredIndex === idx
             
             return (

@@ -2,43 +2,17 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Home, Mountain, Landmark, Music, Droplets, Crown, Scroll } from 'lucide-react'
+import { ArrowRight, Home, Mountain, Landmark, Music, Droplets, Crown, Scroll, LucideIcon } from 'lucide-react'
+import { useCms } from '@/lib/cms-context'
 
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
 const INDIGO_DEEP = '#0F172A'
 
-const sections = [
-  {
-    icon: Crown,
-    title: 'الجذور التاريخية',
-    subtitle: 'ماسكولا القديمة وملحمة الكاهنة',
-    paragraphs: [
-      'تعود جذور خنشلة إلى مدينة "ماسكولا" (Mascula) الرومانية التي كانت من أبرز المراكز الحضرية في شمال إفريقيا القديمة. شهدت المدينة تعاقب حضارات عريقة من النوميديين والرومان والبيزنطيين، تاركةً إرثاً أثرياً غنياً لا يزال شاهداً على عظمة تلك الحقب.',
-      'ارتبط اسم خنشلة ارتباطاً وثيقاً بالملكة الأمازيغية ديهيا (الكاهنة)، تلك المرأة الاستثنائية التي قادت المقاومة ضد الفتح الأموي في أواخر القرن السابع الميلادي. تُعدّ الكاهنة رمزاً للصمود والبطولة في ذاكرة الأوراس والجزائر بأسرها، وتُخلّد ذكراها في المعالم والتماثيل المنتشرة في ربوع الولاية.',
-    ],
-  },
-  {
-    icon: Music,
-    title: 'الهوية الثقافية',
-    subtitle: 'تراث الأوراس الأمازيغي الشاوي',
-    paragraphs: [
-      'تنبض خنشلة بروح الثقافة الأمازيغية الشاوية الأصيلة، حيث يحافظ سكانها على تقاليدهم العريقة في اللغة والفنون والعادات الاجتماعية. تُعدّ منطقة الأوراس حاضنة لهذا التراث الغني الذي يمتد لآلاف السنين.',
-      'يتميز الفن الموسيقي الخنشلي بأنماط فريدة أبرزها موسيقى "العبادي" (Obadi) و"الرحابة" (Rahaba)، وهي أشكال تعبيرية أصيلة تمزج بين الشعر الشاوي والإيقاعات التقليدية في مناسبات الأفراح والاحتفالات الجماعية. كما تشتهر المنطقة بالصناعات الحرفية التقليدية من نسيج الزرابي (السجاد الأوراسي) وصناعة الفخار والحلي الفضية التي تعكس ذوقاً فنياً رفيعاً.',
-    ],
-  },
-  {
-    icon: Mountain,
-    title: 'المعالم الطبيعية والثقافية',
-    subtitle: 'قمة الشلية وحمّام الصالحين',
-    paragraphs: [
-      'تحتضن ولاية خنشلة جبل الشلية (Chelia) الذي يُعدّ أعلى قمة في شمال الجزائر بارتفاع يبلغ 2,328 متراً. يُشكّل هذا الجبل الشامخ جزءاً من سلسلة جبال الأوراس، ويتميز بغطائه الغابي الكثيف من أشجار الأرز الأطلسي النادرة وتساقط الثلوج الكثيفة شتاءً، مما يجعله وجهة سياحية فريدة.',
-      'من أبرز معالم الولاية أيضاً حمّام الصالحين (Hammam Essalihine)، وهو حمّام روماني حراري يعود تاريخه إلى العهد الروماني. تتدفق مياهه المعدنية الساخنة عند درجة حرارة تصل إلى 70 درجة مئوية، وقد ظل مقصداً للاستشفاء منذ أكثر من ألفي عام. يُصنّف هذا الموقع ضمن المعالم الأثرية المحمية في الجزائر.',
-    ],
-  },
-]
+const sectionIcons: LucideIcon[] = [Crown, Music, Mountain]
 
 export default function AboutKhenchelaPage() {
+  const { khenchelaSections } = useCms()
   return (
     <div className="min-h-screen" dir="rtl" style={{ backgroundColor: INDIGO_DEEP }}>
       <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
@@ -117,8 +91,8 @@ export default function AboutKhenchelaPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-20 -mt-8 relative z-10">
         <div className="space-y-6">
-          {sections.map((section, index) => {
-            const Icon = section.icon
+          {khenchelaSections.map((section, index) => {
+            const Icon = sectionIcons[index] || Crown
             return (
               <section
                 key={section.title}
