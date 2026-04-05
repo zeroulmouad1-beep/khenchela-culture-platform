@@ -18,9 +18,10 @@ export const mockServices: MockDoc[] = [
 ]
 
 export const mockEvents: MockDoc[] = [
-  { id: 'e1', title: 'مهرجان الفنون الخنشلي', description: 'مهرجان سنوي يجمع الفنانين من مختلف أنحاء الولاية لعرض إبداعاتهم', date: '2026-05-15', location: 'قصر الكاهنة', capacity: 500, imageUrl: '/images/cultural-festival.jpg' },
-  { id: 'e2', title: 'معرض الآثار التاريخية', description: 'معرض يعرض القطع الأثرية المكتشفة في منطقة الأوراس', date: '2026-06-01', location: 'متحف خنشلة', capacity: 200, imageUrl: '/images/archaeological-exhibition.jpg' },
-  { id: 'e3', title: 'حفل الموسيقى الكلاسيكية', description: 'حفل موسيقي يضم فرقة الموسيقى الأندلسية', date: '2026-07-10', location: 'دار الثقافة', capacity: 300, imageUrl: '/images/music-concert.jpg' },
+  { id: 'e1', title: 'مهرجان الفنون الخنشلي', description: 'مهرجان سنوي يجمع الفنانين من مختلف أنحاء الولاية لعرض إبداعاتهم في مختلف المجالات الفنية والإبداعية. يتضمن المهرجان عروضاً موسيقية ومسرحية ومعارض للفنون التشكيلية.', date: '2026-05-15', location: 'قصر الكاهنة', capacity: 500, imageUrl: '/images/cultural-festival.jpg', category: 'مهرجان', status: 'active', featured: true },
+  { id: 'e2', title: 'معرض الآثار التاريخية', description: 'معرض يعرض القطع الأثرية المكتشفة في منطقة الأوراس، ويضم مجموعة فريدة من القطع الأثرية التي تعود إلى حقب تاريخية مختلفة.', date: '2026-06-01', location: 'متحف خنشلة', capacity: 200, imageUrl: '/images/archaeological-exhibition.jpg', category: 'معرض', status: 'active', featured: false },
+  { id: 'e3', title: 'حفل الموسيقى الكلاسيكية', description: 'حفل موسيقي يضم فرقة الموسيقى الأندلسية في أمسية فنية راقية تجمع بين الأصالة والإبداع.', date: '2026-07-10', location: 'دار الثقافة', capacity: 300, imageUrl: '/images/music-concert.jpg', category: 'حفل', status: 'active', featured: false },
+  { id: 'e4', title: 'المهرجانات الثقافية', description: 'المهرجانات الثقافية الوطنية والمحلية التي تحتضنها ولاية خنشلة سنوياً، تشمل المهرجان الثقافي الوطني للموسيقى والأغنية الشاوية، المهرجان الثقافي الوطني لمصلحة الطفل، المهرجان الثقافي المحلي للقراءة، والمهرجان الثقافي المحلي للنشاطات والفنون الشعبية.', date: '2026-04-20', location: 'خنشلة', capacity: 1000, imageUrl: '/images/cultural-festival.jpg', category: 'المهرجانات الثقافية', status: 'active', featured: true },
 ]
 
 let newsStore = [...mockNews]

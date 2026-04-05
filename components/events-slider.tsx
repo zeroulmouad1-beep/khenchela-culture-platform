@@ -26,7 +26,6 @@ const defaultEvents: EventItem[] = [
     date: 'مايو 2024',
     image: '/images/cultural-festival.jpg',
     category: 'المهرجانات الثقافية',
-    href: '/festivals',
   },
   {
     id: '2',
@@ -62,7 +61,7 @@ export function EventsSlider() {
     async function loadEvents() {
       try {
         const docs = await fetchCollection('events', 'date')
-        const active = docs.filter((d: Record<string, unknown>) => d.active !== false)
+        const active = docs.filter((d: Record<string, unknown>) => d.active !== false && d.status !== 'canceled')
         if (active.length > 0) {
           setEvents(active.map((d: Record<string, unknown>) => ({
             id: d.id as string,
@@ -70,7 +69,7 @@ export function EventsSlider() {
             date: (d.date as string) || '',
             image: (d.imageUrl as string) || (d.image as string) || '/images/cultural-festival.jpg',
             category: (d.category as string) || (d.type as string) || 'فعالية',
-            href: (d.href as string) || undefined,
+            href: `/events/${d.id as string}`,
           })))
         }
       } catch (err) {

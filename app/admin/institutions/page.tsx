@@ -121,6 +121,23 @@ function InstitutionsContent() {
             <div className="mb-4">
               <ImageUpload value={form.image || ''} onChange={(url) => setForm({ ...form, image: url })} storagePath="institutions" label="صورة المؤسسة" />
             </div>
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-sm font-medium" style={labelStyle}>معرض الصور</label>
+                <button type="button" onClick={() => setForm({ ...form, gallery: [...(form.gallery || []), ''] })}
+                  className="text-xs px-2 py-1 rounded" style={{ color: COPPER_LIGHT, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>+ صورة</button>
+              </div>
+              {(form.gallery || []).map((url, i) => (
+                <div key={i} className="flex items-center gap-2 mb-2">
+                  <input value={url} onChange={(e) => { const g = [...(form.gallery || [])]; g[i] = e.target.value; setForm({ ...form, gallery: g }) }}
+                    className="flex-1 px-3 py-2 rounded-lg text-white text-sm outline-none"
+                    style={{ backgroundColor: INDIGO_DEEP, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                    dir="ltr" placeholder="https://..." />
+                  <button type="button" onClick={() => setForm({ ...form, gallery: (form.gallery || []).filter((_, j) => j !== i) })}
+                    className="p-1" style={{ color: '#EF4444' }}><X size={14} /></button>
+                </div>
+              ))}
+            </div>
             <div className="flex gap-3 justify-end">
               <button onClick={handleCancel} className="px-4 py-2 rounded-lg text-sm font-medium"
                 style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
