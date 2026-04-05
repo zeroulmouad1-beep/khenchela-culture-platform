@@ -4,6 +4,31 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 import { institutions as defaultInstitutions, Institution } from '@/lib/institutions-data'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
 
+function docToInstitution(doc: FirestoreDoc): Institution {
+  return {
+    id: doc.id,
+    title: doc.title || '',
+    subtitle: doc.subtitle,
+    description: doc.description || '',
+    fullDescription: doc.fullDescription || '',
+    iconName: doc.iconName || 'palette',
+    image: doc.image || '',
+    gallery: doc.gallery || [],
+    iconBg: doc.iconBg || '#B87333',
+    address: doc.address || '',
+    phone: doc.phone || '',
+    email: doc.email || '',
+    workingHours: doc.workingHours || '',
+  } as Institution
+}
+
+function extractDocId(docRef: { id?: string } | undefined | null): string {
+  if (docRef && typeof docRef === 'object' && 'id' in docRef && typeof docRef.id === 'string') {
+    return docRef.id
+  }
+  return `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+}
+
 export interface LibraryAnnex {
   id: string
   name: string
@@ -180,7 +205,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
               fetchCollection('facilities', 'name'),
               fetchCollection('khenchelaSections', 'title'),
             ])
-            if (si.length > 0) setInstitutions(si as unknown as Institution[])
+            if (si.length > 0) setInstitutions(si.map(docToInstitution))
             if (sa.length > 0) setLibraryAnnexes(sa.map(docToAnnex))
             if (sw.length > 0) setWorkshops(sw.map(docToWorkshop))
             if (sf.length > 0) setFacilities(sf.map(docToFacility))
@@ -189,7 +214,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
             console.error('Failed to seed Firestore:', seedErr)
           }
         } else {
-          if (instDocs.length > 0) setInstitutions(instDocs as unknown as Institution[])
+          if (instDocs.length > 0) setInstitutions(instDocs.map(docToInstitution))
           if (annexDocs.length > 0) setLibraryAnnexes(annexDocs.map(docToAnnex))
           if (workshopDocs.length > 0) setWorkshops(workshopDocs.map(docToWorkshop))
           if (facilityDocs.length > 0) setFacilities(facilityDocs.map(docToFacility))
@@ -219,7 +244,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       setLibraryAnnexes(prev => [...prev, { ...annex, id }])
     } else {
       const docRef = await addDocument('libraryAnnexes', annex)
-      setLibraryAnnexes(prev => [...prev, { ...annex, id: (docRef as any).id || `cms-${Date.now()}` }])
+      setLibraryAnnexes(prev => [...prev, { ...annex, id: extractDocId(docRef) }])
     }
   }, [])
 
@@ -239,7 +264,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       setWorkshops(prev => [...prev, { ...w, id }])
     } else {
       const docRef = await addDocument('workshops', w)
-      setWorkshops(prev => [...prev, { ...w, id: (docRef as any).id || `cms-${Date.now()}` }])
+      setWorkshops(prev => [...prev, { ...w, id: extractDocId(docRef) }])
     }
   }, [])
 
@@ -259,7 +284,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       setFacilities(prev => [...prev, { ...f, id }])
     } else {
       const docRef = await addDocument('facilities', f)
-      setFacilities(prev => [...prev, { ...f, id: (docRef as any).id || `cms-${Date.now()}` }])
+      setFacilities(prev => [...prev, { ...f, id: extractDocId(docRef) }])
     }
   }, [])
 
