@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, FirestoreDoc } from '@/lib/firestore-helpers'
+import { useToast } from '@/components/admin/toast'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
 const COPPER = '#B87333'
@@ -23,6 +24,7 @@ interface ServiceItem {
 const emptyService: ServiceItem = { name: '', description: '', icon: '', url: '', active: true }
 
 function ServicesContent() {
+  const { showToast } = useToast()
   const [items, setItems] = useState<FirestoreDoc[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -58,8 +60,10 @@ function ServicesContent() {
       setEditingId(null)
       setForm(emptyService)
       await loadData()
+      showToast(editingId ? 'تم تحديث الخدمة بنجاح' : 'تمت إضافة الخدمة بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حفظ الخدمة', 'error')
     } finally {
       setSaving(false)
     }
@@ -82,8 +86,10 @@ function ServicesContent() {
       await deleteDocument('services', id)
       setDeleteConfirm(null)
       await loadData()
+      showToast('تم حذف الخدمة بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حذف الخدمة', 'error')
     }
   }
 

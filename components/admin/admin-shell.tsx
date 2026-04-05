@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import {
   LayoutDashboard, Newspaper, Settings, Calendar,
-  LogOut, Menu, X, ChevronLeft
+  LogOut, Menu, X, ChevronLeft,
+  Building2, BookMarked, Home, Mountain
 } from 'lucide-react'
 
 const COPPER = '#B87333'
@@ -17,6 +18,10 @@ const INDIGO_LIGHT = '#334155'
 
 const sidebarItems = [
   { href: '/admin', label: 'الرئيسية', icon: LayoutDashboard },
+  { href: '/admin/institutions', label: 'المؤسسات', icon: Building2 },
+  { href: '/admin/library-annexes', label: 'ملحقات المكتبة', icon: BookMarked },
+  { href: '/admin/culture-house', label: 'دار الثقافة', icon: Home },
+  { href: '/admin/khenchela-profile', label: 'ملف خنشلة', icon: Mountain },
   { href: '/admin/news', label: 'الأخبار', icon: Newspaper },
   { href: '/admin/services', label: 'الخدمات', icon: Settings },
   { href: '/admin/events', label: 'الفعاليات', icon: Calendar },

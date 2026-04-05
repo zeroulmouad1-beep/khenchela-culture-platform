@@ -26,11 +26,22 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
 - `hooks/` — Custom React hooks
 - `styles/` — Global CSS
 
-## Admin Dashboard
+## Admin Dashboard (Full CMS)
 - **Route**: `/admin` (protected, redirects to `/admin/login` if not authenticated)
 - **Mock Mode**: When Firebase env vars are missing (dev only), uses `admin/admin` credentials and in-memory mock data
-- **Sections**: News (الأخبار), Services (الخدمات), Events (الفعاليات) — each with full CRUD
-- **Firebase**: Requires `NEXT_PUBLIC_FIREBASE_*` env vars for production use
+- **Dashboard**: 8 summary cards + Recharts BarChart & PieChart with live data
+- **CMS Sections** (8 sidebar items):
+  - الرئيسية (Dashboard) — `/admin`
+  - المؤسسات (Institutions) — `/admin/institutions` — Edit all institution fields
+  - ملحقات المكتبة (Library Annexes) — `/admin/library-annexes` — Add/edit/delete annexes
+  - دار الثقافة (Culture House) — `/admin/culture-house` — Two tabs: workshops + facilities
+  - ملف خنشلة (Khenchela Profile) — `/admin/khenchela-profile` — Edit cultural content sections with preview
+  - الأخبار (News) — `/admin/news` — Full CRUD + gallery support
+  - الخدمات (Services) — `/admin/services` — Full CRUD
+  - الفعاليات (Events) — `/admin/events` — Full CRUD + gallery support
+- **CMS Context**: `lib/cms-context.tsx` provides in-memory state for institutions, library annexes, workshops, facilities, and Khenchela sections
+- **Firebase**: Requires `NEXT_PUBLIC_FIREBASE_*` env vars for production use (Firestore CRUD for news/services/events)
+- **Charts**: recharts (BarChart, PieChart) for dashboard statistics
 
 ## Running the App
 - Dev server: `PORT=5000 pnpm run dev`

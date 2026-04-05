@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import { institutions as defaultInstitutions, Institution } from '@/lib/institutions-data'
+import { fetchCollection, addDocument, updateDocument, deleteDocument, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
 
 export interface LibraryAnnex {
   id: string
@@ -89,82 +90,197 @@ const defaultKhenchelaSections: KhenchelaSection[] = [
   },
 ]
 
-function generateId() {
-  return `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+function docToAnnex(doc: FirestoreDoc): LibraryAnnex {
+  return { id: doc.id, name: doc.name || '', type: doc.type || 'شبه حضارية' }
+}
+function docToWorkshop(doc: FirestoreDoc): CultureHouseWorkshop {
+  return { id: doc.id, name: doc.name || '', iconName: doc.iconName || 'Theater' }
+}
+function docToFacility(doc: FirestoreDoc): CultureHouseFacility {
+  return { id: doc.id, name: doc.name || '', subtitle: doc.subtitle, iconName: doc.iconName || 'Home' }
+}
+function docToSection(doc: FirestoreDoc): KhenchelaSection {
+  return { id: doc.id, title: doc.title || '', subtitle: doc.subtitle || '', paragraphs: doc.paragraphs || [] }
+}
+
+async function seedCollection<T extends { id: string }>(collectionName: string, defaults: T[]): Promise<void> {
+  for (const item of defaults) {
+    const { id, ...data } = item as Record<string, unknown>
+    await addDocument(collectionName, { ...data, _seedId: id })
+  }
 }
 
 interface CmsContextType {
+  loading: boolean
+
   institutions: Institution[]
-  updateInstitution: (id: string, data: Partial<Institution>) => void
+  updateInstitution: (id: string, data: Partial<Institution>) => Promise<void>
 
   libraryAnnexes: LibraryAnnex[]
-  addAnnex: (annex: Omit<LibraryAnnex, 'id'>) => void
-  updateAnnex: (id: string, data: Partial<LibraryAnnex>) => void
-  deleteAnnex: (id: string) => void
+  addAnnex: (annex: Omit<LibraryAnnex, 'id'>) => Promise<void>
+  updateAnnex: (id: string, data: Partial<LibraryAnnex>) => Promise<void>
+  deleteAnnex: (id: string) => Promise<void>
 
   workshops: CultureHouseWorkshop[]
-  addWorkshop: (w: Omit<CultureHouseWorkshop, 'id'>) => void
-  updateWorkshop: (id: string, data: Partial<CultureHouseWorkshop>) => void
-  deleteWorkshop: (id: string) => void
+  addWorkshop: (w: Omit<CultureHouseWorkshop, 'id'>) => Promise<void>
+  updateWorkshop: (id: string, data: Partial<CultureHouseWorkshop>) => Promise<void>
+  deleteWorkshop: (id: string) => Promise<void>
 
   facilities: CultureHouseFacility[]
-  addFacility: (f: Omit<CultureHouseFacility, 'id'>) => void
-  updateFacility: (id: string, data: Partial<CultureHouseFacility>) => void
-  deleteFacility: (id: string) => void
+  addFacility: (f: Omit<CultureHouseFacility, 'id'>) => Promise<void>
+  updateFacility: (id: string, data: Partial<CultureHouseFacility>) => Promise<void>
+  deleteFacility: (id: string) => Promise<void>
 
   khenchelaSections: KhenchelaSection[]
-  updateKhenchelaSection: (id: string, data: Partial<KhenchelaSection>) => void
+  updateKhenchelaSection: (id: string, data: Partial<KhenchelaSection>) => Promise<void>
 }
 
 const CmsContext = createContext<CmsContextType | undefined>(undefined)
 
 export function CmsProvider({ children }: { children: ReactNode }) {
+  const [loading, setLoading] = useState(true)
   const [institutions, setInstitutions] = useState<Institution[]>([...defaultInstitutions])
   const [libraryAnnexes, setLibraryAnnexes] = useState<LibraryAnnex[]>([...defaultAnnexes])
   const [workshops, setWorkshops] = useState<CultureHouseWorkshop[]>([...defaultWorkshops])
   const [facilities, setFacilities] = useState<CultureHouseFacility[]>([...defaultFacilities])
   const [khenchelaSections, setKhenchelaSections] = useState<KhenchelaSection[]>([...defaultKhenchelaSections])
+  const [seeded, setSeeded] = useState(false)
 
-  const updateInstitution = (id: string, data: Partial<Institution>) => {
+  useEffect(() => {
+    async function loadFromFirestore() {
+      if (isMockMode) {
+        setSeeded(true)
+        setLoading(false)
+        return
+      }
+      try {
+        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs] = await Promise.all([
+          fetchCollection('institutions', 'title'),
+          fetchCollection('libraryAnnexes', 'name'),
+          fetchCollection('workshops', 'name'),
+          fetchCollection('facilities', 'name'),
+          fetchCollection('khenchelaSections', 'title'),
+        ])
+
+        const hasData = instDocs.length > 0 || annexDocs.length > 0 || workshopDocs.length > 0 || facilityDocs.length > 0 || sectionDocs.length > 0
+
+        if (!hasData) {
+          try {
+            await Promise.all([
+              seedCollection('institutions', defaultInstitutions),
+              seedCollection('libraryAnnexes', defaultAnnexes),
+              seedCollection('workshops', defaultWorkshops),
+              seedCollection('facilities', defaultFacilities),
+              seedCollection('khenchelaSections', defaultKhenchelaSections),
+            ])
+            const [si, sa, sw, sf, ss] = await Promise.all([
+              fetchCollection('institutions', 'title'),
+              fetchCollection('libraryAnnexes', 'name'),
+              fetchCollection('workshops', 'name'),
+              fetchCollection('facilities', 'name'),
+              fetchCollection('khenchelaSections', 'title'),
+            ])
+            if (si.length > 0) setInstitutions(si as unknown as Institution[])
+            if (sa.length > 0) setLibraryAnnexes(sa.map(docToAnnex))
+            if (sw.length > 0) setWorkshops(sw.map(docToWorkshop))
+            if (sf.length > 0) setFacilities(sf.map(docToFacility))
+            if (ss.length > 0) setKhenchelaSections(ss.map(docToSection))
+          } catch (seedErr) {
+            console.error('Failed to seed Firestore:', seedErr)
+          }
+        } else {
+          if (instDocs.length > 0) setInstitutions(instDocs as unknown as Institution[])
+          if (annexDocs.length > 0) setLibraryAnnexes(annexDocs.map(docToAnnex))
+          if (workshopDocs.length > 0) setWorkshops(workshopDocs.map(docToWorkshop))
+          if (facilityDocs.length > 0) setFacilities(facilityDocs.map(docToFacility))
+          if (sectionDocs.length > 0) setKhenchelaSections(sectionDocs.map(docToSection))
+        }
+        setSeeded(true)
+      } catch (err) {
+        console.error('Failed to load CMS data from Firestore:', err)
+        setSeeded(true)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadFromFirestore()
+  }, [])
+
+  const updateInstitution = useCallback(async (id: string, data: Partial<Institution>) => {
+    if (!isMockMode) {
+      await updateDocument('institutions', id, data)
+    }
     setInstitutions(prev => prev.map(inst => inst.id === id ? { ...inst, ...data } : inst))
-  }
+  }, [])
 
-  const addAnnex = (annex: Omit<LibraryAnnex, 'id'>) => {
-    setLibraryAnnexes(prev => [...prev, { ...annex, id: generateId() }])
-  }
-  const updateAnnex = (id: string, data: Partial<LibraryAnnex>) => {
+  const addAnnex = useCallback(async (annex: Omit<LibraryAnnex, 'id'>) => {
+    if (isMockMode) {
+      const id = `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      setLibraryAnnexes(prev => [...prev, { ...annex, id }])
+    } else {
+      const docRef = await addDocument('libraryAnnexes', annex)
+      setLibraryAnnexes(prev => [...prev, { ...annex, id: (docRef as any).id || `cms-${Date.now()}` }])
+    }
+  }, [])
+
+  const updateAnnex = useCallback(async (id: string, data: Partial<LibraryAnnex>) => {
+    if (!isMockMode) await updateDocument('libraryAnnexes', id, data)
     setLibraryAnnexes(prev => prev.map(a => a.id === id ? { ...a, ...data } : a))
-  }
-  const deleteAnnex = (id: string) => {
+  }, [])
+
+  const deleteAnnex = useCallback(async (id: string) => {
+    if (!isMockMode) await deleteDocument('libraryAnnexes', id)
     setLibraryAnnexes(prev => prev.filter(a => a.id !== id))
-  }
+  }, [])
 
-  const addWorkshop = (w: Omit<CultureHouseWorkshop, 'id'>) => {
-    setWorkshops(prev => [...prev, { ...w, id: generateId() }])
-  }
-  const updateWorkshop = (id: string, data: Partial<CultureHouseWorkshop>) => {
+  const addWorkshop = useCallback(async (w: Omit<CultureHouseWorkshop, 'id'>) => {
+    if (isMockMode) {
+      const id = `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      setWorkshops(prev => [...prev, { ...w, id }])
+    } else {
+      const docRef = await addDocument('workshops', w)
+      setWorkshops(prev => [...prev, { ...w, id: (docRef as any).id || `cms-${Date.now()}` }])
+    }
+  }, [])
+
+  const updateWorkshop = useCallback(async (id: string, data: Partial<CultureHouseWorkshop>) => {
+    if (!isMockMode) await updateDocument('workshops', id, data)
     setWorkshops(prev => prev.map(w => w.id === id ? { ...w, ...data } : w))
-  }
-  const deleteWorkshop = (id: string) => {
+  }, [])
+
+  const deleteWorkshop = useCallback(async (id: string) => {
+    if (!isMockMode) await deleteDocument('workshops', id)
     setWorkshops(prev => prev.filter(w => w.id !== id))
-  }
+  }, [])
 
-  const addFacility = (f: Omit<CultureHouseFacility, 'id'>) => {
-    setFacilities(prev => [...prev, { ...f, id: generateId() }])
-  }
-  const updateFacility = (id: string, data: Partial<CultureHouseFacility>) => {
+  const addFacility = useCallback(async (f: Omit<CultureHouseFacility, 'id'>) => {
+    if (isMockMode) {
+      const id = `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+      setFacilities(prev => [...prev, { ...f, id }])
+    } else {
+      const docRef = await addDocument('facilities', f)
+      setFacilities(prev => [...prev, { ...f, id: (docRef as any).id || `cms-${Date.now()}` }])
+    }
+  }, [])
+
+  const updateFacility = useCallback(async (id: string, data: Partial<CultureHouseFacility>) => {
+    if (!isMockMode) await updateDocument('facilities', id, data)
     setFacilities(prev => prev.map(f => f.id === id ? { ...f, ...data } : f))
-  }
-  const deleteFacility = (id: string) => {
-    setFacilities(prev => prev.filter(f => f.id !== id))
-  }
+  }, [])
 
-  const updateKhenchelaSection = (id: string, data: Partial<KhenchelaSection>) => {
+  const deleteFacility = useCallback(async (id: string) => {
+    if (!isMockMode) await deleteDocument('facilities', id)
+    setFacilities(prev => prev.filter(f => f.id !== id))
+  }, [])
+
+  const updateKhenchelaSection = useCallback(async (id: string, data: Partial<KhenchelaSection>) => {
+    if (!isMockMode) await updateDocument('khenchelaSections', id, data)
     setKhenchelaSections(prev => prev.map(s => s.id === id ? { ...s, ...data } : s))
-  }
+  }, [])
 
   return (
     <CmsContext.Provider value={{
+      loading,
       institutions, updateInstitution,
       libraryAnnexes, addAnnex, updateAnnex, deleteAnnex,
       workshops, addWorkshop, updateWorkshop, deleteWorkshop,

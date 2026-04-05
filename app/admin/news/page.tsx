@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, formatTimestamp, FirestoreDoc } from '@/lib/firestore-helpers'
+import { useToast } from '@/components/admin/toast'
+import { ImageUpload } from '@/components/admin/image-upload'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
 const COPPER = '#B87333'
@@ -18,11 +20,13 @@ interface NewsItem {
   date: string
   imageUrl: string
   published: boolean
+  gallery: string[]
 }
 
-const emptyNews: NewsItem = { title: '', content: '', date: '', imageUrl: '', published: false }
+const emptyNews: NewsItem = { title: '', content: '', date: '', imageUrl: '', published: false, gallery: [] }
 
 function NewsContent() {
+  const { showToast } = useToast()
   const [items, setItems] = useState<FirestoreDoc[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -58,8 +62,10 @@ function NewsContent() {
       setEditingId(null)
       setForm(emptyNews)
       await loadData()
+      showToast(editingId ? 'تم تحديث الخبر بنجاح' : 'تمت إضافة الخبر بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حفظ الخبر', 'error')
     } finally {
       setSaving(false)
     }
@@ -72,6 +78,7 @@ function NewsContent() {
       date: item.date || '',
       imageUrl: item.imageUrl || '',
       published: item.published || false,
+      gallery: item.gallery || [],
     })
     setEditingId(item.id)
     setShowForm(true)
@@ -82,8 +89,10 @@ function NewsContent() {
       await deleteDocument('news', id)
       setDeleteConfirm(null)
       await loadData()
+      showToast('تم حذف الخبر بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حذف الخبر', 'error')
     }
   }
 
@@ -154,15 +163,7 @@ function NewsContent() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>رابط الصورة</label>
-                <input
-                  value={form.imageUrl}
-                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg text-white text-sm outline-none"
-                  style={{ backgroundColor: INDIGO_DEEP, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
-                  dir="ltr"
-                  placeholder="https://..."
-                />
+                <ImageUpload value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} storagePath="news" label="صورة الخبر" />
               </div>
               <div className="flex items-end">
                 <label className="flex items-center gap-2 cursor-pointer" style={{ fontFamily: 'Tajawal, sans-serif' }}>
@@ -175,6 +176,23 @@ function NewsContent() {
                   <span className="text-sm" style={{ color: '#CBD5E1' }}>منشور</span>
                 </label>
               </div>
+            </div>
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-sm font-medium" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>معرض الصور</label>
+                <button type="button" onClick={() => setForm({ ...form, gallery: [...form.gallery, ''] })}
+                  className="text-xs px-2 py-1 rounded" style={{ color: COPPER_LIGHT, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>+ صورة</button>
+              </div>
+              {form.gallery.map((url, i) => (
+                <div key={i} className="flex items-center gap-2 mb-2">
+                  <input value={url} onChange={(e) => { const g = [...form.gallery]; g[i] = e.target.value; setForm({ ...form, gallery: g }) }}
+                    className="flex-1 px-3 py-2 rounded-lg text-white text-sm outline-none"
+                    style={{ backgroundColor: INDIGO_DEEP, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                    dir="ltr" placeholder="https://..." />
+                  <button type="button" onClick={() => setForm({ ...form, gallery: form.gallery.filter((_, j) => j !== i) })}
+                    className="p-1" style={{ color: '#EF4444' }}><X size={14} /></button>
+                </div>
+              ))}
             </div>
             <div className="flex gap-3 justify-end">
               <button

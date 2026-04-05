@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, formatTimestamp, FirestoreDoc } from '@/lib/firestore-helpers'
+import { useToast } from '@/components/admin/toast'
+import { ImageUpload } from '@/components/admin/image-upload'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
 const COPPER = '#B87333'
@@ -19,11 +21,13 @@ interface EventItem {
   location: string
   capacity: string
   imageUrl: string
+  gallery: string[]
 }
 
-const emptyEvent: EventItem = { title: '', description: '', date: '', location: '', capacity: '', imageUrl: '' }
+const emptyEvent: EventItem = { title: '', description: '', date: '', location: '', capacity: '', imageUrl: '', gallery: [] }
 
 function EventsContent() {
+  const { showToast } = useToast()
   const [items, setItems] = useState<FirestoreDoc[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -63,8 +67,10 @@ function EventsContent() {
       setEditingId(null)
       setForm(emptyEvent)
       await loadData()
+      showToast(editingId ? 'تم تحديث الفعالية بنجاح' : 'تمت إضافة الفعالية بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حفظ الفعالية', 'error')
     } finally {
       setSaving(false)
     }
@@ -78,6 +84,7 @@ function EventsContent() {
       location: item.location || '',
       capacity: item.capacity ? String(item.capacity) : '',
       imageUrl: item.imageUrl || item.image || '',
+      gallery: item.gallery || [],
     })
     setEditingId(item.id)
     setShowForm(true)
@@ -88,8 +95,10 @@ function EventsContent() {
       await deleteDocument('events', id)
       setDeleteConfirm(null)
       await loadData()
+      showToast('تم حذف الفعالية بنجاح', 'success')
     } catch (err) {
       console.error(err)
+      showToast('فشل حذف الفعالية', 'error')
     }
   }
 
@@ -181,16 +190,25 @@ function EventsContent() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>رابط الصورة</label>
-                <input
-                  value={form.imageUrl}
-                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg text-white text-sm outline-none"
-                  style={{ backgroundColor: INDIGO_DEEP, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
-                  dir="ltr"
-                  placeholder="https://..."
-                />
+                <ImageUpload value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} storagePath="events" label="صورة الفعالية" />
               </div>
+            </div>
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-sm font-medium" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>معرض الصور</label>
+                <button type="button" onClick={() => setForm({ ...form, gallery: [...form.gallery, ''] })}
+                  className="text-xs px-2 py-1 rounded" style={{ color: COPPER_LIGHT, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>+ صورة</button>
+              </div>
+              {form.gallery.map((url, i) => (
+                <div key={i} className="flex items-center gap-2 mb-2">
+                  <input value={url} onChange={(e) => { const g = [...form.gallery]; g[i] = e.target.value; setForm({ ...form, gallery: g }) }}
+                    className="flex-1 px-3 py-2 rounded-lg text-white text-sm outline-none"
+                    style={{ backgroundColor: INDIGO_DEEP, border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                    dir="ltr" placeholder="https://..." />
+                  <button type="button" onClick={() => setForm({ ...form, gallery: form.gallery.filter((_, j) => j !== i) })}
+                    className="p-1" style={{ color: '#EF4444' }}><X size={14} /></button>
+                </div>
+              ))}
             </div>
             <div className="flex gap-3 justify-end">
               <button
