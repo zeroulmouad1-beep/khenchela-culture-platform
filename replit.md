@@ -39,8 +39,9 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
   - الأخبار (News) — `/admin/news` — Full CRUD + gallery support
   - الخدمات (Services) — `/admin/services` — Full CRUD
   - الفعاليات (Events) — `/admin/events` — Full CRUD + gallery support
-- **CMS Context**: `lib/cms-context.tsx` provides live Firestore-backed state for institutions, library annexes, workshops, facilities, and Khenchela sections. Uses `_seedId` mapping to preserve routing IDs (museum, cinema, library, culture-house, theater) when Firestore auto-generates document IDs. Merges Firestore data with defaults so no institution is lost.
+- **CMS Context**: `lib/cms-context.tsx` provides live Firestore-backed state for institutions, library annexes, workshops, facilities, and Khenchela sections. Uses `_seedId` mapping to preserve routing IDs (museum, cinema, library, culture-house, theater) when Firestore auto-generates document IDs. Merges Firestore data with defaults so no institution is lost. Also seeds events and news collections from mock data on first load when empty.
 - **Firebase**: Connected to live Firestore (project: khanchala-culture-platform). All 7 `NEXT_PUBLIC_FIREBASE_*` env vars are set. Auth uses mock mode in dev (admin/admin).
+- **Firestore Collections**: `institutions`, `libraryAnnexes`, `workshops`, `facilities`, `khenchelaSections`, `events`, `news` — all seeded from mock data on first load. Dashboard stats query `facilities` (not `services`), `events`, and `news` for total counts.
 - **Public Pages**: All wired to CMS/Firestore — `events-slider.tsx` fetches from `events` collection, `bento-grid.tsx` and `institution-detail.tsx` use `useCms()` for institutions, `about-khenchela/page.tsx` uses `useCms().khenchelaSections`.
 - **Charts**: recharts (BarChart, PieChart) for dashboard statistics
 

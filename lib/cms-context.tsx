@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import { institutions as defaultInstitutions, Institution } from '@/lib/institutions-data'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
+import { mockEvents, mockNews } from '@/lib/mock-data'
 
 const firestoreDocIdMap = new Map<string, string>()
 
@@ -200,17 +201,47 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         return
       }
       try {
-        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs] = await Promise.all([
+        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs, eventDocs, newsDocs] = await Promise.all([
           fetchCollection('institutions', 'title'),
           fetchCollection('libraryAnnexes', 'name'),
           fetchCollection('workshops', 'name'),
           fetchCollection('facilities', 'name'),
           fetchCollection('khenchelaSections', 'title'),
+          fetchCollection('events', 'date'),
+          fetchCollection('news', 'date'),
         ])
 
-        const hasData = instDocs.length > 0 || annexDocs.length > 0 || workshopDocs.length > 0 || facilityDocs.length > 0 || sectionDocs.length > 0
+        const hasCmsData = instDocs.length > 0 || annexDocs.length > 0 || workshopDocs.length > 0 || facilityDocs.length > 0 || sectionDocs.length > 0
 
-        if (!hasData) {
+        if (eventDocs.length === 0) {
+          try {
+            const seedEvents = mockEvents.map(e => {
+              const { id, ...data } = e
+              return { ...data, _seedId: id }
+            })
+            for (const ev of seedEvents) {
+              await addDocument('events', ev)
+            }
+          } catch (seedErr) {
+            console.error('Failed to seed events:', seedErr)
+          }
+        }
+
+        if (newsDocs.length === 0) {
+          try {
+            const seedNews = mockNews.map(n => {
+              const { id, ...data } = n
+              return { ...data, _seedId: id }
+            })
+            for (const nw of seedNews) {
+              await addDocument('news', nw)
+            }
+          } catch (seedErr) {
+            console.error('Failed to seed news:', seedErr)
+          }
+        }
+
+        if (!hasCmsData) {
           try {
             await Promise.all([
               seedCollection('institutions', defaultInstitutions),

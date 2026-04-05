@@ -7,7 +7,7 @@ import { isMockMode } from '@/lib/firestore-helpers'
 import { mockGetCounts } from '@/lib/mock-data'
 import { useCms } from '@/lib/cms-context'
 import { db } from '@/lib/firebase'
-import { collection, getCountFromServer, query, where } from 'firebase/firestore'
+import { collection, getCountFromServer } from 'firebase/firestore'
 import Link from 'next/link'
 import {
   Newspaper, Settings, Calendar, Building2,
@@ -33,14 +33,14 @@ function DashboardContent() {
         if (isMockMode) {
           setCounts(mockGetCounts())
         } else if (db) {
-          const [newsSnap, servicesSnap, eventsSnap] = await Promise.all([
-            getCountFromServer(query(collection(db, 'news'), where('published', '==', true))),
-            getCountFromServer(collection(db, 'services')),
-            getCountFromServer(query(collection(db, 'events'), where('active', '==', true))),
+          const [newsSnap, facilitiesSnap, eventsSnap] = await Promise.all([
+            getCountFromServer(collection(db, 'news')),
+            getCountFromServer(collection(db, 'facilities')),
+            getCountFromServer(collection(db, 'events')),
           ])
           setCounts({
             news: newsSnap.data().count,
-            services: servicesSnap.data().count,
+            services: facilitiesSnap.data().count,
             events: eventsSnap.data().count,
           })
         }
