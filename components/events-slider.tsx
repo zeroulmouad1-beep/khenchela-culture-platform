@@ -60,7 +60,6 @@ export function EventsSlider() {
 
   useEffect(() => {
     async function loadEvents() {
-      if (isMockMode) return
       try {
         const docs = await fetchCollection('events', 'date')
         const active = docs.filter((d: Record<string, unknown>) => d.active !== false)
