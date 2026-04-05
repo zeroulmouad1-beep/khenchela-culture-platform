@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Users, BookOpen, BarChart3, Calendar } from 'lucide-react'
+import { ArrowRight, Home, Users, BookOpen, BarChart3, Calendar } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getAssociations, getStatistics, type Association, type Statistic } from '@/lib/activities-data'
 
@@ -193,13 +193,22 @@ export default function ActivitiesPage() {
 
       <header className="relative z-10 py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <Link
-            href="/?enter=true"
-            className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200 group"
-          >
-            <ArrowRight size={20} className="transition-transform duration-200 group-hover:translate-x-1" />
-            <span className="text-sm font-medium">العودة للرئيسية</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/?enter=true"
+              className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200 group"
+            >
+              <ArrowRight size={20} className="transition-transform duration-200 group-hover:translate-x-1" />
+              <span className="text-sm font-medium">العودة للرئيسية</span>
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200 group"
+            >
+              <Home size={20} className="transition-transform duration-200 group-hover:translate-x-1" />
+              <span className="text-sm font-medium">صفحة الترحيب</span>
+            </Link>
+          </div>
         </div>
       </header>
 

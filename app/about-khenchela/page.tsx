@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Mountain, Landmark, Music, Droplets, Crown, Scroll } from 'lucide-react'
+import { ArrowRight, Home, Mountain, Landmark, Music, Droplets, Crown, Scroll } from 'lucide-react'
 
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
@@ -56,7 +56,7 @@ export default function AboutKhenchelaPage() {
           }}
         />
 
-        <div className="absolute top-6 right-6 z-10">
+        <div className="absolute top-6 right-6 z-10 flex items-center gap-2">
           <Link
             href="/?enter=true"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
@@ -70,6 +70,20 @@ export default function AboutKhenchelaPage() {
           >
             <ArrowRight size={16} />
             العودة للرئيسية
+          </Link>
+          <Link
+            href="/"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
+            style={{
+              backgroundColor: 'rgba(30,41,59,0.7)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(184,115,51,0.3)',
+              color: COPPER_LIGHT,
+              fontFamily: 'Tajawal, sans-serif',
+            }}
+          >
+            <Home size={16} />
+            صفحة الترحيب
           </Link>
         </div>
 

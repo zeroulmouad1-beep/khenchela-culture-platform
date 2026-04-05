@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, MapPin, Phone, Mail, Clock, Calendar, Newspaper, Palette, Film, BookOpen, Music, Drama, LucideIcon, Theater, Paintbrush, BookText, Video, Landmark, Coffee, Users, GraduationCap } from 'lucide-react'
+import { ArrowRight, Home, MapPin, Phone, Mail, Clock, Calendar, Newspaper, Palette, Film, BookOpen, Music, Drama, LucideIcon, Theater, Paintbrush, BookText, Video, Landmark, Coffee, Users, GraduationCap } from 'lucide-react'
 
 // Define colors directly to avoid importing from data file
 const COPPER = '#B87333'
@@ -196,18 +196,31 @@ export function InstitutionDetail({ institutionId }: InstitutionDetailProps) {
         style={{ backgroundColor: INDIGO_DEEP, borderColor: INDIGO_LIGHT }}
       >
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          {/* Back Button */}
-          <Link 
-            href="/?enter=true"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
-            style={{ 
-              backgroundColor: INDIGO_MEDIUM,
-              color: COPPER_LIGHT,
-            }}
-          >
-            <ArrowRight size={20} />
-            <span className="font-medium">العودة للرئيسية</span>
-          </Link>
+          {/* Back Buttons */}
+          <div className="flex items-center gap-2">
+            <Link 
+              href="/?enter=true"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+              style={{ 
+                backgroundColor: INDIGO_MEDIUM,
+                color: COPPER_LIGHT,
+              }}
+            >
+              <ArrowRight size={20} />
+              <span className="font-medium">العودة للرئيسية</span>
+            </Link>
+            <Link 
+              href="/"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+              style={{ 
+                backgroundColor: INDIGO_MEDIUM,
+                color: COPPER_LIGHT,
+              }}
+            >
+              <Home size={20} />
+              <span className="font-medium">صفحة الترحيب</span>
+            </Link>
+          </div>
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-xl font-bold" style={{ color: COPPER }}>
