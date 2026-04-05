@@ -7,7 +7,7 @@ import { useAuth } from '@/lib/auth-context'
 import {
   LayoutDashboard, Newspaper, Settings, Calendar,
   LogOut, Menu, X, ChevronLeft,
-  Building2, BookMarked, Home, Mountain
+  Building2, BookMarked, Home, Mountain, Landmark
 } from 'lucide-react'
 
 const COPPER = '#B87333'
@@ -25,6 +25,7 @@ const sidebarItems = [
   { href: '/admin/news', label: 'الأخبار', icon: Newspaper },
   { href: '/admin/services', label: 'الخدمات', icon: Settings },
   { href: '/admin/events', label: 'الفعاليات', icon: Calendar },
+  { href: '/admin/directorate', label: 'مصالح المديرية', icon: Landmark },
 ]
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

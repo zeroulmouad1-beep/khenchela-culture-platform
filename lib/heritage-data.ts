@@ -1,3 +1,5 @@
+import { fetchCollection, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
+
 export interface NationalMonument {
   id: number
   title: string
@@ -20,7 +22,7 @@ export interface IntangibleHeritageItem {
   alt: string
 }
 
-const nationalMonumentsData: NationalMonument[] = [
+export const nationalMonumentsData: NationalMonument[] = [
   {
     id: 1,
     title: 'قصر الكاهنة',
@@ -58,7 +60,7 @@ const nationalMonumentsData: NationalMonument[] = [
   },
 ]
 
-const inventoryMonumentsData: InventoryMonument[] = [
+export const inventoryMonumentsData: InventoryMonument[] = [
   {
     id: 1,
     title: 'قاعة السينيماتيك خنشلة',
@@ -89,7 +91,7 @@ const inventoryMonumentsData: InventoryMonument[] = [
   },
 ]
 
-const intangibleHeritageData: IntangibleHeritageItem[] = [
+export const intangibleHeritageData: IntangibleHeritageItem[] = [
   { id: 1, image: '/images/heritage.jpg', alt: 'التراث المعماري التقليدي' },
   { id: 2, image: '/images/art-workshop.jpg', alt: 'الصناعات الحرفية التقليدية' },
   { id: 3, image: '/images/cultural-festival.jpg', alt: 'الاحتفالات الثقافية الشعبية' },
@@ -100,14 +102,66 @@ const intangibleHeritageData: IntangibleHeritageItem[] = [
   { id: 8, image: '/images/museum-khenchela.jpg', alt: 'المتاحف والمعالم التراثية' },
 ]
 
+function docToNationalMonument(doc: FirestoreDoc): NationalMonument {
+  return {
+    id: doc._seedId ?? doc.id,
+    title: doc.title || '',
+    image: doc.image || '',
+    description: doc.description || '',
+    classificationDate: doc.classificationDate || '',
+  }
+}
+
+function docToInventoryMonument(doc: FirestoreDoc): InventoryMonument {
+  return {
+    id: doc._seedId ?? doc.id,
+    title: doc.title || '',
+    image: doc.image || '',
+    description: doc.description || '',
+    inventoryNumber: doc.inventoryNumber || '',
+  }
+}
+
+function docToIntangibleHeritage(doc: FirestoreDoc): IntangibleHeritageItem {
+  return {
+    id: doc._seedId ?? doc.id,
+    image: doc.image || '',
+    alt: doc.alt || '',
+  }
+}
+
 export async function getNationalMonuments(): Promise<NationalMonument[]> {
+  try {
+    if (!isMockMode) {
+      const docs = await fetchCollection('nationalMonuments', 'title')
+      if (docs.length > 0) return docs.map(docToNationalMonument)
+    }
+  } catch (e) {
+    console.error('Failed to fetch national monuments from Firestore:', e)
+  }
   return nationalMonumentsData
 }
 
 export async function getInventoryMonuments(): Promise<InventoryMonument[]> {
+  try {
+    if (!isMockMode) {
+      const docs = await fetchCollection('inventoryMonuments', 'title')
+      if (docs.length > 0) return docs.map(docToInventoryMonument)
+    }
+  } catch (e) {
+    console.error('Failed to fetch inventory monuments from Firestore:', e)
+  }
   return inventoryMonumentsData
 }
 
 export async function getIntangibleHeritage(): Promise<IntangibleHeritageItem[]> {
+  try {
+    if (!isMockMode) {
+      const docs = await fetchCollection('intangibleHeritage', 'alt')
+      if (docs.length > 0) return docs.map(docToIntangibleHeritage)
+    }
+  } catch (e) {
+    console.error('Failed to fetch intangible heritage from Firestore:', e)
+  }
   return intangibleHeritageData
 }

@@ -4,6 +4,9 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 import { institutions as defaultInstitutions, Institution } from '@/lib/institutions-data'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
 import { mockEvents, mockNews } from '@/lib/mock-data'
+import { artistsData } from '@/lib/artists-data'
+import { associationsData, statisticsData } from '@/lib/activities-data'
+import { nationalMonumentsData, inventoryMonumentsData, intangibleHeritageData } from '@/lib/heritage-data'
 
 const firestoreDocIdMap = new Map<string, string>()
 
@@ -69,6 +72,42 @@ export interface KhenchelaSection {
   paragraphs: string[]
 }
 
+export interface Department {
+  id: string
+  title: string
+  description: string
+  iconName: string
+  image: string
+  href: string
+}
+
+const defaultDepartments: Department[] = [
+  {
+    id: 'dept1',
+    title: 'مصلحة الفنون والآداب',
+    description: 'دعم وتنمية المواهب الفنية والأدبية',
+    iconName: 'Palette',
+    image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80',
+    href: '/directorate/arts',
+  },
+  {
+    id: 'dept2',
+    title: 'مصلحة النشاطات الثقافية',
+    description: 'تنظيم الفعاليات والأنشطة الثقافية',
+    iconName: 'Users',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    href: '/directorate/activities',
+  },
+  {
+    id: 'dept3',
+    title: 'مصلحة التراث الثقافي',
+    description: 'حماية وتثمين التراث المحلي',
+    iconName: 'Landmark',
+    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=800&q=80',
+    href: '/directorate/heritage',
+  },
+]
+
 const defaultAnnexes: LibraryAnnex[] = [
   { id: 'a1', name: 'الحامة', type: 'شبه حضارية' },
   { id: 'a2', name: 'أولاد رشاش', type: 'شبه حضارية' },
@@ -129,6 +168,18 @@ const defaultKhenchelaSections: KhenchelaSection[] = [
   },
 ]
 
+function docToDepartment(doc: FirestoreDoc): Department {
+  const displayId = doc._seedId || doc.id
+  if (doc._seedId) trackDocId('departments', displayId, doc.id)
+  return {
+    id: displayId,
+    title: doc.title || '',
+    description: doc.description || '',
+    iconName: doc.iconName || 'Palette',
+    image: doc.image || '',
+    href: doc.href || '',
+  }
+}
 function docToAnnex(doc: FirestoreDoc): LibraryAnnex {
   const displayId = doc._seedId || doc.id
   if (doc._seedId) trackDocId('libraryAnnexes', displayId, doc.id)
@@ -160,6 +211,9 @@ async function seedCollection<T extends { id: string }>(collectionName: string, 
 interface CmsContextType {
   loading: boolean
 
+  departments: Department[]
+  updateDepartment: (id: string, data: Partial<Department>) => Promise<void>
+
   institutions: Institution[]
   updateInstitution: (id: string, data: Partial<Institution>) => Promise<void>
 
@@ -186,6 +240,7 @@ const CmsContext = createContext<CmsContextType | undefined>(undefined)
 
 export function CmsProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
+  const [departments, setDepartments] = useState<Department[]>([...defaultDepartments])
   const [institutions, setInstitutions] = useState<Institution[]>([...defaultInstitutions])
   const [libraryAnnexes, setLibraryAnnexes] = useState<LibraryAnnex[]>([...defaultAnnexes])
   const [workshops, setWorkshops] = useState<CultureHouseWorkshop[]>([...defaultWorkshops])
@@ -201,7 +256,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         return
       }
       try {
-        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs, eventDocs, newsDocs] = await Promise.all([
+        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs, eventDocs, newsDocs, deptDocs] = await Promise.all([
           fetchCollection('institutions', 'title'),
           fetchCollection('libraryAnnexes', 'name'),
           fetchCollection('workshops', 'name'),
@@ -209,6 +264,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           fetchCollection('khenchelaSections', 'title'),
           fetchCollection('events', 'date'),
           fetchCollection('news', 'date'),
+          fetchCollection('departments', 'title'),
         ])
 
         const hasCmsData = instDocs.length > 0 || annexDocs.length > 0 || workshopDocs.length > 0 || facilityDocs.length > 0 || sectionDocs.length > 0
@@ -239,6 +295,43 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           } catch (seedErr) {
             console.error('Failed to seed news:', seedErr)
           }
+        }
+
+        async function seedIfIncomplete(collectionName: string, docs: FirestoreDoc[], defaults: { id: string | number; [key: string]: unknown }[]) {
+          if (docs.length >= defaults.length) return
+          try {
+            const existingSeedIds = new Set(docs.map(d => String(d._seedId ?? '')).filter(Boolean))
+            const missing = defaults.filter(item => !existingSeedIds.has(String(item.id)))
+            for (const item of missing) {
+              const { id, ...data } = item
+              await addDocument(collectionName, { ...data, _seedId: id })
+            }
+          } catch (seedErr) {
+            console.error(`Failed to seed ${collectionName}:`, seedErr)
+          }
+        }
+
+        const [artistDocs, assocDocs, statDocs, natMonDocs, invMonDocs, intHerDocs] = await Promise.all([
+          fetchCollection('artists', 'name'),
+          fetchCollection('associations', 'name'),
+          fetchCollection('directorateStats', 'activity'),
+          fetchCollection('nationalMonuments', 'title'),
+          fetchCollection('inventoryMonuments', 'title'),
+          fetchCollection('intangibleHeritage', 'alt'),
+        ])
+
+        await Promise.all([
+          seedIfIncomplete('artists', artistDocs, artistsData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('associations', assocDocs, associationsData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('directorateStats', statDocs, statisticsData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('nationalMonuments', natMonDocs, nationalMonumentsData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('inventoryMonuments', invMonDocs, inventoryMonumentsData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('intangibleHeritage', intHerDocs, intangibleHeritageData as unknown as { id: string | number; [key: string]: unknown }[]),
+          seedIfIncomplete('departments', deptDocs, defaultDepartments as unknown as { id: string | number; [key: string]: unknown }[]),
+        ])
+
+        if (deptDocs.length > 0) {
+          setDepartments(deptDocs.map(docToDepartment))
         }
 
         if (!hasCmsData) {
@@ -289,6 +382,14 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       }
     }
     loadFromFirestore()
+  }, [])
+
+  const updateDepartment = useCallback(async (id: string, data: Partial<Department>) => {
+    if (!isMockMode) {
+      const docId = getFirestoreDocId('departments', id)
+      await updateDocument('departments', docId, data)
+    }
+    setDepartments(prev => prev.map(d => d.id === id ? { ...d, ...data } : d))
   }, [])
 
   const updateInstitution = useCallback(async (id: string, data: Partial<Institution>) => {
@@ -367,6 +468,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   return (
     <CmsContext.Provider value={{
       loading,
+      departments, updateDepartment,
       institutions, updateInstitution,
       libraryAnnexes, addAnnex, updateAnnex, deleteAnnex,
       workshops, addWorkshop, updateWorkshop, deleteWorkshop,

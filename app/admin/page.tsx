@@ -11,7 +11,7 @@ import { collection, getCountFromServer } from 'firebase/firestore'
 import Link from 'next/link'
 import {
   Newspaper, Settings, Calendar, Building2,
-  BookMarked, Home, Mountain, TrendingUp
+  BookMarked, Home, Mountain, TrendingUp, Landmark
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell
@@ -23,7 +23,7 @@ const INDIGO_MEDIUM = '#1E293B'
 const INDIGO_LIGHT = '#334155'
 
 function DashboardContent() {
-  const [counts, setCounts] = useState({ news: 0, services: 0, events: 0 })
+  const [counts, setCounts] = useState({ news: 0, services: 0, events: 0, artists: 0, associations: 0, monuments: 0 })
   const [loading, setLoading] = useState(true)
   const cms = useCms()
 
@@ -31,21 +31,27 @@ function DashboardContent() {
     async function fetchCounts() {
       try {
         if (isMockMode) {
-          setCounts(mockGetCounts())
+          setCounts({ ...mockGetCounts(), artists: 0, associations: 0, monuments: 0 })
         } else if (db) {
-          const [newsSnap, facilitiesSnap, eventsSnap] = await Promise.all([
+          const [newsSnap, facilitiesSnap, eventsSnap, artistsSnap, assocSnap, monSnap] = await Promise.all([
             getCountFromServer(collection(db, 'news')),
             getCountFromServer(collection(db, 'facilities')),
             getCountFromServer(collection(db, 'events')),
+            getCountFromServer(collection(db, 'artists')),
+            getCountFromServer(collection(db, 'associations')),
+            getCountFromServer(collection(db, 'nationalMonuments')),
           ])
           setCounts({
             news: newsSnap.data().count,
             services: facilitiesSnap.data().count,
             events: eventsSnap.data().count,
+            artists: artistsSnap.data().count,
+            associations: assocSnap.data().count,
+            monuments: monSnap.data().count,
           })
         }
       } catch {
-        setCounts({ news: 0, services: 0, events: 0 })
+        setCounts({ news: 0, services: 0, events: 0, artists: 0, associations: 0, monuments: 0 })
       } finally {
         setLoading(false)
       }
@@ -62,6 +68,9 @@ function DashboardContent() {
     { label: 'الخدمات', count: counts.services, icon: Settings, href: '/admin/services', color: '#8B5CF6' },
     { label: 'الفعاليات', count: counts.events, icon: Calendar, href: '/admin/events', color: '#EC4899' },
     { label: 'أقسام ملف خنشلة', count: cms.khenchelaSections.length, icon: Mountain, href: '/admin/khenchela-profile', color: '#06B6D4' },
+    { label: 'مصالح المديرية', count: cms.departments.length, icon: Landmark, href: '/admin/directorate', color: '#10B981' },
+    { label: 'الفنانون', count: counts.artists, icon: Landmark, href: '/admin/directorate', color: '#F43F5E' },
+    { label: 'الجمعيات', count: counts.associations, icon: Landmark, href: '/admin/directorate', color: '#6366F1' },
   ]
 
   const barData = [

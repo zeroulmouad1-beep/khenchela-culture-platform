@@ -1,44 +1,26 @@
 'use client'
 
-import { Palette, Users, Landmark } from 'lucide-react'
+import { Palette, Users, Landmark, LucideIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useCms, Department } from '@/lib/cms-context'
 
-// Deep Indigo & Copper palette
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
 const INDIGO_DEEP = '#0F172A'
 const INDIGO_MEDIUM = '#1E293B'
 
-const departments = [
-  {
-    id: 1,
-    title: 'مصلحة الفنون والآداب',
-    description: 'دعم وتنمية المواهب الفنية والأدبية',
-    icon: Palette,
-    image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80',
-    particleType: 'brush',
-    href: '/directorate/arts',
-  },
-  {
-    id: 2,
-    title: 'مصلحة النشاطات الثقافية',
-    description: 'تنظيم الفعاليات والأنشطة الثقافية',
-    icon: Users,
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
-    particleType: 'sparkle',
-    href: '/directorate/activities',
-  },
-  {
-    id: 3,
-    title: 'مصلحة التراث الثقافي',
-    description: 'حماية وتثمين التراث المحلي',
-    icon: Landmark,
-    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=800&q=80',
-    particleType: 'dust',
-    href: '/directorate/heritage',
-  },
-]
+const iconMap: Record<string, LucideIcon> = {
+  Palette,
+  Users,
+  Landmark,
+}
+
+const particleTypes: Record<string, string> = {
+  Palette: 'brush',
+  Users: 'sparkle',
+  Landmark: 'dust',
+}
 
 function FloatingParticles({ type }: { type: string }) {
   const particleCount = type === 'sparkle' ? 20 : 12
@@ -70,6 +52,7 @@ function FloatingParticles({ type }: { type: string }) {
 export function DirectorateSection() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { departments } = useCms()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -95,7 +78,6 @@ export function DirectorateSection() {
       aria-label="مصالح المديرية"
       style={{ backgroundColor: INDIGO_MEDIUM }}
     >
-      {/* Animated CSS for particles */}
       <style jsx>{`
         @keyframes float-particle {
           0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
@@ -111,7 +93,6 @@ export function DirectorateSection() {
         }
       `}</style>
 
-      {/* Geometric Pattern Background with subtle animation */}
       <div
         className="absolute inset-0 opacity-10 transition-opacity duration-1000"
         style={{
@@ -121,7 +102,6 @@ export function DirectorateSection() {
         }}
       />
 
-      {/* Ambient light effect */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] opacity-20 pointer-events-none"
         style={{
@@ -151,7 +131,8 @@ export function DirectorateSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {departments.map((dept, index) => {
-            const Icon = dept.icon
+            const Icon = iconMap[dept.iconName] || Palette
+            const particleType = particleTypes[dept.iconName] || 'brush'
             return (
               <div
                 key={dept.id}
@@ -162,7 +143,6 @@ export function DirectorateSection() {
                   transitionDelay: `${index * 150}ms`,
                 }}
               >
-                {/* Background Image with parallax effect */}
                 <div className="absolute inset-0 overflow-hidden">
                   <img
                     src={dept.image}
@@ -172,15 +152,12 @@ export function DirectorateSection() {
                   />
                 </div>
 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/50" />
 
-                {/* Floating particles overlay */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <FloatingParticles type={dept.particleType} />
+                  <FloatingParticles type={particleType} />
                 </div>
 
-                {/* Copper hover overlay with glow */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
                   style={{ 
@@ -189,7 +166,6 @@ export function DirectorateSection() {
                   }}
                 />
 
-                {/* Glowing border on hover */}
                 <div
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
@@ -198,9 +174,7 @@ export function DirectorateSection() {
                   }}
                 />
 
-                {/* Content */}
                 <div className="absolute inset-0 flex flex-col justify-between p-6 z-10">
-                  {/* Icon Badge with pulse animation */}
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg self-end transition-all duration-300 group-hover:scale-110"
                     style={{
@@ -212,7 +186,6 @@ export function DirectorateSection() {
                     <Icon size={22} strokeWidth={1.5} className="text-white" />
                   </div>
 
-                  {/* Text Content with slide animation */}
                   <div className="text-right">
                     <h3
                       className="text-white text-xl font-bold mb-2 leading-snug transition-all duration-300 group-hover:translate-x-[-8px]"
@@ -224,7 +197,6 @@ export function DirectorateSection() {
                       {dept.description}
                     </p>
 
-                    {/* CTA Button with enhanced hover */}
                     <Link
                       href={dept.href}
                       className="inline-block px-6 py-2.5 rounded-lg font-semibold text-sm text-white transition-all duration-300 border-2 hover:shadow-lg relative overflow-hidden"
