@@ -64,7 +64,8 @@ function CultureHouseContent() {
     if (!fForm.name.trim()) return
     setSaving(true)
     try {
-      const data = { ...fForm, subtitle: fForm.subtitle || undefined }
+      const data: Record<string, string> = { name: fForm.name, iconName: fForm.iconName }
+      if (fForm.subtitle.trim()) data.subtitle = fForm.subtitle
       if (editingId) {
         await updateFacility(editingId, data)
         showToast('تم تحديث المرفق بنجاح', 'success')
