@@ -33,3 +33,14 @@ waitForPort = 5000
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[userenv]
+
+[userenv.shared]
+NEXT_PUBLIC_FIREBASE_API_KEY = "AIzaSyAIdAM1OwfBlhZWd4-pCscK680ipl6mYwM"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = "khanchala-culture-platform.firebaseapp.com"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = "khanchala-culture-platform"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = "khanchala-culture-platform.firebasestorage.app"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "716562252580"
+NEXT_PUBLIC_FIREBASE_APP_ID = "1:716562252580:web:099d0a78329f443636e9b1"
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID = "G-E7FG8VT26E"

@@ -5,7 +5,8 @@ import { auth, isConfigured } from '@/lib/firebase'
 import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 
-const MOCK_MODE = !isConfigured && process.env.NODE_ENV !== 'production'
+const DEV_MODE = process.env.NODE_ENV !== 'production'
+const MOCK_MODE = DEV_MODE
 const MOCK_EMAIL = 'admin'
 const MOCK_PASSWORD = 'admin'
 
