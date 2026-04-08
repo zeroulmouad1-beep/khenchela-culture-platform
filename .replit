@@ -53,4 +53,4 @@ ADMIN_EMAIL = "direction.culture40k@gmail.com"
 [deployment]
 deploymentTarget = "autoscale"
 run = ["bash", "-c", "HOSTNAME=0.0.0.0 PORT=5000 node .next/standalone/server.js"]
-build = ["pnpm", "run", "build"]
+build = ["bash", "scripts/build-production.sh"]
