@@ -46,7 +46,7 @@ export default function EventDetailPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ backgroundColor: INDIGO_DEEP }}>
         <p className="text-white text-xl" style={{ fontFamily: 'Tajawal, sans-serif' }}>لم يتم العثور على الفعالية</p>
-        <Link href="/" className="px-4 py-2 rounded-lg text-white text-sm" style={{ backgroundColor: COPPER, fontFamily: 'Tajawal, sans-serif' }}>
+        <Link href="/?enter=true" className="px-4 py-2 rounded-lg text-white text-sm" style={{ backgroundColor: COPPER, fontFamily: 'Tajawal, sans-serif' }}>
           العودة للرئيسية
         </Link>
       </div>
@@ -109,7 +109,7 @@ export default function EventDetailPage() {
 
         <div className="absolute top-6 right-6 z-10">
           <Link
-            href="/"
+            href="/?enter=true"
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
             style={{ backgroundColor: 'rgba(15, 23, 42, 0.7)', color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif', border: `1px solid ${INDIGO_LIGHT}` }}
           >

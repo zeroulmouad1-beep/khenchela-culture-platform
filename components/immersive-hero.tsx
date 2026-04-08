@@ -49,15 +49,12 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
         }}
       >
         <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold"
-            style={{
-              background: 'linear-gradient(135deg, #C5A059 0%, #8B6914 100%)',
-              color: '#1a1a2e',
-            }}
-          >
-            خ
-          </div>
+          <img
+            src="/images/logo-culture.jpg"
+            alt="مديرية الثقافة والفنون"
+            className="w-10 h-10 rounded-full object-cover"
+            style={{ border: '1px solid rgba(197, 160, 89, 0.3)' }}
+          />
           <span
             className="text-lg font-semibold"
             style={{ color: '#C5A059', fontFamily: "'Cairo', sans-serif" }}

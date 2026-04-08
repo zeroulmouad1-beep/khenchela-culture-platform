@@ -99,13 +99,12 @@ export function InstitutionDetail({ institutionId }: InstitutionDetailProps) {
           </div>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold" style={{ color: COPPER }}>
-            <div 
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-              style={{ backgroundColor: COPPER }}
-            >
-              ق
-            </div>
+          <Link href="/?enter=true" className="flex items-center gap-2 text-xl font-bold" style={{ color: COPPER }}>
+            <img
+              src="/images/logo-culture.jpg"
+              alt="مديرية الثقافة والفنون"
+              className="w-9 h-9 rounded-full object-cover"
+            />
             <span>منصة</span>
           </Link>
         </div>

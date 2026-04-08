@@ -52,10 +52,12 @@ export function ModernFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 mb-12">
           {/* Column 1 - Brand */}
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-[#B87333] flex items-center justify-center text-white font-bold">
-                ق
-              </div>
+            <Link href="/?enter=true" className="flex items-center gap-2 mb-4">
+              <img
+                src="/images/logo-culture.jpg"
+                alt="مديرية الثقافة والفنون"
+                className="w-10 h-10 rounded-full object-cover"
+              />
               <span className="text-xl font-bold">منصة</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
@@ -132,7 +134,7 @@ export function ModernFooter() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400 text-sm">
           <p>© {currentYear} منصة قطاع الثقافة والفنون. جميع الحقوق محفوظة.</p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-[#D4956A] transition-colors">
+            <Link href="/privacy" className="hover:text-[#D4956A] transition-colors">
               سياسة الخصوصية
             </Link>
             <Link href="#" className="hover:text-[#D4956A] transition-colors">
