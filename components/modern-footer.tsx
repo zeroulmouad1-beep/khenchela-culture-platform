@@ -7,7 +7,7 @@ export function ModernFooter() {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: Facebook, url: '#', label: 'Facebook' },
+    { icon: Facebook, url: 'https://www.facebook.com/share/1Cb5L3zNjg/', label: 'Facebook' },
     { icon: Instagram, url: '#', label: 'Instagram' },
     { icon: Twitter, url: '#', label: 'Twitter' },
     { icon: Linkedin, url: '#', label: 'LinkedIn' },
@@ -16,6 +16,38 @@ export function ModernFooter() {
   return (
     <footer className="text-white py-16 md:py-20" style={{ backgroundColor: '#0F172A' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* About the Platform */}
+        <div className="mb-16 text-center max-w-3xl mx-auto">
+          <h3
+            className="text-2xl md:text-3xl font-bold mb-6"
+            style={{ color: '#C5A059', fontFamily: "'Amiri', serif" }}
+          >
+            حول المنصة
+          </h3>
+          <div
+            className="w-20 h-0.5 mx-auto mb-6 rounded-full"
+            style={{ background: 'linear-gradient(90deg, transparent, #B87333, transparent)' }}
+          />
+          <p
+            className="text-gray-300 leading-loose text-base md:text-lg mb-4"
+            style={{ fontFamily: "'Cairo', sans-serif" }}
+          >
+            منصة قطاع الثقافة والفنون بخنشلة هي البوابة الرقمية الرسمية لمديرية الثقافة والفنون بولاية خنشلة.
+            تهدف هذه المنصة إلى تعزيز التواصل بين المؤسسات الثقافية والمواطنين، وتقديم خدمات إلكترونية متكاملة
+            تشمل التعريف بالمؤسسات الثقافية، ونشر الفعاليات والأنشطة الثقافية والفنية، والحفاظ على التراث المادي
+            واللامادي لمنطقة الأوراس. تسعى المنصة لتكون مرجعاً رقمياً شاملاً يخدم الفاعلين الثقافيين والباحثين
+            والمهتمين بالشأن الثقافي في ولاية خنشلة.
+          </p>
+          <p
+            className="text-xs mt-4"
+            style={{ color: 'rgba(148, 163, 184, 0.5)', fontFamily: "'Cairo', sans-serif" }}
+          >
+            هذه المنصة تم تطويرها وصيانتها بواسطة المهندس م. عبد الودود
+          </p>
+        </div>
+
+        <div className="w-full h-px bg-[#334155] mb-12" />
+
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 mb-12">
           {/* Column 1 - Brand */}
@@ -34,6 +66,7 @@ export function ModernFooter() {
                 <a
                   key={label}
                   href={url}
+                  {...(url !== '#' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className="w-10 h-10 rounded-full border border-[#B87333]/30 flex items-center justify-center hover:bg-[#B87333] hover:border-[#B87333] hover:-translate-y-0.5 hover:scale-110 transition-all duration-300 text-sm"
                   title={label}
                 >
@@ -78,14 +111,14 @@ export function ModernFooter() {
               </div>
               <div className="flex gap-3 items-center">
                 <Phone size={20} className="text-[#D4956A] flex-shrink-0" />
-                <a href="tel:+21348123456" className="text-gray-400 hover:text-[#D4956A] transition-colors text-sm">
-                  +213 34 812 34 56
+                <a href="tel:+21332712345" className="text-gray-400 hover:text-[#D4956A] transition-colors text-sm">
+                  032 71 23 45
                 </a>
               </div>
               <div className="flex gap-3 items-center">
                 <Mail size={20} className="text-[#D4956A] flex-shrink-0" />
-                <a href="mailto:info@culture.dz" className="text-gray-400 hover:text-[#D4956A] transition-colors text-sm">
-                  info@culture.dz
+                <a href="mailto:direction.culture40k@gmail.com" className="text-gray-400 hover:text-[#D4956A] transition-colors text-sm">
+                  direction.culture40k@gmail.com
                 </a>
               </div>
             </div>

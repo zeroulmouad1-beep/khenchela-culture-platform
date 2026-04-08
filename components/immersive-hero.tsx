@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
   const [isExiting, setIsExiting] = useState(false)
+  const [showContact, setShowContact] = useState(false)
 
   const handleEnter = () => {
     setIsExiting(true)
@@ -301,7 +302,7 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
           {/* Contact Us Button */}
           <button
             className="group flex flex-col items-center gap-3 transition-transform duration-300 hover:scale-110 cursor-pointer"
-            onClick={() => {}}
+            onClick={() => setShowContact(true)}
           >
             <div
               className="w-16 h-16 md:w-20 md:h-20 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:shadow-lg"
@@ -393,6 +394,149 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
           animation: 'float 6s ease-in-out infinite',
         }}
       />
+
+      {/* Contact Modal */}
+      {showContact && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center px-4"
+          onClick={() => setShowContact(false)}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div
+            dir="rtl"
+            className="relative w-full max-w-md rounded-2xl p-8 shadow-2xl"
+            style={{
+              background: 'linear-gradient(145deg, #1E293B 0%, #0F172A 100%)',
+              border: '1px solid rgba(197, 160, 89, 0.3)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowContact(false)}
+              className="absolute top-4 left-4 w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all"
+            >
+              ✕
+            </button>
+            <div className="text-center mb-6">
+              <div
+                className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #C5A059 0%, #8B6914 100%)' }}
+              >
+                <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+                  <path
+                    d="M14 10C12 10 10 12 10 14C10 26 22 38 34 38C36 38 38 36 38 34L38 30C38 28.5 37 27 35.5 27L31 27C29.5 27 28 28 28 29.5L28 31C24 29 19 24 17 20L18.5 20C20 20 21 18.5 21 17L21 12.5C21 11 19.5 10 18 10L14 10Z"
+                    fill="#1a1a2e"
+                    stroke="#1a1a2e"
+                    strokeWidth="1.5"
+                  />
+                </svg>
+              </div>
+              <h3
+                className="text-xl font-bold"
+                style={{ color: '#C5A059', fontFamily: "'Amiri', serif" }}
+              >
+                اتصل بنا
+              </h3>
+              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: "'Cairo', sans-serif" }}>
+                مديرية الثقافة والفنون - ولاية خنشلة
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div
+                className="flex items-center gap-4 p-3 rounded-xl"
+                style={{ background: 'rgba(197, 160, 89, 0.08)', border: '1px solid rgba(197, 160, 89, 0.15)' }}
+              >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(197, 160, 89, 0.15)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Cairo', sans-serif" }}>الهاتف</p>
+                  <a href="tel:+21332712345" className="text-sm font-medium" style={{ color: '#FFFFFF', fontFamily: "'Cairo', sans-serif", direction: 'ltr', display: 'block', textAlign: 'right' }}>
+                    032 71 23 45
+                  </a>
+                </div>
+              </div>
+
+              <div
+                className="flex items-center gap-4 p-3 rounded-xl"
+                style={{ background: 'rgba(197, 160, 89, 0.08)', border: '1px solid rgba(197, 160, 89, 0.15)' }}
+              >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(197, 160, 89, 0.15)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Cairo', sans-serif" }}>البريد الإلكتروني</p>
+                  <a href="mailto:direction.culture40k@gmail.com" className="text-sm font-medium hover:text-[#C5A059] transition-colors" style={{ color: '#FFFFFF', fontFamily: "'Cairo', sans-serif" }}>
+                    direction.culture40k@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              <div
+                className="flex items-center gap-4 p-3 rounded-xl"
+                style={{ background: 'rgba(197, 160, 89, 0.08)', border: '1px solid rgba(197, 160, 89, 0.15)' }}
+              >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(197, 160, 89, 0.15)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Cairo', sans-serif" }}>العنوان</p>
+                  <p className="text-sm font-medium" style={{ color: '#FFFFFF', fontFamily: "'Cairo', sans-serif" }}>
+                    مديرية الثقافة والفنون، خنشلة، الجزائر
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className="flex items-center gap-4 p-3 rounded-xl"
+                style={{ background: 'rgba(197, 160, 89, 0.08)', border: '1px solid rgba(197, 160, 89, 0.15)' }}
+              >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(197, 160, 89, 0.15)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Cairo', sans-serif" }}>أوقات العمل</p>
+                  <p className="text-sm font-medium" style={{ color: '#FFFFFF', fontFamily: "'Cairo', sans-serif" }}>
+                    الأحد - الخميس: 08:00 - 16:00
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center">
+              <a
+                href="https://www.facebook.com/share/1Cb5L3zNjg/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
+                style={{
+                  background: 'rgba(197, 160, 89, 0.15)',
+                  border: '1px solid rgba(197, 160, 89, 0.3)',
+                  color: '#C5A059',
+                  fontFamily: "'Cairo', sans-serif",
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                تابعنا على فيسبوك
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* CSS Keyframes */}
       <style jsx>{`
