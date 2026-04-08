@@ -45,3 +45,8 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "716562252580"
 NEXT_PUBLIC_FIREBASE_APP_ID = "1:716562252580:web:099d0a78329f443636e9b1"
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID = "G-E7FG8VT26E"
 ADMIN_EMAIL = "direction.culture40k@gmail.com"
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["bash", "-c", "PORT=${PORT:-5000} pnpm run start -- -p ${PORT:-5000}"]
+build = ["pnpm", "run", "build"]
