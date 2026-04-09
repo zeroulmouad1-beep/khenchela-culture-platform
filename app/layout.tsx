@@ -4,8 +4,11 @@ import { Providers } from '@/components/providers'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'منصة قطاع الثقافة والفنون',
-  description: 'نافذتكم على الإبداع والتراث الخنشلي - منصة مختصة بالخدمات الثقافية والفنية',
+  title: 'منصة قطاع الثقافة والفنون خنشلة - البوابة الرقمية الرسمية',
+  description: 'البوابة الرقمية الرسمية لمديرية الثقافة والفنون لولاية خنشلة، لتعزيز التواصل ونشر الأنشطة الثقافية والفنية في الولاية.',
+  verification: {
+    google: 'HgpfhgfAtApQFiAtvhksbARfNxCCzkP6PwrricVK-YA',
+  },
   generator: 'v0.app',
   icons: {
     icon: [
@@ -43,7 +46,6 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" data-scroll-behavior="smooth">
       <head>
         <meta charSet="utf-8" />
-        <meta name="description" content="منصة قطاع الثقافة والفنون - نافذتكم على الإبداع والتراث الخنشلي" />
       </head>
       <body className="antialiased">
         <Providers>
