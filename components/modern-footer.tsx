@@ -42,7 +42,7 @@ export function ModernFooter() {
             className="text-xs mt-4"
             style={{ color: 'rgba(148, 163, 184, 0.5)', fontFamily: "'Cairo', sans-serif" }}
           >
-            هذه المنصة تم تطويرها وصيانتها بواسطة المهندس م. عبد الودود
+            هذه المنصة تم تطويرها وصيانتها بواسطة المهندس زروال معاذ عبد الودود
           </p>
         </div>
 
