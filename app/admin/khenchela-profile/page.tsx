@@ -27,6 +27,7 @@ function KhenchelaProfileContent() {
   }
 
   const handleSave = async () => {
+    if (saving) return
     if (!editingId || !form.title.trim()) return
     setSaving(true)
     try {

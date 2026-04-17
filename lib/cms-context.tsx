@@ -297,12 +297,45 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           }
         }
 
+        function normalizeKey(v: unknown): string {
+          return String(v ?? '').trim().toLowerCase().replace(/\s+/g, ' ')
+        }
+        function pickTitleField(item: Record<string, unknown>): string {
+          const candidates = ['title', 'name', 'activity', 'alt']
+          for (const k of candidates) {
+            const v = item[k]
+            if (typeof v === 'string' && v.trim()) return normalizeKey(v)
+          }
+          return ''
+        }
         async function seedIfIncomplete(collectionName: string, docs: FirestoreDoc[], defaults: { id: string | number; [key: string]: unknown }[]) {
-          if (docs.length >= defaults.length) return
           try {
             const existingSeedIds = new Set(docs.map(d => String(d._seedId ?? '')).filter(Boolean))
-            const missing = defaults.filter(item => !existingSeedIds.has(String(item.id)))
-            for (const item of missing) {
+            const existingByTitle = new Map<string, FirestoreDoc>()
+            for (const d of docs) {
+              const k = pickTitleField(d as Record<string, unknown>)
+              if (k && !existingByTitle.has(k)) existingByTitle.set(k, d)
+            }
+            // Pass 1: back-fill _seedId on legacy docs that match a default by normalized title.
+            for (const item of defaults) {
+              const seedKey = String(item.id)
+              if (existingSeedIds.has(seedKey)) continue
+              const titleKey = pickTitleField(item as Record<string, unknown>)
+              const matchByTitle = titleKey ? existingByTitle.get(titleKey) : undefined
+              if (matchByTitle && !matchByTitle._seedId) {
+                try {
+                  await updateDocument(collectionName, matchByTitle.id, { _seedId: seedKey })
+                  matchByTitle._seedId = seedKey
+                  existingSeedIds.add(seedKey)
+                } catch {}
+              }
+            }
+            // Pass 2: only add truly-missing defaults (no _seedId match AND no title match).
+            for (const item of defaults) {
+              const seedKey = String(item.id)
+              if (existingSeedIds.has(seedKey)) continue
+              const titleKey = pickTitleField(item as Record<string, unknown>)
+              if (titleKey && existingByTitle.has(titleKey)) continue
               const { id, ...data } = item
               await addDocument(collectionName, { ...data, _seedId: id })
             }

@@ -42,6 +42,7 @@ function CultureHouseContent() {
   }
 
   const handleSaveWorkshop = async () => {
+    if (saving) return
     if (!wForm.name.trim()) return
     setSaving(true)
     try {
@@ -61,6 +62,7 @@ function CultureHouseContent() {
   }
 
   const handleSaveFacility = async () => {
+    if (saving) return
     if (!fForm.name.trim()) return
     setSaving(true)
     try {

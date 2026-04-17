@@ -25,6 +25,7 @@ function LibraryAnnexesContent() {
   const [saving, setSaving] = useState(false)
 
   const handleSave = async () => {
+    if (saving) return
     if (!form.name.trim()) return
     setSaving(true)
     try {

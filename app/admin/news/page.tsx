@@ -50,6 +50,7 @@ function NewsContent() {
   useEffect(() => { loadData() }, [])
 
   const handleSave = async () => {
+    if (saving) return
     if (!form.title.trim()) return
     setSaving(true)
     try {

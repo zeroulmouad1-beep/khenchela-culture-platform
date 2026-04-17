@@ -51,6 +51,7 @@ function DepartmentsTab() {
   }
 
   const save = async () => {
+    if (saving) return
     if (!editing || !form.title) return
     setSaving(true)
     try {
@@ -146,6 +147,7 @@ function CrudTable<T extends { id: number | string }>({
   }
 
   const saveEdit = async () => {
+    if (saving) return
     if (editing == null) return
     setSaving(true)
     try {
@@ -162,6 +164,7 @@ function CrudTable<T extends { id: number | string }>({
   }
 
   const addItem = async () => {
+    if (saving) return
     setSaving(true)
     try {
       if (!isMockMode) {

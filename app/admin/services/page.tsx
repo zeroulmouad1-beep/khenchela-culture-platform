@@ -31,6 +31,7 @@ function ServicesContent() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
 
   const handleSave = async () => {
+    if (saving) return
     if (!form.name.trim()) return
     setSaving(true)
     try {
