@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build && cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
     "start": "node .next/standalone/server.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "dedup:dry-run": "node scripts/dedup-firestore.mjs",
+    "dedup:execute": "node scripts/dedup-firestore.mjs --execute"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
