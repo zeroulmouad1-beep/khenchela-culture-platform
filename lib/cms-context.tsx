@@ -327,7 +327,9 @@ export function CmsProvider({ children }: { children: ReactNode }) {
                   await updateDocument(collectionName, matchByTitle.id, { _seedId: seedKey })
                   matchByTitle._seedId = seedKey
                   existingSeedIds.add(seedKey)
-                } catch {}
+                } catch (backfillErr) {
+                  console.warn(`Failed to back-fill _seedId for ${collectionName}/${matchByTitle.id}:`, backfillErr)
+                }
               }
             }
             // Pass 2: only add truly-missing defaults (no _seedId match AND no title match).
