@@ -7,7 +7,7 @@ import { useCms } from '@/lib/cms-context'
 import { useToast } from '@/components/admin/toast'
 import { ImageUpload } from '@/components/admin/image-upload'
 import { Institution } from '@/lib/institutions-data'
-import { Pencil, X, Save, Building2, Loader2 } from 'lucide-react'
+import { Pencil, X, Save, Building2, Loader2, Trash2 } from 'lucide-react'
 
 const COPPER = '#B87333'
 const COPPER_LIGHT = '#D4956A'
@@ -16,11 +16,31 @@ const INDIGO_MEDIUM = '#1E293B'
 const INDIGO_LIGHT = '#334155'
 
 function InstitutionsContent() {
-  const { institutions, updateInstitution } = useCms()
+  const { institutions, updateInstitution, deleteInstitution } = useCms()
   const { showToast } = useToast()
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<Partial<Institution>>({})
   const [saving, setSaving] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  const handleDelete = async (id: string) => {
+    if (deletingId) return
+    setDeletingId(id)
+    try {
+      await deleteInstitution(id)
+      showToast('تم حذف المؤسسة بنجاح', 'success')
+      setDeleteConfirm(null)
+      if (editingId === id) {
+        setEditingId(null)
+        setForm({})
+      }
+    } catch {
+      showToast('فشل حذف المؤسسة', 'error')
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   const handleEdit = (inst: Institution) => {
     setForm({ ...inst })
@@ -174,10 +194,42 @@ function InstitutionsContent() {
                     </div>
                   </div>
                 </div>
-                <button onClick={() => handleEdit(inst)} className="p-2 rounded-lg transition-colors flex-shrink-0"
-                  style={{ color: COPPER_LIGHT }} title="تعديل">
-                  <Pencil size={16} />
-                </button>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <button onClick={() => handleEdit(inst)} className="p-2 rounded-lg transition-colors"
+                    style={{ color: COPPER_LIGHT }} title="تعديل">
+                    <Pencil size={16} />
+                  </button>
+                  {deleteConfirm === inst.id ? (
+                    <div className="flex items-center gap-1 mr-1">
+                      <button
+                        onClick={() => handleDelete(inst.id)}
+                        disabled={deletingId === inst.id}
+                        className="flex items-center gap-1 px-2 py-1 rounded text-xs text-white disabled:opacity-50"
+                        style={{ backgroundColor: '#DC2626', fontFamily: 'Tajawal, sans-serif' }}
+                      >
+                        {deletingId === inst.id ? <Loader2 size={12} className="animate-spin" /> : null}
+                        تأكيد
+                      </button>
+                      <button
+                        onClick={() => setDeleteConfirm(null)}
+                        disabled={deletingId === inst.id}
+                        className="px-2 py-1 rounded text-xs"
+                        style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                      >
+                        إلغاء
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setDeleteConfirm(inst.id)}
+                      className="p-2 rounded-lg transition-colors hover:bg-red-500/10"
+                      style={{ color: '#94A3B8' }}
+                      title="حذف"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}

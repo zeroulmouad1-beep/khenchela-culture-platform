@@ -216,6 +216,7 @@ interface CmsContextType {
 
   institutions: Institution[]
   updateInstitution: (id: string, data: Partial<Institution>) => Promise<void>
+  deleteInstitution: (id: string) => Promise<void>
 
   libraryAnnexes: LibraryAnnex[]
   addAnnex: (annex: Omit<LibraryAnnex, 'id'>) => Promise<void>
@@ -435,6 +436,14 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     setInstitutions(prev => prev.map(inst => inst.id === id ? { ...inst, ...data } : inst))
   }, [])
 
+  const deleteInstitution = useCallback(async (id: string) => {
+    if (!isMockMode) {
+      const docId = getFirestoreDocId('institutions', id)
+      await deleteDocument('institutions', docId)
+    }
+    setInstitutions(prev => prev.filter(inst => inst.id !== id))
+  }, [])
+
   const addAnnex = useCallback(async (annex: Omit<LibraryAnnex, 'id'>) => {
     if (isMockMode) {
       const id = `cms-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
@@ -504,7 +513,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     <CmsContext.Provider value={{
       loading,
       departments, updateDepartment,
-      institutions, updateInstitution,
+      institutions, updateInstitution, deleteInstitution,
       libraryAnnexes, addAnnex, updateAnnex, deleteAnnex,
       workshops, addWorkshop, updateWorkshop, deleteWorkshop,
       facilities, addFacility, updateFacility, deleteFacility,
