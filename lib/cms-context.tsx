@@ -3,10 +3,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
 import { institutions as defaultInstitutions, Institution } from '@/lib/institutions-data'
 import { fetchCollection, addDocument, updateDocument, deleteDocument, isMockMode, FirestoreDoc } from '@/lib/firestore-helpers'
-import { mockEvents, mockNews } from '@/lib/mock-data'
-import { artistsData } from '@/lib/artists-data'
-import { associationsData, statisticsData } from '@/lib/activities-data'
-import { nationalMonumentsData, inventoryMonumentsData, intangibleHeritageData } from '@/lib/heritage-data'
 
 const firestoreDocIdMap = new Map<string, string>()
 
@@ -201,13 +197,6 @@ function docToSection(doc: FirestoreDoc): KhenchelaSection {
   return { id: displayId, title: doc.title || '', subtitle: doc.subtitle || '', paragraphs: doc.paragraphs || [] }
 }
 
-async function seedCollection<T extends { id: string }>(collectionName: string, defaults: T[]): Promise<void> {
-  for (const item of defaults) {
-    const { id, ...data } = item as Record<string, unknown>
-    await addDocument(collectionName, { ...data, _seedId: id })
-  }
-}
-
 interface CmsContextType {
   loading: boolean
 
@@ -247,172 +236,34 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   const [workshops, setWorkshops] = useState<CultureHouseWorkshop[]>([...defaultWorkshops])
   const [facilities, setFacilities] = useState<CultureHouseFacility[]>([...defaultFacilities])
   const [khenchelaSections, setKhenchelaSections] = useState<KhenchelaSection[]>([...defaultKhenchelaSections])
-  const [seeded, setSeeded] = useState(false)
-
   useEffect(() => {
+    // STRICT READ-ONLY: This effect only fetches data from Firestore.
+    // It NEVER creates, seeds, or upserts any documents. Defaults arrays above
+    // are used purely as in-memory fallbacks for display when a collection is
+    // empty in Firestore. No automatic write of any kind happens here.
     async function loadFromFirestore() {
       if (isMockMode) {
-        setSeeded(true)
         setLoading(false)
         return
       }
       try {
-        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs, eventDocs, newsDocs, deptDocs] = await Promise.all([
+        const [instDocs, annexDocs, workshopDocs, facilityDocs, sectionDocs, deptDocs] = await Promise.all([
           fetchCollection('institutions', 'title'),
           fetchCollection('libraryAnnexes', 'name'),
           fetchCollection('workshops', 'name'),
           fetchCollection('facilities', 'name'),
           fetchCollection('khenchelaSections', 'title'),
-          fetchCollection('events', 'date'),
-          fetchCollection('news', 'date'),
           fetchCollection('departments', 'title'),
         ])
 
-        const hasCmsData = instDocs.length > 0 || annexDocs.length > 0 || workshopDocs.length > 0 || facilityDocs.length > 0 || sectionDocs.length > 0
-
-        if (eventDocs.length === 0) {
-          try {
-            const seedEvents = mockEvents.map(e => {
-              const { id, ...data } = e
-              return { ...data, _seedId: id }
-            })
-            for (const ev of seedEvents) {
-              await addDocument('events', ev)
-            }
-          } catch (seedErr) {
-            console.error('Failed to seed events:', seedErr)
-          }
-        }
-
-        if (newsDocs.length === 0) {
-          try {
-            const seedNews = mockNews.map(n => {
-              const { id, ...data } = n
-              return { ...data, _seedId: id }
-            })
-            for (const nw of seedNews) {
-              await addDocument('news', nw)
-            }
-          } catch (seedErr) {
-            console.error('Failed to seed news:', seedErr)
-          }
-        }
-
-        function normalizeKey(v: unknown): string {
-          return String(v ?? '').trim().toLowerCase().replace(/\s+/g, ' ')
-        }
-        function pickTitleField(item: Record<string, unknown>): string {
-          const candidates = ['title', 'name', 'activity', 'alt']
-          for (const k of candidates) {
-            const v = item[k]
-            if (typeof v === 'string' && v.trim()) return normalizeKey(v)
-          }
-          return ''
-        }
-        async function seedIfIncomplete(collectionName: string, docs: FirestoreDoc[], defaults: { id: string | number; [key: string]: unknown }[]) {
-          try {
-            const existingSeedIds = new Set(docs.map(d => String(d._seedId ?? '')).filter(Boolean))
-            const existingByTitle = new Map<string, FirestoreDoc>()
-            for (const d of docs) {
-              const k = pickTitleField(d as Record<string, unknown>)
-              if (k && !existingByTitle.has(k)) existingByTitle.set(k, d)
-            }
-            // Pass 1: back-fill _seedId on legacy docs that match a default by normalized title.
-            for (const item of defaults) {
-              const seedKey = String(item.id)
-              if (existingSeedIds.has(seedKey)) continue
-              const titleKey = pickTitleField(item as Record<string, unknown>)
-              const matchByTitle = titleKey ? existingByTitle.get(titleKey) : undefined
-              if (matchByTitle && !matchByTitle._seedId) {
-                try {
-                  await updateDocument(collectionName, matchByTitle.id, { _seedId: seedKey })
-                  matchByTitle._seedId = seedKey
-                  existingSeedIds.add(seedKey)
-                } catch (backfillErr) {
-                  console.warn(`Failed to back-fill _seedId for ${collectionName}/${matchByTitle.id}:`, backfillErr)
-                }
-              }
-            }
-            // Pass 2: only add truly-missing defaults (no _seedId match AND no title match).
-            for (const item of defaults) {
-              const seedKey = String(item.id)
-              if (existingSeedIds.has(seedKey)) continue
-              const titleKey = pickTitleField(item as Record<string, unknown>)
-              if (titleKey && existingByTitle.has(titleKey)) continue
-              const { id, ...data } = item
-              await addDocument(collectionName, { ...data, _seedId: id })
-            }
-          } catch (seedErr) {
-            console.error(`Failed to seed ${collectionName}:`, seedErr)
-          }
-        }
-
-        const [artistDocs, assocDocs, statDocs, natMonDocs, invMonDocs, intHerDocs] = await Promise.all([
-          fetchCollection('artists', 'name'),
-          fetchCollection('associations', 'name'),
-          fetchCollection('directorateStats', 'activity'),
-          fetchCollection('nationalMonuments', 'title'),
-          fetchCollection('inventoryMonuments', 'title'),
-          fetchCollection('intangibleHeritage', 'alt'),
-        ])
-
-        await Promise.all([
-          seedIfIncomplete('artists', artistDocs, artistsData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('associations', assocDocs, associationsData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('directorateStats', statDocs, statisticsData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('nationalMonuments', natMonDocs, nationalMonumentsData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('inventoryMonuments', invMonDocs, inventoryMonumentsData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('intangibleHeritage', intHerDocs, intangibleHeritageData as unknown as { id: string | number; [key: string]: unknown }[]),
-          seedIfIncomplete('departments', deptDocs, defaultDepartments as unknown as { id: string | number; [key: string]: unknown }[]),
-        ])
-
-        if (deptDocs.length > 0) {
-          setDepartments(deptDocs.map(docToDepartment))
-        }
-
-        if (!hasCmsData) {
-          try {
-            await Promise.all([
-              seedCollection('institutions', defaultInstitutions),
-              seedCollection('libraryAnnexes', defaultAnnexes),
-              seedCollection('workshops', defaultWorkshops),
-              seedCollection('facilities', defaultFacilities),
-              seedCollection('khenchelaSections', defaultKhenchelaSections),
-            ])
-            const [si, sa, sw, sf, ss] = await Promise.all([
-              fetchCollection('institutions', 'title'),
-              fetchCollection('libraryAnnexes', 'name'),
-              fetchCollection('workshops', 'name'),
-              fetchCollection('facilities', 'name'),
-              fetchCollection('khenchelaSections', 'title'),
-            ])
-            if (si.length > 0) setInstitutions(si.map(docToInstitution))
-            if (sa.length > 0) setLibraryAnnexes(sa.map(docToAnnex))
-            if (sw.length > 0) setWorkshops(sw.map(docToWorkshop))
-            if (sf.length > 0) setFacilities(sf.map(docToFacility))
-            if (ss.length > 0) setKhenchelaSections(ss.map(docToSection))
-          } catch (seedErr) {
-            console.error('Failed to seed Firestore:', seedErr)
-          }
-        } else {
-          if (instDocs.length > 0) {
-            const firestoreInsts = instDocs.map(docToInstitution)
-            const firestoreIds = new Set(firestoreInsts.map(i => i.id))
-            const merged = [
-              ...firestoreInsts,
-              ...defaultInstitutions.filter(d => !firestoreIds.has(d.id)),
-            ]
-            setInstitutions(merged)
-          }
-          if (annexDocs.length > 0) setLibraryAnnexes(annexDocs.map(docToAnnex))
-          if (workshopDocs.length > 0) setWorkshops(workshopDocs.map(docToWorkshop))
-          if (facilityDocs.length > 0) setFacilities(facilityDocs.map(docToFacility))
-          if (sectionDocs.length > 0) setKhenchelaSections(sectionDocs.map(docToSection))
-        }
-        setSeeded(true)
+        if (deptDocs.length > 0) setDepartments(deptDocs.map(docToDepartment))
+        if (instDocs.length > 0) setInstitutions(instDocs.map(docToInstitution))
+        if (annexDocs.length > 0) setLibraryAnnexes(annexDocs.map(docToAnnex))
+        if (workshopDocs.length > 0) setWorkshops(workshopDocs.map(docToWorkshop))
+        if (facilityDocs.length > 0) setFacilities(facilityDocs.map(docToFacility))
+        if (sectionDocs.length > 0) setKhenchelaSections(sectionDocs.map(docToSection))
       } catch (err) {
         console.error('Failed to load CMS data from Firestore:', err)
-        setSeeded(true)
       } finally {
         setLoading(false)
       }
