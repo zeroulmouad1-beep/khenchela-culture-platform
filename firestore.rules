@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Khenchela Culture Platform — Firestore Security Rules
+//
+//  Strategy: PUBLIC READ-ONLY by default. ALL client writes are denied.
+//  Any data mutation (create / update / delete) must go through the
+//  authenticated admin session on the Next.js server, which uses the
+//  Firebase Admin SDK and bypasses these rules.
+//
+//  This guarantees that even a stale browser tab running OLD JavaScript
+//  (with the deleted seedIfIncomplete logic) can never create a document.
+// ─────────────────────────────────────────────────────────────────────────────
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny everything that is not explicitly listed below.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ── Public CMS content (read by visitors, NEVER written from the client) ──
+    match /institutions/{doc}      { allow read: if true; allow write: if false; }
+    match /workshops/{doc}         { allow read: if true; allow write: if false; }
+    match /facilities/{doc}        { allow read: if true; allow write: if false; }
+    match /libraryAnnexes/{doc}    { allow read: if true; allow write: if false; }
+    match /khenchelaSections/{doc} { allow read: if true; allow write: if false; }
+    match /departments/{doc}       { allow read: if true; allow write: if false; }
+    match /events/{doc}            { allow read: if true; allow write: if false; }
+    match /news/{doc}              { allow read: if true; allow write: if false; }
+    match /artists/{doc}           { allow read: if true; allow write: if false; }
+    match /associations/{doc}      { allow read: if true; allow write: if false; }
+    match /directorateStats/{doc}  { allow read: if true; allow write: if false; }
+    match /nationalMonuments/{doc} { allow read: if true; allow write: if false; }
+    match /inventoryMonuments/{doc}{ allow read: if true; allow write: if false; }
+    match /intangibleHeritage/{doc}{ allow read: if true; allow write: if false; }
+  }
+}
