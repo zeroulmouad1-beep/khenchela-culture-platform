@@ -41,37 +41,41 @@ export async function fetchCollection(collectionName: string, orderField = 'crea
   }
 }
 
+async function callCmsApi(method: string, path: string, body?: Record<string, any>) {
+  const res = await fetch(`/api/cms/${path}`, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: body ? JSON.stringify(body) : undefined,
+  })
+  if (!res.ok) {
+    let detail = ''
+    try { detail = (await res.json()).error || '' } catch {}
+    throw new Error(`CMS ${method} ${path} failed: ${res.status}${detail ? ' ' + detail : ''}`)
+  }
+  return res.json()
+}
+
 export async function addDocument(collectionName: string, data: Record<string, any>) {
   if (isMockMode) {
     return mockAddDocument(collectionName, data)
   }
-  const database = getDb()
-  return addDoc(collection(database, collectionName), {
-    ...data,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  })
+  const result = await callCmsApi('POST', collectionName, data)
+  return { id: result.id }
 }
 
 export async function updateDocument(collectionName: string, docId: string, data: Record<string, any>) {
   if (isMockMode) {
     return mockUpdateDocument(collectionName, docId, data)
   }
-  const database = getDb()
-  const ref = doc(database, collectionName, docId)
-  return updateDoc(ref, {
-    ...data,
-    updatedAt: serverTimestamp(),
-  })
+  await callCmsApi('PUT', `${collectionName}/${docId}`, data)
 }
 
 export async function deleteDocument(collectionName: string, docId: string) {
   if (isMockMode) {
     return mockDeleteDocument(collectionName, docId)
   }
-  const database = getDb()
-  const ref = doc(database, collectionName, docId)
-  return deleteDoc(ref)
+  await callCmsApi('DELETE', `${collectionName}/${docId}`)
 }
 
 export function formatTimestamp(ts: any): string {

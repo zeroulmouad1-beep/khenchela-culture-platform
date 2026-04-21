@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { initializeApp, cert, getApps } from 'firebase-admin/app'
+import { getFirestore } from 'firebase-admin/firestore'
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -69,20 +69,18 @@ function scoreDoc(d) {
 const args = new Set(process.argv.slice(2))
 const EXECUTE = args.has('--execute')
 
-const cfg = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
-if (!cfg.apiKey || !cfg.projectId) {
-  console.error('ERROR: NEXT_PUBLIC_FIREBASE_* env vars are not set.')
+if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+  console.error('ERROR: FIREBASE_SERVICE_ACCOUNT secret is not set. Required because Firestore rules now deny client writes.')
   process.exit(1)
 }
+const sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+if (sa.private_key) sa.private_key = sa.private_key.replace(/\\n/g, '\n')
+const cfg = { projectId: sa.project_id }
 
-const app = initializeApp(cfg)
+const app = getApps().length > 0 ? getApps()[0] : initializeApp({
+  credential: cert({ projectId: sa.project_id, clientEmail: sa.client_email, privateKey: sa.private_key }),
+  projectId: sa.project_id,
+})
 const db = getFirestore(app)
 
 console.log(`Mode: ${EXECUTE ? 'EXECUTE (deletions WILL be performed)' : 'DRY-RUN (no deletions)'}`)
@@ -96,7 +94,7 @@ let totalDocs = 0
 for (const c of COLLECTIONS) {
   let docs = []
   try {
-    const snap = await getDocs(collection(db, c.name))
+    const snap = await db.collection(c.name).get()
     docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
   } catch (e) {
     console.error(`  [${c.name}] FAILED to read:`, e.message)
@@ -183,7 +181,7 @@ for (const c of reportCollections) {
     for (const d of g.toDelete) {
       if (d.id === g.keeper.id) continue
       try {
-        await deleteDoc(doc(db, c.name, d.id))
+        await db.collection(c.name).doc(d.id).delete()
         deleted++
       } catch (e) {
         failed++
@@ -199,7 +197,7 @@ console.log(`\nDeleted: ${deleted}  Failed: ${failed}`)
 const after = []
 for (const c of COLLECTIONS) {
   try {
-    const snap = await getDocs(collection(db, c.name))
+    const snap = await db.collection(c.name).get()
     after.push({
       name: c.name,
       countAfter: snap.size,

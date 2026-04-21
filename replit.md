@@ -22,7 +22,11 @@ A Next.js web application for the Culture and Arts sector platform of Khenchela 
 - `lib/firebase.ts` — Firebase config (null-safe, won't crash without env vars)
 - `lib/auth-context.tsx` — Auth provider with server-side credential validation via API routes
 - `app/api/auth/` — Server-side auth API routes (login, logout, session) validating against ADMIN_EMAIL/ADMIN_PASSWORD env vars
-- `lib/firestore-helpers.ts` — Firestore CRUD helpers with mock fallback
+- `lib/firestore-helpers.ts` — Firestore CRUD helpers; reads use client SDK, writes proxy through `/api/cms/*`
+- `lib/firebase-admin.ts` — Firebase Admin SDK init (uses FIREBASE_SERVICE_ACCOUNT secret); used by server API for all Firestore writes
+- `lib/admin-auth.ts` — Server-side helper that verifies the admin session cookie for API routes
+- `app/api/cms/[collection]/` — Authenticated server-side write endpoints (POST add, PUT update, DELETE) with allowlist
+- `firestore.rules` — Production security rules: public READ on listed collections, ALL client writes denied. Deployed via Admin SDK.
 - `lib/mock-data.ts` — In-memory mock data for admin preview mode
 - `public/images/` — Local image assets
 - `hooks/` — Custom React hooks
