@@ -16,36 +16,6 @@ export function ModernFooter() {
   return (
     <footer className="text-white py-16 md:py-20" style={{ backgroundColor: '#0F172A' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* About the Platform */}
-        <div className="mb-16 text-center max-w-3xl mx-auto">
-          <h3
-            className="text-2xl md:text-3xl font-bold mb-6"
-            style={{ color: '#C5A059', fontFamily: "'Amiri', serif" }}
-          >
-            حول المنصة
-          </h3>
-          <div
-            className="w-20 h-0.5 mx-auto mb-6 rounded-full"
-            style={{ background: 'linear-gradient(90deg, transparent, #B87333, transparent)' }}
-          />
-          <p
-            className="text-gray-300 leading-loose text-base md:text-lg mb-4"
-            style={{ fontFamily: "'Cairo', sans-serif" }}
-          >
-            منصة قطاع الثقافة والفنون بخنشلة هي البوابة الرقمية الرسمية لمديرية الثقافة والفنون بولاية خنشلة.
-            تهدف هذه المنصة إلى تعزيز التواصل بين المؤسسات الثقافية والمواطنين، وتقديم خدمات إلكترونية متكاملة
-            تشمل التعريف بالمؤسسات الثقافية، ونشر الفعاليات والأنشطة الثقافية والفنية، والحفاظ على التراث المادي
-            واللامادي لمنطقة الأوراس. تسعى المنصة لتكون مرجعاً رقمياً شاملاً يخدم الفاعلين الثقافيين والباحثين
-            والمهتمين بالشأن الثقافي في ولاية خنشلة.
-          </p>
-          <p
-            className="text-xs mt-4"
-            style={{ color: 'rgba(148, 163, 184, 0.5)', fontFamily: "'Cairo', sans-serif" }}
-          >
-            هذه المنصة تم تطويرها وصيانتها بواسطة المهندس زروال معاذ عبد الودود
-          </p>
-        </div>
-
         <div className="w-full h-px bg-[#334155] mb-12" />
 
         {/* Main Grid */}
@@ -86,7 +56,7 @@ export function ModernFooter() {
                 { label: 'المؤسسات الثقافية', href: '#' },
                 { label: 'الفعاليات القادمة', href: '#' },
                 { label: 'الخدمات الإلكترونية', href: '#' },
-                { label: 'من نحن', href: '#' },
+                { label: 'من نحن', href: '/about' },
                 { label: 'تواصل معنا', href: '#' },
               ].map(({ label, href }) => (
                 <li key={label}>
