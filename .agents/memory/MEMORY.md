@@ -1,0 +1,1 @@
+- [Replit Package Firewall Bypass](replit-package-firewall.md) — `protobufjs` and others blocked by `package-firewall.replit.local`; fix with `.npmrc` registry override + Vercel frozen-lockfile specifier matching.
