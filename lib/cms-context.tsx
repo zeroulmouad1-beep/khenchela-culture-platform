@@ -77,92 +77,20 @@ export interface Department {
   href: string
 }
 
-const defaultDepartments: Department[] = [
-  {
-    id: 'dept1',
-    title: 'مصلحة الفنون والآداب',
-    description: 'دعم وتنمية المواهب الفنية والأدبية',
-    iconName: 'Palette',
-    image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80',
-    href: '/directorate/arts',
-  },
-  {
-    id: 'dept2',
-    title: 'مصلحة النشاطات الثقافية',
-    description: 'تنظيم الفعاليات والأنشطة الثقافية',
-    iconName: 'Users',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
-    href: '/directorate/activities',
-  },
-  {
-    id: 'dept3',
-    title: 'مصلحة التراث الثقافي',
-    description: 'حماية وتثمين التراث المحلي',
-    iconName: 'Landmark',
-    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=800&q=80',
-    href: '/directorate/heritage',
-  },
-]
+// Firebase collection: departments
+const defaultDepartments: Department[] = []
 
-const defaultAnnexes: LibraryAnnex[] = [
-  { id: 'a1', name: 'الحامة', type: 'شبه حضارية' },
-  { id: 'a2', name: 'أولاد رشاش', type: 'شبه حضارية' },
-  { id: 'a3', name: 'ششار', type: 'شبه حضارية' },
-  { id: 'a4', name: 'عين الطويلة', type: 'شبه حضارية' },
-  { id: 'a5', name: 'بوحمامة', type: 'شبه حضارية' },
-  { id: 'a6', name: 'بابار', type: 'شبه حضارية' },
-  { id: 'a7', name: 'قايس', type: 'شبه حضارية' },
-  { id: 'a8', name: 'يابوس', type: 'ريفية' },
-  { id: 'a9', name: 'المصارة', type: 'ريفية' },
-]
+// Firebase collection: libraryAnnexes
+const defaultAnnexes: LibraryAnnex[] = []
 
-const defaultWorkshops: CultureHouseWorkshop[] = [
-  { id: 'w1', name: 'ورشة المسرح', iconName: 'Theater' },
-  { id: 'w2', name: 'ورشة الفنون التشكيلية', iconName: 'Paintbrush' },
-  { id: 'w3', name: 'النادي الأدبي', iconName: 'BookText' },
-  { id: 'w4', name: 'ورشة السمعي البصري', iconName: 'Video' },
-  { id: 'w5', name: 'ورشة الموسيقى', iconName: 'Music' },
-  { id: 'w6', name: 'ورشة التراث الشعبي', iconName: 'Landmark' },
-]
+// Firebase collection: workshops
+const defaultWorkshops: CultureHouseWorkshop[] = []
 
-const defaultFacilities: CultureHouseFacility[] = [
-  { id: 'f1', name: 'مدرسة تعليم الموسيقى', iconName: 'GraduationCap' },
-  { id: 'f2', name: 'مكتبة الصغار', iconName: 'BookOpen' },
-  { id: 'f3', name: 'مكتبة الكبار', iconName: 'BookText' },
-  { id: 'f4', name: 'القاعة متعددة النشاطات', iconName: 'Users' },
-  { id: 'f5', name: 'الرواق التشكيلي', subtitle: '(حكار لزهر)', iconName: 'Palette' },
-  { id: 'f6', name: 'المقهى الثقافي', iconName: 'Coffee' },
-]
+// Firebase collection: facilities
+const defaultFacilities: CultureHouseFacility[] = []
 
-const defaultKhenchelaSections: KhenchelaSection[] = [
-  {
-    id: 'ks1',
-    title: 'الجذور التاريخية',
-    subtitle: 'ماسكولا القديمة وملحمة الكاهنة',
-    paragraphs: [
-      'تعود جذور خنشلة إلى مدينة "ماسكولا" (Mascula) الرومانية التي كانت من أبرز المراكز الحضرية في شمال إفريقيا القديمة. شهدت المدينة تعاقب حضارات عريقة من النوميديين والرومان والبيزنطيين، تاركةً إرثاً أثرياً غنياً لا يزال شاهداً على عظمة تلك الحقب.',
-      'ارتبط اسم خنشلة ارتباطاً وثيقاً بالملكة الأمازيغية ديهيا (الكاهنة)، تلك المرأة الاستثنائية التي قادت المقاومة ضد الفتح الأموي في أواخر القرن السابع الميلادي. تُعدّ الكاهنة رمزاً للصمود والبطولة في ذاكرة الأوراس والجزائر بأسرها، وتُخلّد ذكراها في المعالم والتماثيل المنتشرة في ربوع الولاية.',
-    ],
-  },
-  {
-    id: 'ks2',
-    title: 'الهوية الثقافية',
-    subtitle: 'تراث الأوراس الأمازيغي الشاوي',
-    paragraphs: [
-      'تنبض خنشلة بروح الثقافة الأمازيغية الشاوية الأصيلة، حيث يحافظ سكانها على تقاليدهم العريقة في اللغة والفنون والعادات الاجتماعية. تُعدّ منطقة الأوراس حاضنة لهذا التراث الغني الذي يمتد لآلاف السنين.',
-      'يتميز الفن الموسيقي الخنشلي بأنماط فريدة أبرزها موسيقى "العبادي" (Obadi) و"الرحابة" (Rahaba)، وهي أشكال تعبيرية أصيلة تمزج بين الشعر الشاوي والإيقاعات التقليدية في مناسبات الأفراح والاحتفالات الجماعية. كما تشتهر المنطقة بالصناعات الحرفية التقليدية من نسيج الزرابي (السجاد الأوراسي) وصناعة الفخار والحلي الفضية التي تعكس ذوقاً فنياً رفيعاً.',
-    ],
-  },
-  {
-    id: 'ks3',
-    title: 'المعالم الطبيعية والثقافية',
-    subtitle: 'قمة الشلية وحمّام الصالحين',
-    paragraphs: [
-      'تحتضن ولاية خنشلة جبل الشلية (Chelia) الذي يُعدّ أعلى قمة في شمال الجزائر بارتفاع يبلغ 2,328 متراً. يُشكّل هذا الجبل الشامخ جزءاً من سلسلة جبال الأوراس، ويتميز بغطائه الغابي الكثيف من أشجار الأرز الأطلسي النادرة وتساقط الثلوج الكثيفة شتاءً، مما يجعله وجهة سياحية فريدة.',
-      'من أبرز معالم الولاية أيضاً حمّام الصالحين (Hammam Essalihine)، وهو حمّام روماني حراري يعود تاريخه إلى العهد الروماني. تتدفق مياهه المعدنية الساخنة عند درجة حرارة تصل إلى 70 درجة مئوية، وقد ظل مقصداً للاستشفاء منذ أكثر من ألفي عام. يُصنّف هذا الموقع ضمن المعالم الأثرية المحمية في الجزائر.',
-    ],
-  },
-]
+// Firebase collection: khenchelaSections
+const defaultKhenchelaSections: KhenchelaSection[] = []
 
 function docToDepartment(doc: FirestoreDoc): Department {
   const displayId = doc._seedId || doc.id

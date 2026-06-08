@@ -63,6 +63,7 @@ function docToStatistic(doc: FirestoreDoc): Statistic {
 }
 
 export async function getAssociations(): Promise<Association[]> {
+  // Firebase collection: associations
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('associations', 'name')
@@ -71,10 +72,11 @@ export async function getAssociations(): Promise<Association[]> {
   } catch (e) {
     console.error('Failed to fetch associations from Firestore:', e)
   }
-  return associationsData
+  return []
 }
 
 export async function getStatistics(): Promise<Statistic[]> {
+  // Firebase collection: directorateStats
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('directorateStats', 'activity')
@@ -83,5 +85,5 @@ export async function getStatistics(): Promise<Statistic[]> {
   } catch (e) {
     console.error('Failed to fetch statistics from Firestore:', e)
   }
-  return statisticsData
+  return []
 }

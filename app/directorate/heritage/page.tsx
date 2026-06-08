@@ -446,15 +446,34 @@ export default function HeritagePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {nationalMonuments.map((m) => (
-                    <NationalMonumentCard
-                      key={m.id}
-                      monument={m}
-                      onClick={() => openNationalModal(m)}
-                    />
-                  ))}
-                </div>
+                {nationalMonuments.length === 0 ? (
+                  <div
+                    className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      border: '1.5px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                      style={{ backgroundColor: `${COPPER}15`, border: `1px solid ${COPPER}25` }}
+                    >
+                      <MapPin size={24} style={{ color: COPPER }} />
+                    </div>
+                    <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
+                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض المعالم المصنفة هنا بعد إضافتها من لوحة الإدارة</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {nationalMonuments.map((m) => (
+                      <NationalMonumentCard
+                        key={m.id}
+                        monument={m}
+                        onClick={() => openNationalModal(m)}
+                      />
+                    ))}
+                  </div>
+                )}
               </section>
 
               <section className="mb-16">
@@ -471,15 +490,34 @@ export default function HeritagePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                  {inventoryMonuments.map((m) => (
-                    <InventoryCard
-                      key={m.id}
-                      monument={m}
-                      onClick={() => openInventoryModal(m)}
-                    />
-                  ))}
-                </div>
+                {inventoryMonuments.length === 0 ? (
+                  <div
+                    className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      border: '1.5px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                      style={{ backgroundColor: 'rgba(34,211,238,0.12)', border: '1px solid rgba(34,211,238,0.25)' }}
+                    >
+                      <Calendar size={24} style={{ color: '#22D3EE' }} />
+                    </div>
+                    <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
+                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الجرد الإضافي هنا بعد إضافته من لوحة الإدارة</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    {inventoryMonuments.map((m) => (
+                      <InventoryCard
+                        key={m.id}
+                        monument={m}
+                        onClick={() => openInventoryModal(m)}
+                      />
+                    ))}
+                  </div>
+                )}
               </section>
 
               <section>
@@ -496,20 +534,39 @@ export default function HeritagePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[200px] sm:auto-rows-[220px]">
-                  {intangibleHeritage.map((item, index) => {
-                    const span = MASONRY_SPANS[index % MASONRY_SPANS.length]
-                    const spanClass = span === 2 ? 'row-span-2' : ''
-                    return (
-                      <GalleryImage
-                        key={item.id}
-                        item={item}
-                        spanClass={spanClass}
-                        onClick={() => setLightboxImage({ image: item.image, alt: item.alt })}
-                      />
-                    )
-                  })}
-                </div>
+                {intangibleHeritage.length === 0 ? (
+                  <div
+                    className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      border: '1.5px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                      style={{ backgroundColor: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)' }}
+                    >
+                      <ImageIcon size={24} style={{ color: '#FBBF24' }} />
+                    </div>
+                    <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
+                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض معرض التراث اللامادي هنا بعد إضافته من لوحة الإدارة</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[200px] sm:auto-rows-[220px]">
+                    {intangibleHeritage.map((item, index) => {
+                      const span = MASONRY_SPANS[index % MASONRY_SPANS.length]
+                      const spanClass = span === 2 ? 'row-span-2' : ''
+                      return (
+                        <GalleryImage
+                          key={item.id}
+                          item={item}
+                          spanClass={spanClass}
+                          onClick={() => setLightboxImage({ image: item.image, alt: item.alt })}
+                        />
+                      )
+                    })}
+                  </div>
+                )}
               </section>
             </>
           )}

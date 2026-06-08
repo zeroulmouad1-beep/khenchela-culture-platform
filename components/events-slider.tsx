@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, CalendarX } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
 import { fetchCollection, isMockMode } from '@/lib/firestore-helpers'
 
@@ -19,43 +19,14 @@ interface EventItem {
   href?: string
 }
 
-const defaultEvents: EventItem[] = [
-  {
-    id: '1',
-    title: 'مهرجان الفنون الخنشلي',
-    date: 'مايو 2024',
-    image: '/images/cultural-festival.jpg',
-    category: 'المهرجانات الثقافية',
-  },
-  {
-    id: '2',
-    title: 'معرض الآثار التاريخية',
-    date: 'يونيو 2024',
-    image: '/images/archaeological-exhibition.jpg',
-    category: 'معرض',
-  },
-  {
-    id: '3',
-    title: 'حفل الموسيقى الكلاسيكية',
-    date: 'يوليو 2024',
-    image: '/images/music-concert.jpg',
-    category: 'حفل',
-  },
-  {
-    id: '4',
-    title: 'ورشة الفنون التشكيلية',
-    date: 'أغسطس 2024',
-    image: '/images/art-workshop.jpg',
-    category: 'ورشة',
-  },
-]
-
 export function EventsSlider() {
   const containerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [events, setEvents] = useState<EventItem[]>(defaultEvents)
+  // Firebase collection: events
+  const [events, setEvents] = useState<EventItem[]>([])
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     async function loadEvents() {
@@ -67,13 +38,15 @@ export function EventsSlider() {
             id: d.id as string,
             title: (d.title as string) || '',
             date: (d.date as string) || '',
-            image: (d.imageUrl as string) || (d.image as string) || '/images/cultural-festival.jpg',
+            image: (d.imageUrl as string) || (d.image as string) || '',
             category: (d.category as string) || (d.type as string) || 'فعالية',
             href: `/events/${d.id as string}`,
           })))
         }
       } catch (err) {
         console.error('Failed to load events from Firestore:', err)
+      } finally {
+        setLoaded(true)
       }
     }
     loadEvents()
@@ -191,9 +164,22 @@ export function EventsSlider() {
           </div>
         </div>
 
+        {loaded && events.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+              style={{ backgroundColor: `${COPPER}15`, border: `1px solid ${COPPER}25` }}
+            >
+              <CalendarX size={28} style={{ color: COPPER }} />
+            </div>
+            <p className="text-white font-semibold mb-2">لا توجد فعاليات متاحة حالياً</p>
+            <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الفعاليات هنا بعد إضافتها من لوحة الإدارة</p>
+          </div>
+        )}
+
         <div
           ref={containerRef}
-          className="overflow-x-auto flex gap-6 pb-4 scrollbar-hide scroll-smooth"
+          className={`overflow-x-auto flex gap-6 pb-4 scrollbar-hide scroll-smooth ${loaded && events.length === 0 ? 'hidden' : ''}`}
         >
           {events.map((event, index) => {
             const cardClassName = `flex-shrink-0 w-96 group transition-all duration-700 block ${

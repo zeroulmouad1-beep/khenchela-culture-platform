@@ -131,6 +131,7 @@ function docToIntangibleHeritage(doc: FirestoreDoc): IntangibleHeritageItem {
 }
 
 export async function getNationalMonuments(): Promise<NationalMonument[]> {
+  // Firebase collection: nationalMonuments
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('nationalMonuments', 'title')
@@ -139,10 +140,11 @@ export async function getNationalMonuments(): Promise<NationalMonument[]> {
   } catch (e) {
     console.error('Failed to fetch national monuments from Firestore:', e)
   }
-  return nationalMonumentsData
+  return []
 }
 
 export async function getInventoryMonuments(): Promise<InventoryMonument[]> {
+  // Firebase collection: inventoryMonuments
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('inventoryMonuments', 'title')
@@ -151,10 +153,11 @@ export async function getInventoryMonuments(): Promise<InventoryMonument[]> {
   } catch (e) {
     console.error('Failed to fetch inventory monuments from Firestore:', e)
   }
-  return inventoryMonumentsData
+  return []
 }
 
 export async function getIntangibleHeritage(): Promise<IntangibleHeritageItem[]> {
+  // Firebase collection: intangibleHeritage
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('intangibleHeritage', 'alt')
@@ -163,5 +166,5 @@ export async function getIntangibleHeritage(): Promise<IntangibleHeritageItem[]>
   } catch (e) {
     console.error('Failed to fetch intangible heritage from Firestore:', e)
   }
-  return intangibleHeritageData
+  return []
 }

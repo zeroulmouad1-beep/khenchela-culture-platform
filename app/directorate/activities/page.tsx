@@ -18,6 +18,21 @@ function getProgressColor(progress: number) {
 }
 
 function AssociationsTable({ data }: { data: Association[] }) {
+  if (data.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div
+          className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+          style={{ backgroundColor: `${COPPER}15`, border: `1px solid ${COPPER}25` }}
+        >
+          <BookOpen size={28} style={{ color: COPPER }} />
+        </div>
+        <p className="text-white font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
+        <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض سجل الجمعيات هنا بعد إضافته من لوحة الإدارة</p>
+      </div>
+    )
+  }
+
   return (
     <div className="overflow-x-auto rounded-2xl" style={{ WebkitOverflowScrolling: 'touch' }}>
       <table className="w-full min-w-[700px] text-right" dir="rtl">
@@ -294,11 +309,30 @@ export default function ActivitiesPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {statistics.map((stat) => (
-                    <StatCard key={stat.id} stat={stat} />
-                  ))}
-                </div>
+                {statistics.length === 0 ? (
+                  <div
+                    className="rounded-2xl flex flex-col items-center justify-center py-16 text-center"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      border: '1.5px solid rgba(255,255,255,0.10)',
+                    }}
+                  >
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                      style={{ backgroundColor: 'rgba(34,211,238,0.12)', border: '1px solid rgba(34,211,238,0.25)' }}
+                    >
+                      <BarChart3 size={28} style={{ color: '#22D3EE' }} />
+                    </div>
+                    <p className="text-white font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
+                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الإحصائيات هنا بعد إضافتها من لوحة الإدارة</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {statistics.map((stat) => (
+                      <StatCard key={stat.id} stat={stat} />
+                    ))}
+                  </div>
+                )}
               </section>
             </>
           )}

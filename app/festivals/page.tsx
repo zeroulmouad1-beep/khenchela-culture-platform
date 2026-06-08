@@ -1,42 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Home, Star, Music, BookOpen, Palette } from 'lucide-react'
+import { ArrowRight, Home, CalendarX } from 'lucide-react'
 
 const COPPER = '#B87333'
 const INDIGO_DEEP = '#0F172A'
 const INDIGO_DARKER = '#0B1120'
 
-const festivals = [
-  {
-    id: 'child-welfare',
-    title: 'المهرجان الثقافي الوطني لمصلحة الطفل',
-    subtitle: 'مهرجان وطني',
-    icon: Star,
-    accentColor: '#D4A04A',
-  },
-  {
-    id: 'shawia-music',
-    title: 'المهرجان الثقافي الوطني للموسيقى والأغنية الشاوية',
-    subtitle: 'مهرجان وطني',
-    icon: Music,
-    accentColor: '#2DD4BF',
-  },
-  {
-    id: 'reading',
-    title: 'المهرجان الثقافي المحلي للقراءة',
-    subtitle: 'مهرجان محلي',
-    icon: BookOpen,
-    accentColor: '#F59E0B',
-  },
-  {
-    id: 'folk-arts',
-    title: 'المهرجان الثقافي المحلي للنشاطات والفنون الشعبية',
-    subtitle: 'مهرجان محلي',
-    icon: Palette,
-    accentColor: '#A78BFA',
-  },
-]
+// Firebase collection: festivals
+const festivals: { id: string; title: string; subtitle: string; accentColor: string }[] = []
 
 export default function FestivalsPage() {
   return (
@@ -155,63 +127,25 @@ export default function FestivalsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {festivals.map((festival) => {
-              const FestivalIcon = festival.icon
-              const accent = festival.accentColor
-              return (
-                <a
-                  key={festival.id}
-                  href="#"
-                  className="group rounded-2xl p-6 md:p-8 transition-all duration-500 block cursor-pointer"
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.04)',
-                    border: `1.5px solid rgba(255,255,255,0.10)`,
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
-                    transform: 'scale(1)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = accent
-                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
-                    e.currentTarget.style.boxShadow = `0 0 30px -5px ${accent}40, 0 20px 50px -15px ${accent}25, inset 0 1px 0 rgba(255,255,255,0.1)`
-                    e.currentTarget.style.transform = 'scale(1.04)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'
-                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
-                    e.currentTarget.style.boxShadow = 'none'
-                    e.currentTarget.style.transform = 'scale(1)'
-                  }}
-                >
-                  <div className="flex items-start gap-4 md:gap-6">
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
-                      style={{
-                        backgroundColor: `${accent}18`,
-                        border: `1px solid ${accent}30`,
-                      }}
-                    >
-                      <FestivalIcon
-                        size={26}
-                        style={{ color: accent }}
-                        className="transition-colors duration-300"
-                      />
-                    </div>
-                    <div className="text-right">
-                      <h2
-                        className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight transition-colors duration-300"
-                      >
-                        {festival.title}
-                      </h2>
-                      <p className="text-xs font-medium" style={{ color: accent, opacity: 0.85 }}>
-                        {festival.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              )
-            })}
+          <div
+            className="rounded-2xl flex flex-col items-center justify-center py-20 text-center"
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.04)',
+              border: '1.5px solid rgba(255,255,255,0.10)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}
+          >
+            <div
+              className="w-20 h-20 rounded-2xl flex items-center justify-center mb-5"
+              style={{ backgroundColor: `${COPPER}15`, border: `1px solid ${COPPER}25` }}
+            >
+              <CalendarX size={36} style={{ color: COPPER }} />
+            </div>
+            <p className="text-white text-lg font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
+            <p className="text-sm max-w-sm" style={{ color: '#64748B' }}>
+              سيتم عرض المهرجانات الثقافية هنا بعد إضافتها من لوحة الإدارة
+            </p>
           </div>
         </div>
       </main>

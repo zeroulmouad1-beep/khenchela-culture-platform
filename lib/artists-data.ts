@@ -38,6 +38,7 @@ function docToArtist(doc: FirestoreDoc): Artist {
 }
 
 export async function getArtists(): Promise<Artist[]> {
+  // Firebase collection: artists
   try {
     if (!isMockMode) {
       const docs = await fetchCollection('artists', 'name')
@@ -46,5 +47,5 @@ export async function getArtists(): Promise<Artist[]> {
   } catch (e) {
     console.error('Failed to fetch artists from Firestore:', e)
   }
-  return artistsData
+  return []
 }
