@@ -346,7 +346,7 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
           className="fixed inset-0 z-[100] flex items-center justify-center px-4"
           onClick={() => setShowContact(false)}
         >
-          <div className="absolute inset-0 bg-black/65 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black" />
           <div
             dir="rtl"
             className="km-modal relative w-full max-w-md p-8 shadow-2xl"

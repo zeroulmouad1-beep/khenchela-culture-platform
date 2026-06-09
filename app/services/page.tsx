@@ -190,7 +190,7 @@ export default function ServicesPortal() {
                   key={category.id}
                   className="rounded-2xl overflow-hidden transition-all duration-500"
                   style={{
-                    backgroundColor: isExpanded ? '#1e1610' : 'rgba(255,255,255,0.03)',
+                    backgroundColor: isExpanded ? '#1e1610' : '#1a0f0a',
                     border: `2px solid ${isExpanded ? COPPER : 'rgba(255,255,255,0.08)'}`,
                     boxShadow: isExpanded ? `0 20px 50px -10px ${COPPER}20` : 'none',
                   }}
@@ -239,7 +239,7 @@ export default function ServicesPortal() {
                             key={idx}
                             className="group rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02]"
                             style={{
-                              backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                              backgroundColor: '#0f1726',
                               border: `1px solid ${COPPER}30`,
                             }}
                           >
@@ -260,7 +260,7 @@ export default function ServicesPortal() {
                               
                               {/* Icon Badge */}
                               <div
-                                className="absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center backdrop-blur-sm transition-transform duration-300 group-hover:scale-110"
+                                className="absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                                 style={{
                                   backgroundColor: `${COPPER}90`,
                                   boxShadow: `0 4px 20px ${COPPER}50`,

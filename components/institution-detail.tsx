@@ -287,8 +287,7 @@ export function InstitutionDetail({ institutionId }: InstitutionDetailProps) {
                         key={annex.id}
                         className="rounded-xl p-4 border transition-all duration-300 hover:scale-[1.02]"
                         style={{
-                          backgroundColor: 'rgba(30,41,59,0.6)',
-                          backdropFilter: 'blur(12px)',
+                          backgroundColor: '#1e293b',
                           borderColor: annex.type === 'ريفية' ? 'rgba(34,197,94,0.25)' : 'rgba(59,130,246,0.25)',
                         }}
                       >
@@ -349,8 +348,7 @@ export function InstitutionDetail({ institutionId }: InstitutionDetailProps) {
                           key={workshop.id}
                           className="rounded-xl p-4 border transition-all duration-300 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: 'rgba(30,41,59,0.6)',
-                            backdropFilter: 'blur(12px)',
+                            backgroundColor: '#1e293b',
                             borderColor: `${COPPER}25`,
                           }}
                         >
@@ -395,8 +393,7 @@ export function InstitutionDetail({ institutionId }: InstitutionDetailProps) {
                           key={facility.id}
                           className="rounded-xl p-4 border transition-all duration-300 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: 'rgba(30,41,59,0.6)',
-                            backdropFilter: 'blur(12px)',
+                            backgroundColor: '#1e293b',
                             borderColor: `${COPPER}25`,
                           }}
                         >

@@ -32,21 +32,19 @@ function DetailModal({ content, onClose }: { content: ModalContent; onClose: () 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-[fadeIn_200ms_ease-out]"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/80" />
       <div
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl animate-[scaleIn_300ms_ease-out]"
         style={{
-          backgroundColor: 'rgba(26,15,10,0.95)',
+          backgroundColor: '#1a0f0a',
           border: `1.5px solid ${COPPER}40`,
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           className="absolute top-4 left-4 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200"
-          style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
+          style={{ backgroundColor: '#2a1f1a', border: '1px solid rgba(255,255,255,0.2)' }}
         >
           <X size={18} className="text-white" />
         </button>
@@ -107,7 +105,7 @@ function LightboxModal({ image, alt, onClose }: { image: string; alt: string; on
       <button
         onClick={onClose}
         className="absolute top-6 left-6 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200"
-        style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)' }}
+        style={{ backgroundColor: '#2a1f1a', border: '1px solid rgba(255,255,255,0.3)' }}
       >
         <X size={18} className="text-white" />
       </button>
@@ -450,7 +448,7 @@ export default function HeritagePage() {
                   <div
                     className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      backgroundColor: '#1a0f0a',
                       border: '1.5px solid rgba(255,255,255,0.08)',
                     }}
                   >
@@ -494,7 +492,7 @@ export default function HeritagePage() {
                   <div
                     className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      backgroundColor: '#1a0f0a',
                       border: '1.5px solid rgba(255,255,255,0.08)',
                     }}
                   >
@@ -538,7 +536,7 @@ export default function HeritagePage() {
                   <div
                     className="rounded-2xl flex flex-col items-center justify-center py-14 text-center"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      backgroundColor: '#1a0f0a',
                       border: '1.5px solid rgba(255,255,255,0.08)',
                     }}
                   >

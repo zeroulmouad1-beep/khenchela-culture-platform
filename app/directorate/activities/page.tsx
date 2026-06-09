@@ -61,13 +61,13 @@ function AssociationsTable({ data }: { data: Association[] }) {
               className="transition-colors duration-200"
               style={{
                 borderBottom: '1px solid rgba(255,255,255,0.06)',
-                backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                backgroundColor: index % 2 === 0 ? '#1c120c' : '#1a0f0a',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(201,149,42,0.08)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'
+                e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#1c120c' : '#1a0f0a'
               }}
             >
               <td className="px-5 py-4 text-sm text-gray-400 font-mono">{assoc.id}</td>
@@ -89,18 +89,16 @@ function StatCard({ stat }: { stat: Statistic }) {
     <div
       className="rounded-2xl p-5 transition-all duration-300"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.04)',
+        backgroundColor: '#1e1610',
         border: `1.5px solid ${colors.border}`,
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.07)'
+        e.currentTarget.style.backgroundColor = '#261a12'
         e.currentTarget.style.boxShadow = `0 0 25px -5px ${colors.bar}30`
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+        e.currentTarget.style.backgroundColor = '#1e1610'
         e.currentTarget.style.boxShadow = 'none'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
@@ -116,7 +114,7 @@ function StatCard({ stat }: { stat: Statistic }) {
 
       <div
         className="w-full h-2 rounded-full mb-3 overflow-hidden"
-        style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+        style={{ backgroundColor: '#2a1f1a' }}
       >
         <div
           className="h-full rounded-full transition-all duration-700"
@@ -285,10 +283,8 @@ export default function ActivitiesPage() {
                 <div
                   className="rounded-2xl overflow-hidden"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: '#1e1610',
                     border: '1.5px solid rgba(255,255,255,0.10)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
                   }}
                 >
                   <AssociationsTable data={associations} />
@@ -313,7 +309,7 @@ export default function ActivitiesPage() {
                   <div
                     className="rounded-2xl flex flex-col items-center justify-center py-16 text-center"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      backgroundColor: '#1e1610',
                       border: '1.5px solid rgba(255,255,255,0.10)',
                     }}
                   >

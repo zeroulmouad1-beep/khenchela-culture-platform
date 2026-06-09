@@ -35,8 +35,7 @@ export default function AboutKhenchelaPage() {
             href="/?enter=true"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              backgroundColor: 'rgba(30,22,16,0.7)',
-              backdropFilter: 'blur(12px)',
+              backgroundColor: '#1e1610',
               border: '1px solid rgba(201,149,42,0.3)',
               color: COPPER_LIGHT,
               fontFamily: 'Tajawal, sans-serif',
@@ -49,8 +48,7 @@ export default function AboutKhenchelaPage() {
             href="/"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              backgroundColor: 'rgba(30,22,16,0.7)',
-              backdropFilter: 'blur(12px)',
+              backgroundColor: '#1e1610',
               border: '1px solid rgba(201,149,42,0.3)',
               color: COPPER_LIGHT,
               fontFamily: 'Tajawal, sans-serif',
@@ -98,8 +96,7 @@ export default function AboutKhenchelaPage() {
                 key={section.title}
                 className="rounded-2xl p-6 sm:p-8 border"
                 style={{
-                  backgroundColor: 'rgba(30,22,16,0.7)',
-                  backdropFilter: 'blur(16px)',
+                  backgroundColor: '#1e1610',
                   borderColor: `${COPPER}25`,
                   animation: `fadeInUp 0.6s ease-out ${0.2 + index * 0.15}s forwards`,
                   opacity: 0,
@@ -152,8 +149,7 @@ export default function AboutKhenchelaPage() {
                 key={item.label}
                 className="rounded-xl p-5 border text-center transition-all duration-300 hover:scale-[1.02]"
                 style={{
-                  backgroundColor: 'rgba(30,22,16,0.6)',
-                  backdropFilter: 'blur(12px)',
+                  backgroundColor: '#1e1610',
                   borderColor: `${COPPER}25`,
                 }}
               >

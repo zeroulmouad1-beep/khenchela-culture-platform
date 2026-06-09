@@ -130,10 +130,8 @@ export default function FestivalsPage() {
           <div
             className="rounded-2xl flex flex-col items-center justify-center py-20 text-center"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: '#1e1610',
               border: '1.5px solid rgba(255,255,255,0.10)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
             }}
           >
             <div

@@ -77,13 +77,13 @@ function ArtistsTable({ data }: { data: Artist[] }) {
               className="transition-colors duration-200"
               style={{
                 borderBottom: '1px solid rgba(255,255,255,0.06)',
-                backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                backgroundColor: index % 2 === 0 ? '#1c120c' : '#1a0f0a',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(201,149,42,0.08)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'
+                e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#1c120c' : '#1a0f0a'
               }}
             >
               <td className="px-5 py-4 text-sm text-gray-400 font-mono">{artist.id}</td>
@@ -221,7 +221,7 @@ export default function ArtsPage() {
             <div
               className="flex items-center gap-2 px-4 py-2 rounded-xl"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                backgroundColor: '#1e1610',
                 border: '1px solid rgba(255,255,255,0.10)',
               }}
             >
@@ -235,10 +235,8 @@ export default function ArtsPage() {
           <div
             className="rounded-2xl overflow-hidden"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: '#1e1610',
               border: '1.5px solid rgba(255,255,255,0.10)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
             }}
           >
             {loading ? (
