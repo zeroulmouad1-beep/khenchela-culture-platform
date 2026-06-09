@@ -239,24 +239,24 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
         >
           <defs>
             <linearGradient id="kmMountFar" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#192030" />
-              <stop offset="100%" stopColor="#0e1828" />
+              <stop offset="0%" stopColor="#1e1208" />
+              <stop offset="100%" stopColor="#140e06" />
             </linearGradient>
             <linearGradient id="kmMountMid" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#101620" />
-              <stop offset="100%" stopColor="#0b0f18" />
+              <stop offset="0%" stopColor="#160f06" />
+              <stop offset="100%" stopColor="#100c04" />
             </linearGradient>
             <linearGradient id="kmGround" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0d1218" />
-              <stop offset="100%" stopColor="#0b0f18" />
+              <stop offset="0%" stopColor="#140e06" />
+              <stop offset="100%" stopColor="#100c04" />
             </linearGradient>
             <radialGradient id="kmMoonHalo" cx="71%" cy="0%" r="30%">
-              <stop offset="0%" stopColor="rgba(200,169,110,0.07)" />
+              <stop offset="0%" stopColor="rgba(201,149,42,0.08)" />
               <stop offset="100%" stopColor="transparent" />
             </radialGradient>
             <linearGradient id="kmFogBottom" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="transparent" />
-              <stop offset="100%" stopColor="#0b0f18" stopOpacity="0.95"/>
+              <stop offset="100%" stopColor="#1a0f0a" stopOpacity="0.95"/>
             </linearGradient>
           </defs>
 
@@ -290,34 +290,34 @@ export function ImmersiveHero({ onEnter }: { onEnter: () => void }) {
 
           {/* Roman arch LEFT — Mascula ruins */}
           <g opacity="0.55">
-            <rect x="155" y="122" width="6" height="28" fill="#0d1929" />
-            <rect x="193" y="122" width="6" height="28" fill="#0d1929" />
-            <path d="M155,124 Q177,102 199,124" stroke="#0d1929" strokeWidth="6" fill="none" />
-            <rect x="150" y="119" width="54" height="5" rx="1" fill="#0d1929" />
-            <rect x="150" y="117" width="14" height="3" fill="#0d1929" />
-            <rect x="190" y="117" width="14" height="3" fill="#0d1929" />
+            <rect x="155" y="122" width="6" height="28" fill="#1a0e06" />
+            <rect x="193" y="122" width="6" height="28" fill="#1a0e06" />
+            <path d="M155,124 Q177,102 199,124" stroke="#1a0e06" strokeWidth="6" fill="none" />
+            <rect x="150" y="119" width="54" height="5" rx="1" fill="#1a0e06" />
+            <rect x="150" y="117" width="14" height="3" fill="#1a0e06" />
+            <rect x="190" y="117" width="14" height="3" fill="#1a0e06" />
           </g>
 
           {/* Lone column — far left */}
           <g opacity="0.38">
-            <rect x="64" y="128" width="5" height="22" fill="#111e2c" />
-            <rect x="60" y="126" width="13" height="3" rx="1" fill="#111e2c" />
+            <rect x="64" y="128" width="5" height="22" fill="#1e1208" />
+            <rect x="60" y="126" width="13" height="3" rx="1" fill="#1e1208" />
           </g>
 
           {/* Roman arch RIGHT */}
           <g opacity="0.5">
-            <rect x="1250" y="120" width="6" height="30" fill="#0d1929" />
-            <rect x="1287" y="120" width="6" height="30" fill="#0d1929" />
-            <path d="M1250,122 Q1272,100 1293,122" stroke="#0d1929" strokeWidth="6" fill="none" />
-            <rect x="1245" y="117" width="53" height="5" rx="1" fill="#0d1929" />
-            <rect x="1245" y="115" width="14" height="3" fill="#0d1929" />
-            <rect x="1285" y="115" width="14" height="3" fill="#0d1929" />
+            <rect x="1250" y="120" width="6" height="30" fill="#1a0e06" />
+            <rect x="1287" y="120" width="6" height="30" fill="#1a0e06" />
+            <path d="M1250,122 Q1272,100 1293,122" stroke="#1a0e06" strokeWidth="6" fill="none" />
+            <rect x="1245" y="117" width="53" height="5" rx="1" fill="#1a0e06" />
+            <rect x="1245" y="115" width="14" height="3" fill="#1a0e06" />
+            <rect x="1285" y="115" width="14" height="3" fill="#1a0e06" />
           </g>
 
           {/* Lone column far right */}
           <g opacity="0.35">
-            <rect x="1380" y="129" width="5" height="21" fill="#111e2c" />
-            <rect x="1376" y="127" width="13" height="3" rx="1" fill="#111e2c" />
+            <rect x="1380" y="129" width="5" height="21" fill="#1e1208" />
+            <rect x="1376" y="127" width="13" height="3" rx="1" fill="#1e1208" />
           </g>
 
           {/* Foreground ground */}
