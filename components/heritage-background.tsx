@@ -1,7 +1,9 @@
 export function HeritageBackground() {
   return (
     <>
-      {/* ── Layer 1: Zarbiya pattern + ambient glow (behind all content) ── */}
+      {/* ── Layer 1: Zarbiya frame + ambient glow (fixed, behind all content) ──
+          Zarbiya shows ONLY at the 4 edges via a radial-gradient mask that keeps
+          the center fully transparent and reveals the tile pattern toward edges. */}
       <div
         aria-hidden="true"
         style={{
@@ -12,41 +14,48 @@ export function HeritageBackground() {
           overflow: 'hidden',
         }}
       >
-        {/* Zarbiya drifting carpet pattern */}
+        {/* Zarbiya border frame — masked so only edges/corners show, center is clear */}
         <div style={{
           position: 'absolute',
-          inset: '-15%',
-          width: '130%',
-          height: '130%',
-          opacity: 0.04,
-          willChange: 'transform',
-          animation: 'hbgZarbiyaDrift 50s linear infinite',
+          inset: 0,
+          maskImage: 'radial-gradient(ellipse 62% 62% at 50% 50%, transparent 48%, black 78%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 62% 62% at 50% 50%, transparent 48%, black 78%)',
         }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <defs>
-              <pattern id="hbgZarbiyaTile" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
-                <polygon points="32,2 62,32 32,62 2,32"   fill="none" stroke="#c9952a" strokeWidth="1.6" />
-                <polygon points="32,14 50,32 32,50 14,32" fill="none" stroke="#c9952a" strokeWidth="1.0" />
-                <polygon points="32,22 42,32 32,42 22,32" fill="none" stroke="#e0b060" strokeWidth="0.7" />
-                <line x1="32" y1="2"  x2="32" y2="9"  stroke="#c9952a" strokeWidth="1.2" />
-                <line x1="32" y1="55" x2="32" y2="62" stroke="#c9952a" strokeWidth="1.2" />
-                <line x1="2"  y1="32" x2="9"  y2="32" stroke="#c9952a" strokeWidth="1.2" />
-                <line x1="55" y1="32" x2="62" y2="32" stroke="#c9952a" strokeWidth="1.2" />
-                <circle cx="32" cy="2"  r="2" fill="#c9952a" />
-                <circle cx="62" cy="32" r="2" fill="#c9952a" />
-                <circle cx="32" cy="62" r="2" fill="#c9952a" />
-                <circle cx="2"  cy="32" r="2" fill="#c9952a" />
-                <polyline points="2,32 11,23 20,32 11,41 2,32"   fill="none" stroke="#e0b060" strokeWidth="0.7" />
-                <polyline points="62,32 53,23 44,32 53,41 62,32" fill="none" stroke="#e0b060" strokeWidth="0.7" />
-                <polyline points="32,2 23,11 32,20 41,11 32,2"   fill="none" stroke="#e0b060" strokeWidth="0.7" />
-                <polyline points="32,62 23,53 32,44 41,53 32,62" fill="none" stroke="#e0b060" strokeWidth="0.7" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#hbgZarbiyaTile)" />
-          </svg>
+          <div style={{
+            position: 'absolute',
+            inset: '-15%',
+            width: '130%',
+            height: '130%',
+            opacity: 0.14,
+            willChange: 'transform',
+            animation: 'hbgZarbiyaDrift 50s linear infinite',
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+              <defs>
+                <pattern id="hbgZarbiyaTile" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
+                  <polygon points="32,2 62,32 32,62 2,32"   fill="none" stroke="#c9952a" strokeWidth="1.6" />
+                  <polygon points="32,14 50,32 32,50 14,32" fill="none" stroke="#c9952a" strokeWidth="1.0" />
+                  <polygon points="32,22 42,32 32,42 22,32" fill="none" stroke="#e0b060" strokeWidth="0.7" />
+                  <line x1="32" y1="2"  x2="32" y2="9"  stroke="#c9952a" strokeWidth="1.2" />
+                  <line x1="32" y1="55" x2="32" y2="62" stroke="#c9952a" strokeWidth="1.2" />
+                  <line x1="2"  y1="32" x2="9"  y2="32" stroke="#c9952a" strokeWidth="1.2" />
+                  <line x1="55" y1="32" x2="62" y2="32" stroke="#c9952a" strokeWidth="1.2" />
+                  <circle cx="32" cy="2"  r="2" fill="#c9952a" />
+                  <circle cx="62" cy="32" r="2" fill="#c9952a" />
+                  <circle cx="32" cy="62" r="2" fill="#c9952a" />
+                  <circle cx="2"  cy="32" r="2" fill="#c9952a" />
+                  <polyline points="2,32 11,23 20,32 11,41 2,32"   fill="none" stroke="#e0b060" strokeWidth="0.7" />
+                  <polyline points="62,32 53,23 44,32 53,41 62,32" fill="none" stroke="#e0b060" strokeWidth="0.7" />
+                  <polyline points="32,2 23,11 32,20 41,11 32,2"   fill="none" stroke="#e0b060" strokeWidth="0.7" />
+                  <polyline points="32,62 23,53 32,44 41,53 32,62" fill="none" stroke="#e0b060" strokeWidth="0.7" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#hbgZarbiyaTile)" />
+            </svg>
+          </div>
         </div>
 
-        {/* Ambient candlelight glow */}
+        {/* Ambient candlelight glow — unmasked, stays centered */}
         <div style={{
           position: 'absolute',
           top: '50%', left: '50%',
@@ -60,22 +69,16 @@ export function HeritageBackground() {
       </div>
 
       {/* ── Layer 2: Heritage objects + embers ──
-          zIndex 10 + mix-blend-mode screen: necessary in a full-viewport dark
-          design where opaque sections cover every pixel at zIndex 0.
-          Screen blend is purely additive — it brightens, never obscures.
-          At 25% opacity on dark sections the effect is a barely-noticeable
-          gold tint in the far corners only.
-          isolation: isolate on the content wrapper seals the compositing group
-          so this blend cannot create artifacts on cards, text, or buttons.    */}
+          zIndex: -1 places these strictly behind every page element.
+          They are embedded in the dark background, never overlapping content. */}
       <div
         aria-hidden="true"
         style={{
           position: 'fixed',
           inset: 0,
-          zIndex: 10,
+          zIndex: -1,
           pointerEvents: 'none',
           overflow: 'hidden',
-          mixBlendMode: 'screen',
         }}
       >
         {/* Pottery jar — bottom-left corner */}
@@ -84,7 +87,6 @@ export function HeritageBackground() {
           opacity: 0.20, willChange: 'transform',
           animation: 'hbgBob1 11s ease-in-out infinite',
         }}>
-          {/* 30% smaller: 140→98, 194→136 */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 72" width="98" height="136" fill="#c9952a">
             <ellipse cx="26" cy="8"  rx="9"  ry="3.2" />
             <path d="M17,8 C15,9 14,11 14,14 L38,14 C38,11 37,9 35,8 Z" />
@@ -106,7 +108,6 @@ export function HeritageBackground() {
           opacity: 0.20, willChange: 'transform',
           animation: 'hbgBob2 14s ease-in-out infinite 2s',
         }}>
-          {/* 30% smaller: 115→80, 162→113 */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 62" width="80" height="113" fill="#e0b060">
             <ellipse cx="22" cy="7"  rx="8"  ry="2.8" />
             <path d="M14,7 C12,8 12,10 12,12 L32,12 C32,10 32,8 30,7 Z" />
@@ -157,31 +158,6 @@ export function HeritageBackground() {
               points="32,25 34.5,30 40,30 35.5,33.5 37.5,39 32,35.5 26.5,39 28.5,33.5 24,30 29.5,30"
               fill="#c9952a"
             />
-          </svg>
-        </div>
-
-        {/* Zarbiya shimmer overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: '-15%',
-          width: '130%',
-          height: '130%',
-          opacity: 0.04,
-          willChange: 'transform',
-          animation: 'hbgZarbiyaDrift 50s linear infinite',
-        }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <defs>
-              <pattern id="hbgZarbiyaScreen" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
-                <polygon points="32,2 62,32 32,62 2,32"   fill="none" stroke="#c9952a" strokeWidth="1.6" />
-                <polygon points="32,14 50,32 32,50 14,32" fill="none" stroke="#c9952a" strokeWidth="1.0" />
-                <circle cx="32" cy="2"  r="2" fill="#c9952a" />
-                <circle cx="62" cy="32" r="2" fill="#c9952a" />
-                <circle cx="32" cy="62" r="2" fill="#c9952a" />
-                <circle cx="2"  cy="32" r="2" fill="#c9952a" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#hbgZarbiyaScreen)" />
           </svg>
         </div>
 
