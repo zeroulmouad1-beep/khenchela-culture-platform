@@ -82,7 +82,7 @@ export function Navbar() {
                               alt={subitem.title}
                               className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-300"
                             />
-                            <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/20 transition-colors" />
+                            <div className="absolute inset-0 group-hover/card:bg-[#1a0f0a] transition-colors" />
                           </div>
                           <h4
                             className="text-sm font-semibold transition-colors"

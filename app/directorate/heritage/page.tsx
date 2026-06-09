@@ -32,7 +32,7 @@ function DetailModal({ content, onClose }: { content: ModalContent; onClose: () 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-[fadeIn_200ms_ease-out]"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/80" />
+      <div className="absolute inset-0 bg-black" />
       <div
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl animate-[scaleIn_300ms_ease-out]"
         style={{
@@ -101,7 +101,7 @@ function LightboxModal({ image, alt, onClose }: { image: string; alt: string; on
       className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-[fadeIn_200ms_ease-out]"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/90" />
+      <div className="absolute inset-0 bg-black" />
       <button
         onClick={onClose}
         className="absolute top-6 left-6 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200"
@@ -245,7 +245,7 @@ function GalleryImage({ item, spanClass, onClick }: { item: IntangibleHeritageIt
         className="object-cover transition-transform duration-700 group-hover:scale-110"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />
-      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+      <div className="absolute inset-0 transition-colors duration-300" style={{ backgroundColor: 'rgba(0,0,0,0.45)' }} />
       <div
         className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
         style={{ border: `1.5px solid ${COPPER}50` }}

@@ -64,7 +64,7 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: number) =
   return (
     <div
       className="flex items-center gap-2 px-4 py-3 rounded-lg text-sm animate-in slide-in-from-bottom-2 duration-300"
-      style={{ backgroundColor: c.bg, border: `1px solid ${c.border}`, fontFamily: 'Tajawal, sans-serif', backdropFilter: 'blur(12px)' }}
+      style={{ backgroundColor: c.bg, border: `1px solid ${c.border}`, fontFamily: 'Tajawal, sans-serif' }}
     >
       <Icon size={16} style={{ color: c.icon }} className="flex-shrink-0" />
       <span style={{ color: '#f0e6d3' }} className="flex-1">{toast.message}</span>

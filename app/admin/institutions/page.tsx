@@ -222,7 +222,7 @@ function InstitutionsContent() {
                   ) : (
                     <button
                       onClick={() => setDeleteConfirm(inst.id)}
-                      className="p-2 rounded-lg transition-colors hover:bg-red-500/10"
+                      className="p-2 rounded-lg transition-colors hover:bg-[#2d0d0d]"
                       style={{ color: '#a89070' }}
                       title="حذف"
                     >

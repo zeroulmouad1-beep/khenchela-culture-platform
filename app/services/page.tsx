@@ -198,7 +198,7 @@ export default function ServicesPortal() {
                   {/* Category Header */}
                   <button
                     onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
-                    className="w-full flex items-center justify-between p-6 md:p-8 text-right transition-all duration-300 hover:bg-white/5"
+                    className="w-full flex items-center justify-between p-6 md:p-8 text-right transition-all duration-300 hover:bg-[#1e1610]"
                   >
                     <div className="flex items-center gap-4 md:gap-6">
                       <div

@@ -49,7 +49,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex" style={{ backgroundColor: WARM_DARK }}>
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 md:hidden"
+          className="fixed inset-0 z-40 bg-black md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

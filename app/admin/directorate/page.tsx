@@ -92,7 +92,7 @@ function DepartmentsTab() {
                 <h3 className="text-white font-bold text-sm">{dept.title}</h3>
                 <p className="text-gray-400 text-xs mt-1">{dept.description}</p>
               </div>
-              <button onClick={() => startEdit(dept)} className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
+              <button onClick={() => startEdit(dept)} className="p-2 rounded-lg hover:bg-[#2a1f1a] transition-colors text-gray-400 hover:text-white">
                 <Edit3 size={16} />
               </button>
             </div>
@@ -259,8 +259,8 @@ function CrudTable<T extends { id: number | string }>({
                     ))}
                     <td className="px-4 py-2">
                       <div className="flex gap-1">
-                        <button onClick={saveEdit} disabled={saving} className="p-1.5 rounded text-green-400 hover:bg-green-400/10"><Check size={14} /></button>
-                        <button onClick={() => setEditing(null)} className="p-1.5 rounded text-gray-400 hover:bg-white/10"><X size={14} /></button>
+                        <button onClick={saveEdit} disabled={saving} className="p-1.5 rounded text-green-400 hover:bg-[#0d2310]"><Check size={14} /></button>
+                        <button onClick={() => setEditing(null)} className="p-1.5 rounded text-gray-400 hover:bg-[#2a1f1a]"><X size={14} /></button>
                       </div>
                     </td>
                   </>
@@ -272,8 +272,8 @@ function CrudTable<T extends { id: number | string }>({
                     ))}
                     <td className="px-4 py-3">
                       <div className="flex gap-1">
-                        <button onClick={() => startEdit(item)} className="p-1.5 rounded text-gray-400 hover:text-white hover:bg-white/10"><Edit3 size={14} /></button>
-                        <button onClick={() => deleteItem(item.id)} className="p-1.5 rounded text-gray-400 hover:text-red-400 hover:bg-red-400/10"><Trash2 size={14} /></button>
+                        <button onClick={() => startEdit(item)} className="p-1.5 rounded text-gray-400 hover:text-white hover:bg-[#2a1f1a]"><Edit3 size={14} /></button>
+                        <button onClick={() => deleteItem(item.id)} className="p-1.5 rounded text-gray-400 hover:text-red-400 hover:bg-[#2d0d0d]"><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </>
