@@ -1,7 +1,7 @@
 export function HeritageBackground() {
   return (
     <>
-      {/* ── Behind-content layer: Zarbiya pattern + ambient glow ── */}
+      {/* ── Layer 1: Zarbiya pattern + ambient glow (behind all content) ── */}
       <div
         aria-hidden="true"
         style={{
@@ -18,7 +18,7 @@ export function HeritageBackground() {
           inset: '-15%',
           width: '130%',
           height: '130%',
-          opacity: 0.18,
+          opacity: 0.08,
           willChange: 'transform',
           animation: 'hbgZarbiyaDrift 50s linear infinite',
         }}>
@@ -57,13 +57,26 @@ export function HeritageBackground() {
           willChange: 'opacity, transform',
           animation: 'hbgAmbientPulse 8s ease-in-out infinite',
         }} />
+      </div>
 
-        {/* ── Heritage objects — always behind content (zIndex 0) ── */}
-
+      {/* ── Layer 2: Heritage objects + embers (screen blend — brightens, never covers) ──
+          mix-blend-mode: screen means these objects LIGHTEN whatever is below them.
+          At 18% opacity this is a subtle gold shimmer that never obscures text.        */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 10,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          mixBlendMode: 'screen',
+        }}
+      >
         {/* Pottery jar — bottom-left corner */}
         <div style={{
           position: 'absolute', bottom: '2%', left: '1%',
-          opacity: 0.13, willChange: 'transform',
+          opacity: 0.18, willChange: 'transform',
           animation: 'hbgBob1 11s ease-in-out infinite',
         }}>
           {/* 30% smaller: 140→98, 194→136 */}
@@ -85,7 +98,7 @@ export function HeritageBackground() {
         {/* Pottery jar — top-right corner */}
         <div style={{
           position: 'absolute', top: '3%', right: '1%',
-          opacity: 0.12, willChange: 'transform',
+          opacity: 0.18, willChange: 'transform',
           animation: 'hbgBob2 14s ease-in-out infinite 2s',
         }}>
           {/* 30% smaller: 115→80, 162→113 */}
@@ -107,7 +120,7 @@ export function HeritageBackground() {
         {/* Mizmaar (reed flute) — bottom-right corner */}
         <div style={{
           position: 'absolute', bottom: '2%', right: '2%',
-          opacity: 0.13, willChange: 'transform',
+          opacity: 0.18, willChange: 'transform',
           transformOrigin: '50% 80%',
           animation: 'hbgMizmaar 20s ease-in-out infinite',
         }}>
@@ -127,7 +140,7 @@ export function HeritageBackground() {
         {/* 8-pointed geometric star — top-left corner */}
         <div style={{
           position: 'absolute', top: '3%', left: '2%',
-          opacity: 0.13, willChange: 'transform',
+          opacity: 0.18, willChange: 'transform',
           transformOrigin: '50% 50%',
           animation: 'hbgStarSpin 70s linear infinite',
         }}>
@@ -142,13 +155,13 @@ export function HeritageBackground() {
           </svg>
         </div>
 
-        {/* Zarbiya overlay — faint shimmer */}
+        {/* Zarbiya shimmer overlay */}
         <div style={{
           position: 'absolute',
           inset: '-15%',
           width: '130%',
           height: '130%',
-          opacity: 0.12,
+          opacity: 0.08,
           willChange: 'transform',
           animation: 'hbgZarbiyaDrift 50s linear infinite',
         }}>
