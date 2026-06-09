@@ -18,7 +18,7 @@ export function HeritageBackground() {
           inset: '-15%',
           width: '130%',
           height: '130%',
-          opacity: 0.08,
+          opacity: 0.04,
           willChange: 'transform',
           animation: 'hbgZarbiyaDrift 50s linear infinite',
         }}>
@@ -81,7 +81,7 @@ export function HeritageBackground() {
         {/* Pottery jar — bottom-left corner */}
         <div style={{
           position: 'absolute', bottom: '2%', left: '1%',
-          opacity: 0.25, willChange: 'transform',
+          opacity: 0.20, willChange: 'transform',
           animation: 'hbgBob1 11s ease-in-out infinite',
         }}>
           {/* 30% smaller: 140→98, 194→136 */}
@@ -103,7 +103,7 @@ export function HeritageBackground() {
         {/* Pottery jar — top-right corner */}
         <div style={{
           position: 'absolute', top: '3%', right: '1%',
-          opacity: 0.25, willChange: 'transform',
+          opacity: 0.20, willChange: 'transform',
           animation: 'hbgBob2 14s ease-in-out infinite 2s',
         }}>
           {/* 30% smaller: 115→80, 162→113 */}
@@ -125,7 +125,7 @@ export function HeritageBackground() {
         {/* Mizmaar (reed flute) — bottom-right corner */}
         <div style={{
           position: 'absolute', bottom: '2%', right: '2%',
-          opacity: 0.25, willChange: 'transform',
+          opacity: 0.20, willChange: 'transform',
           transformOrigin: '50% 80%',
           animation: 'hbgMizmaar 20s ease-in-out infinite',
         }}>
@@ -145,7 +145,7 @@ export function HeritageBackground() {
         {/* 8-pointed geometric star — top-left corner */}
         <div style={{
           position: 'absolute', top: '3%', left: '2%',
-          opacity: 0.25, willChange: 'transform',
+          opacity: 0.20, willChange: 'transform',
           transformOrigin: '50% 50%',
           animation: 'hbgStarSpin 70s linear infinite',
         }}>
@@ -166,7 +166,7 @@ export function HeritageBackground() {
           inset: '-15%',
           width: '130%',
           height: '130%',
-          opacity: 0.08,
+          opacity: 0.04,
           willChange: 'transform',
           animation: 'hbgZarbiyaDrift 50s linear infinite',
         }}>
