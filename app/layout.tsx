@@ -50,7 +50,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <HeritageBackground />
-        <div style={{ position: 'relative', zIndex: 20 }}>
+        <div style={{ position: 'relative', isolation: 'isolate' }}>
           <Providers>
             {children}
           </Providers>

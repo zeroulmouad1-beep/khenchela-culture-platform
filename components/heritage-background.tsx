@@ -59,9 +59,14 @@ export function HeritageBackground() {
         }} />
       </div>
 
-      {/* ── Layer 2: Heritage objects + embers (screen blend — brightens, never covers) ──
-          mix-blend-mode: screen means these objects LIGHTEN whatever is below them.
-          At 18% opacity this is a subtle gold shimmer that never obscures text.        */}
+      {/* ── Layer 2: Heritage objects + embers ──
+          zIndex 10 + mix-blend-mode screen: necessary in a full-viewport dark
+          design where opaque sections cover every pixel at zIndex 0.
+          Screen blend is purely additive — it brightens, never obscures.
+          At 25% opacity on dark sections the effect is a barely-noticeable
+          gold tint in the far corners only.
+          isolation: isolate on the content wrapper seals the compositing group
+          so this blend cannot create artifacts on cards, text, or buttons.    */}
       <div
         aria-hidden="true"
         style={{
@@ -76,7 +81,7 @@ export function HeritageBackground() {
         {/* Pottery jar — bottom-left corner */}
         <div style={{
           position: 'absolute', bottom: '2%', left: '1%',
-          opacity: 0.18, willChange: 'transform',
+          opacity: 0.25, willChange: 'transform',
           animation: 'hbgBob1 11s ease-in-out infinite',
         }}>
           {/* 30% smaller: 140→98, 194→136 */}
@@ -98,7 +103,7 @@ export function HeritageBackground() {
         {/* Pottery jar — top-right corner */}
         <div style={{
           position: 'absolute', top: '3%', right: '1%',
-          opacity: 0.18, willChange: 'transform',
+          opacity: 0.25, willChange: 'transform',
           animation: 'hbgBob2 14s ease-in-out infinite 2s',
         }}>
           {/* 30% smaller: 115→80, 162→113 */}
@@ -120,7 +125,7 @@ export function HeritageBackground() {
         {/* Mizmaar (reed flute) — bottom-right corner */}
         <div style={{
           position: 'absolute', bottom: '2%', right: '2%',
-          opacity: 0.18, willChange: 'transform',
+          opacity: 0.25, willChange: 'transform',
           transformOrigin: '50% 80%',
           animation: 'hbgMizmaar 20s ease-in-out infinite',
         }}>
@@ -140,7 +145,7 @@ export function HeritageBackground() {
         {/* 8-pointed geometric star — top-left corner */}
         <div style={{
           position: 'absolute', top: '3%', left: '2%',
-          opacity: 0.18, willChange: 'transform',
+          opacity: 0.25, willChange: 'transform',
           transformOrigin: '50% 50%',
           animation: 'hbgStarSpin 70s linear infinite',
         }}>
