@@ -727,3 +727,51 @@ body {
   background: rgba(59,89,152,0.28);
   color: #fff;
 }
+
+/* ═══════════════════════════════════════════════════
+   Heritage Background Animations
+   ═══════════════════════════════════════════════════ */
+
+/* Zarbiya pattern — slow diagonal drift so the tile
+   moves exactly one tile-width (64 px) before looping */
+@keyframes hbgZarbiyaDrift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-64px, -64px); }
+}
+
+/* Pottery jars — gentle floating bob */
+@keyframes hbgBob1 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+@keyframes hbgBob2 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Mizmaar — slow side-to-side drift with subtle rotation */
+@keyframes hbgMizmaar {
+  0%   { transform: translateX(0px)   rotate(-4deg); }
+  50%  { transform: translateX(14px)  rotate(4deg);  }
+  100% { transform: translateX(0px)   rotate(-4deg); }
+}
+
+/* 8-pointed star — continuous slow spin */
+@keyframes hbgStarSpin {
+  0%   { transform: rotate(0deg);   }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ambient candlelight — pulsing warm glow */
+@keyframes hbgAmbientPulse {
+  0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1);    }
+  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.07); }
+}
+
+/* Ember particles — float upward and fade out */
+@keyframes hbgEmber {
+  0%   { transform: translateY(0)     translateX(0);    opacity: 0.9; }
+  20%  { transform: translateY(-25px) translateX(6px);  opacity: 0.7; }
+  60%  { transform: translateY(-80px) translateX(-4px); opacity: 0.35; }
+  100% { transform: translateY(-140px) translateX(8px); opacity: 0;   }
+}
