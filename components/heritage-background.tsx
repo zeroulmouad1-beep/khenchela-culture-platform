@@ -57,29 +57,17 @@ export function HeritageBackground() {
           willChange: 'opacity, transform',
           animation: 'hbgAmbientPulse 8s ease-in-out infinite',
         }} />
-      </div>
 
-      {/* ── Above-content layer: heritage objects + embers ──
-          mix-blend-mode: screen makes gold shapes glow visibly over
-          any opaque section background without obscuring text        */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 10,
-          pointerEvents: 'none',
-          overflow: 'hidden',
-          mixBlendMode: 'screen',
-        }}
-      >
-        {/* Pottery jar — bottom-left */}
+        {/* ── Heritage objects — always behind content (zIndex 0) ── */}
+
+        {/* Pottery jar — bottom-left corner */}
         <div style={{
-          position: 'absolute', bottom: '5%', left: '2%',
-          opacity: 0.55, willChange: 'transform',
+          position: 'absolute', bottom: '2%', left: '1%',
+          opacity: 0.13, willChange: 'transform',
           animation: 'hbgBob1 11s ease-in-out infinite',
         }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 72" width="140" height="194" fill="#c9952a">
+          {/* 30% smaller: 140→98, 194→136 */}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 72" width="98" height="136" fill="#c9952a">
             <ellipse cx="26" cy="8"  rx="9"  ry="3.2" />
             <path d="M17,8 C15,9 14,11 14,14 L38,14 C38,11 37,9 35,8 Z" />
             <path d="M14,14 C7,21 5,32 7,43 C9,54 16,62 26,63 C36,62 43,54 45,43 C47,32 45,21 38,14 Z" />
@@ -94,13 +82,14 @@ export function HeritageBackground() {
           </svg>
         </div>
 
-        {/* Pottery jar — top-right */}
+        {/* Pottery jar — top-right corner */}
         <div style={{
-          position: 'absolute', top: '8%', right: '3%',
-          opacity: 0.50, willChange: 'transform',
+          position: 'absolute', top: '3%', right: '1%',
+          opacity: 0.12, willChange: 'transform',
           animation: 'hbgBob2 14s ease-in-out infinite 2s',
         }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 62" width="115" height="162" fill="#e0b060">
+          {/* 30% smaller: 115→80, 162→113 */}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 62" width="80" height="113" fill="#e0b060">
             <ellipse cx="22" cy="7"  rx="8"  ry="2.8" />
             <path d="M14,7 C12,8 12,10 12,12 L32,12 C32,10 32,8 30,7 Z" />
             <path d="M12,12 C5,19 4,30 6,40 C8,50 14,56 22,57 C30,56 36,50 38,40 C40,30 39,19 32,12 Z" />
@@ -115,10 +104,10 @@ export function HeritageBackground() {
           </svg>
         </div>
 
-        {/* Mizmaar (reed flute) — bottom-right */}
+        {/* Mizmaar (reed flute) — bottom-right corner */}
         <div style={{
-          position: 'absolute', bottom: '15%', right: '4%',
-          opacity: 0.55, willChange: 'transform',
+          position: 'absolute', bottom: '2%', right: '2%',
+          opacity: 0.13, willChange: 'transform',
           transformOrigin: '50% 80%',
           animation: 'hbgMizmaar 20s ease-in-out infinite',
         }}>
@@ -135,10 +124,10 @@ export function HeritageBackground() {
           </svg>
         </div>
 
-        {/* 8-pointed geometric star — top-left */}
+        {/* 8-pointed geometric star — top-left corner */}
         <div style={{
-          position: 'absolute', top: '20%', left: '3%',
-          opacity: 0.50, willChange: 'transform',
+          position: 'absolute', top: '3%', left: '2%',
+          opacity: 0.13, willChange: 'transform',
           transformOrigin: '50% 50%',
           animation: 'hbgStarSpin 70s linear infinite',
         }}>
@@ -153,7 +142,7 @@ export function HeritageBackground() {
           </svg>
         </div>
 
-        {/* Zarbiya overlay at screen blend — faint shimmer over sections */}
+        {/* Zarbiya overlay — faint shimmer */}
         <div style={{
           position: 'absolute',
           inset: '-15%',
