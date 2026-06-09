@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { ArrowRight, Home, MapPin, Phone, Mail, Clock, Calendar, Newspaper, Palette, Film, BookOpen, Music, Drama, LucideIcon, Theater, Paintbrush, BookText, Video, Landmark, Coffee, Users, GraduationCap } from 'lucide-react'
 import { useCms } from '@/lib/cms-context'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 type IconName = 'palette' | 'film' | 'book-open' | 'music' | 'drama'
 const iconMap: Record<IconName, LucideIcon> = {

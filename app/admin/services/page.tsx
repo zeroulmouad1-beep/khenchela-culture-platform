@@ -7,11 +7,11 @@ import { useCms, CultureHouseFacility } from '@/lib/cms-context'
 import { useToast } from '@/components/admin/toast'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 const ICON_OPTIONS = [
   'Theater', 'Paintbrush', 'BookText', 'Video', 'Music', 'Landmark',
@@ -106,7 +106,7 @@ function ServicesContent() {
               <h3 className="text-lg font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                 {editingId ? 'تعديل الخدمة' : 'إضافة خدمة جديدة'}
               </h3>
-              <button onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyForm) }} style={{ color: '#94A3B8' }}>
+              <button onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyForm) }} style={{ color: '#a89070' }}>
                 <X size={20} />
               </button>
             </div>
@@ -146,7 +146,7 @@ function ServicesContent() {
               <button
                 onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyForm) }}
                 className="px-4 py-2 rounded-lg text-sm font-medium"
-                style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
               >
                 إلغاء
               </button>
@@ -169,7 +169,7 @@ function ServicesContent() {
               <Loader2 size={24} className="animate-spin" style={{ color: COPPER }} />
             </div>
           ) : facilities.length === 0 ? (
-            <div className="p-8 text-center" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+            <div className="p-8 text-center" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
               لا توجد خدمات حالياً. اضغط على "خدمة جديدة" لإضافة خدمة.
             </div>
           ) : (
@@ -190,7 +190,7 @@ function ServicesContent() {
                       <td className="px-4 py-3 hidden md:table-cell" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>
                         {item.subtitle || '-'}
                       </td>
-                      <td className="px-4 py-3" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                      <td className="px-4 py-3" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                         {item.iconName || '-'}
                       </td>
                       <td className="px-4 py-3">
@@ -203,12 +203,12 @@ function ServicesContent() {
                               <button onClick={() => handleDelete(item.id)} className="px-2 py-0.5 rounded text-xs text-white" style={{ backgroundColor: '#DC2626', fontFamily: 'Tajawal, sans-serif' }}>
                                 تأكيد
                               </button>
-                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                                 إلغاء
                               </button>
                             </div>
                           ) : (
-                            <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-md transition-colors" style={{ color: '#94A3B8' }} title="حذف">
+                            <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-md transition-colors" style={{ color: '#a89070' }} title="حذف">
                               <Trash2 size={14} />
                             </button>
                           )}

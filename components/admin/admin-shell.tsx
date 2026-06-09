@@ -10,11 +10,11 @@ import {
   Building2, BookMarked, Home, Mountain, Landmark, Sparkles
 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const GOLD = '#c9952a'
+const GOLD_LIGHT = '#e0b060'
+const WARM_DARK = '#1a0f0a'
+const WARM_SECONDARY = '#1e1610'
+const WARM_BORDER = '#2a1e14'
 
 const sidebarItems = [
   { href: '/admin', label: 'الرئيسية', icon: LayoutDashboard },
@@ -46,26 +46,29 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const currentPage = sidebarItems.find(item => isActive(item.href))
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: INDIGO_DEEP }}>
+    <div className="min-h-screen flex" style={{ backgroundColor: WARM_DARK }}>
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <aside
         className={`fixed md:sticky top-0 right-0 h-screen z-50 w-64 flex flex-col border-l transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}`}
-        style={{ backgroundColor: INDIGO_MEDIUM, borderColor: INDIGO_LIGHT }}
+        style={{ backgroundColor: WARM_SECONDARY, borderColor: WARM_BORDER }}
       >
-        <div className="p-4 border-b flex items-center justify-between" style={{ borderColor: INDIGO_LIGHT }}>
+        <div className="p-4 border-b flex items-center justify-between" style={{ borderColor: WARM_BORDER }}>
           <Link href="/admin" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ backgroundColor: COPPER }}>
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+              style={{ backgroundColor: GOLD, color: WARM_DARK }}
+            >
               خ
             </div>
-            <span className="font-bold text-white text-sm" style={{ fontFamily: 'Tajawal, sans-serif' }}>لوحة الإدارة</span>
+            <span className="font-bold text-sm" style={{ color: '#f0e6d3', fontFamily: 'Tajawal, sans-serif' }}>لوحة الإدارة</span>
           </Link>
-          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white">
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden" style={{ color: '#f0e6d3' }}>
             <X size={20} />
           </button>
         </div>
@@ -81,10 +84,22 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 onClick={() => setSidebarOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
                 style={{
-                  backgroundColor: active ? `${COPPER}20` : 'transparent',
-                  color: active ? COPPER_LIGHT : '#94A3B8',
+                  backgroundColor: active ? `${GOLD}20` : 'transparent',
+                  color: active ? GOLD_LIGHT : '#a89070',
                   fontFamily: 'Tajawal, sans-serif',
-                  borderRight: active ? `3px solid ${COPPER}` : '3px solid transparent',
+                  borderRight: active ? `3px solid ${GOLD}` : '3px solid transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (!active) {
+                    e.currentTarget.style.backgroundColor = `${GOLD}10`
+                    e.currentTarget.style.color = '#f0e6d3'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!active) {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.color = '#a89070'
+                  }
                 }}
               >
                 <Icon size={18} />
@@ -94,13 +109,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="p-3 border-t" style={{ borderColor: INDIGO_LIGHT }}>
+        <div className="p-3 border-t" style={{ borderColor: WARM_BORDER }}>
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium w-full transition-all duration-200 cursor-pointer"
-            style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#FCA5A5')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#94A3B8')}
+            style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#fca5a5')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#a89070')}
           >
             <LogOut size={18} />
             تسجيل الخروج
@@ -109,20 +124,29 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <header className="sticky top-0 z-30 h-14 border-b flex items-center justify-between px-4" style={{ backgroundColor: INDIGO_MEDIUM, borderColor: INDIGO_LIGHT }}>
+        <header
+          className="sticky top-0 z-30 h-14 border-b flex items-center justify-between px-4"
+          style={{ backgroundColor: WARM_SECONDARY, borderColor: WARM_BORDER }}
+        >
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(true)} className="md:hidden text-white">
+            <button onClick={() => setSidebarOpen(true)} className="md:hidden" style={{ color: '#f0e6d3' }}>
               <Menu size={20} />
             </button>
-            <h1 className="text-sm font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>
+            <h1 className="text-sm font-bold" style={{ color: '#f0e6d3', fontFamily: 'Tajawal, sans-serif' }}>
               {currentPage?.label || 'لوحة الإدارة'}
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs hidden sm:block" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+            <span className="text-xs hidden sm:block" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
               {user?.email || 'مدير'}
             </span>
-            <Link href="/?enter=true" className="flex items-center gap-1 text-xs px-2 py-1 rounded" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+            <Link
+              href="/?enter=true"
+              className="flex items-center gap-1 text-xs px-2 py-1 rounded transition-colors"
+              style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#a89070')}
+            >
               <ChevronLeft size={14} />
               الموقع
             </Link>

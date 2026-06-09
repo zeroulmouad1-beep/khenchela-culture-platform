@@ -5,14 +5,14 @@ import { ArrowRight, Home, Palette, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getArtists, type Artist, type ArtistStatus } from '@/lib/artists-data'
 
-const COPPER = '#B87333'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_DARKER = '#0B1120'
+const COPPER = '#c9952a'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_DARKER = '#12100e'
 
 const statusConfig: Record<ArtistStatus, { bg: string; text: string; border: string }> = {
   'نشط': { bg: 'rgba(34,197,94,0.15)', text: '#4ADE80', border: 'rgba(34,197,94,0.30)' },
   'معلق': { bg: 'rgba(245,158,11,0.15)', text: '#FBBF24', border: 'rgba(245,158,11,0.30)' },
-  'غير نشط': { bg: 'rgba(148,163,184,0.15)', text: '#94A3B8', border: 'rgba(148,163,184,0.30)' },
+  'غير نشط': { bg: 'rgba(148,163,184,0.15)', text: '#a89070', border: 'rgba(148,163,184,0.30)' },
 }
 
 const TABLE_HEADERS = ['#', 'الاسم الكامل', 'رقم البطاقة', 'رقم التعريف الوطني', 'التخصص', 'البلدية', 'الحالة']
@@ -44,7 +44,7 @@ function ArtistsTable({ data }: { data: Artist[] }) {
           <Users size={28} style={{ color: COPPER }} />
         </div>
         <p className="text-white font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
-        <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض سجل الفنانين هنا بعد إضافته من لوحة الإدارة</p>
+        <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض سجل الفنانين هنا بعد إضافته من لوحة الإدارة</p>
       </div>
     )
   }
@@ -55,8 +55,8 @@ function ArtistsTable({ data }: { data: Artist[] }) {
         <thead>
           <tr
             style={{
-              backgroundColor: 'rgba(184,115,51,0.12)',
-              borderBottom: '1px solid rgba(184,115,51,0.25)',
+              backgroundColor: 'rgba(201,149,42,0.12)',
+              borderBottom: '1px solid rgba(201,149,42,0.25)',
             }}
           >
             {TABLE_HEADERS.map((header) => (
@@ -80,7 +80,7 @@ function ArtistsTable({ data }: { data: Artist[] }) {
                 backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(184,115,51,0.08)'
+                e.currentTarget.style.backgroundColor = 'rgba(201,149,42,0.08)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'
@@ -203,7 +203,7 @@ export default function ArtsPage() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #D4A04A 0%, #F5D78E 40%, #B87333 70%, #D4956A 100%)',
+                  background: 'linear-gradient(135deg, #c9952a 0%, #e0b060 40%, #c9952a 70%, #8b3a2a 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',

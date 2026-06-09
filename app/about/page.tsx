@@ -11,32 +11,32 @@ const screens = [
     title: 'البوابة الرقمية الرسمية',
     description:
       'منصة قطاع الثقافة والفنون بخنشلة هي البوابة الرقمية الرسمية لمديرية الثقافة والفنون بولاية خنشلة',
-    gradient: 'from-[#B87333]/20 to-[#C5A059]/10',
-    accent: '#B87333',
+    gradient: 'from-[#c9952a]/20 to-[#e0b060]/10',
+    accent: '#c9952a',
   },
   {
     icon: Users,
     title: 'تعزيز التواصل',
     description:
       'تهدف المنصة إلى تعزيز التواصل بين المؤسسات الثقافية والمواطنين وتقديم خدمات إلكترونية متكاملة',
-    gradient: 'from-[#C5A059]/20 to-[#B87333]/10',
-    accent: '#C5A059',
+    gradient: 'from-[#e0b060]/20 to-[#c9952a]/10',
+    accent: '#e0b060',
   },
   {
     icon: Calendar,
     title: 'نشر الفعاليات',
     description:
       'تشمل الأنشطة الثقافية والفنية والحفاظ على التراث المادي واللامادي لمنطقة الأوراس',
-    gradient: 'from-[#B87333]/20 to-[#D4956A]/10',
-    accent: '#D4956A',
+    gradient: 'from-[#c9952a]/20 to-[#8b3a2a]/10',
+    accent: '#e0b060',
   },
   {
     icon: BookOpen,
     title: 'مرجع رقمي شامل',
     description:
       'تسعى المنصة لتكون مرجعاً رقمياً شاملاً يخدم الفاعلين الثقافيين والباحثين والمهتمين بالشأن الثقافي في ولاية خنشلة',
-    gradient: 'from-[#C5A059]/20 to-[#B87333]/10',
-    accent: '#B87333',
+    gradient: 'from-[#e0b060]/20 to-[#c9952a]/10',
+    accent: '#c9952a',
   },
 ]
 
@@ -75,14 +75,14 @@ export default function AboutPage() {
     <div
       dir="rtl"
       className="min-h-screen flex flex-col"
-      style={{ backgroundColor: '#0F172A', fontFamily: "'Tajawal', sans-serif" }}
+      style={{ backgroundColor: '#1a0f0a', fontFamily: "'Tajawal', sans-serif" }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-[#1E293B]">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-[#2a1e14]">
         <Link
           href="/?enter=true"
           className="flex items-center gap-2 text-sm transition-colors"
-          style={{ color: '#94A3B8' }}
+          style={{ color: '#a89070' }}
         >
           <ChevronLeft size={16} />
           <span>العودة للرئيسية</span>
@@ -93,7 +93,7 @@ export default function AboutPage() {
             alt="شعار المنصة"
             className="w-8 h-8 rounded-full object-cover"
           />
-          <span className="text-sm font-bold" style={{ color: '#C5A059' }}>
+          <span className="text-sm font-bold" style={{ color: '#c9952a' }}>
             منصة خنشلة
           </span>
         </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-xs tracking-widest mb-10 uppercase"
-          style={{ color: '#B87333', fontFamily: "'Cairo', sans-serif", letterSpacing: '0.2em' }}
+          style={{ color: '#c9952a', fontFamily: "'Cairo', sans-serif", letterSpacing: '0.2em' }}
         >
           من نحن
         </motion.p>
@@ -124,7 +124,7 @@ export default function AboutPage() {
               exit="exit"
               transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
               className={`absolute inset-0 rounded-3xl border bg-gradient-to-br ${screen.gradient} flex flex-col items-center justify-center px-8 py-12 text-center`}
-              style={{ borderColor: `${screen.accent}30`, backgroundColor: '#111827' }}
+              style={{ borderColor: `${screen.accent}30`, backgroundColor: '#1e1610' }}
             >
               {/* Glow ring behind icon */}
               <div
@@ -140,7 +140,7 @@ export default function AboutPage() {
 
               <h2
                 className="text-2xl md:text-3xl font-bold mb-5 leading-snug"
-                style={{ color: '#F1F5F9', fontFamily: "'Amiri', serif" }}
+                style={{ color: '#f0e6d3', fontFamily: "'Amiri', serif" }}
               >
                 {screen.title}
               </h2>
@@ -152,7 +152,7 @@ export default function AboutPage() {
 
               <p
                 className="text-base leading-loose max-w-sm"
-                style={{ color: '#94A3B8', fontFamily: "'Cairo', sans-serif" }}
+                style={{ color: '#a89070', fontFamily: "'Cairo', sans-serif" }}
               >
                 {screen.description}
               </p>
@@ -175,8 +175,8 @@ export default function AboutPage() {
             disabled={current === 0}
             className="w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200"
             style={{
-              borderColor: current === 0 ? '#1E293B' : '#B87333',
-              color: current === 0 ? '#334155' : '#B87333',
+              borderColor: current === 0 ? '#2a1e14' : '#c9952a',
+              color: current === 0 ? '#2a1e14' : '#c9952a',
               backgroundColor: 'transparent',
             }}
           >
@@ -193,7 +193,7 @@ export default function AboutPage() {
                 style={{
                   width: i === current ? 24 : 8,
                   height: 8,
-                  backgroundColor: i === current ? '#B87333' : '#334155',
+                  backgroundColor: i === current ? '#c9952a' : '#2a1e14',
                 }}
               />
             ))}
@@ -204,8 +204,8 @@ export default function AboutPage() {
             disabled={current === screens.length - 1}
             className="w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200"
             style={{
-              borderColor: current === screens.length - 1 ? '#1E293B' : '#B87333',
-              color: current === screens.length - 1 ? '#334155' : '#B87333',
+              borderColor: current === screens.length - 1 ? '#2a1e14' : '#c9952a',
+              color: current === screens.length - 1 ? '#2a1e14' : '#c9952a',
               backgroundColor: 'transparent',
             }}
           >
@@ -227,10 +227,10 @@ export default function AboutPage() {
                 href="/?enter=true"
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
                 style={{
-                  backgroundColor: '#B87333',
-                  color: '#0F172A',
+                  backgroundColor: '#c9952a',
+                  color: '#1a0f0a',
                   fontFamily: "'Cairo', sans-serif",
-                  boxShadow: '0 0 20px #B8733340',
+                  boxShadow: '0 0 20px #c9952a40',
                 }}
               >
                 اكتشف المنصة
@@ -245,11 +245,11 @@ export default function AboutPage() {
       <div className="pb-8 text-center">
         <div
           className="w-20 h-px mx-auto mb-4 rounded-full"
-          style={{ background: 'linear-gradient(90deg, transparent, #B8733340, transparent)' }}
+          style={{ background: 'linear-gradient(90deg, transparent, #c9952a40, transparent)' }}
         />
         <p
           className="text-xs"
-          style={{ color: '#B87333', fontFamily: "'Cairo', sans-serif", opacity: 0.65 }}
+          style={{ color: '#c9952a', fontFamily: "'Cairo', sans-serif", opacity: 0.65 }}
         >
           تم تطوير وصيانة هذه المنصة بواسطة المهندس زروال معاذ عبد الودود
         </p>

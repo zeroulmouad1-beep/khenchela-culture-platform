@@ -17,10 +17,10 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 function DashboardContent() {
   const [counts, setCounts] = useState({ news: 0, services: 0, events: 0, artists: 0, associations: 0, monuments: 0 })
@@ -60,8 +60,8 @@ function DashboardContent() {
   }, [])
 
   const cmsCards = [
-    { label: 'المؤسسات', count: cms.institutions.length, icon: Building2, href: '/admin/institutions', color: '#B87333' },
-    { label: 'ملحقات المكتبة', count: cms.libraryAnnexes.length, icon: BookMarked, href: '/admin/library-annexes', color: '#D4956A' },
+    { label: 'المؤسسات', count: cms.institutions.length, icon: Building2, href: '/admin/institutions', color: '#c9952a' },
+    { label: 'ملحقات المكتبة', count: cms.libraryAnnexes.length, icon: BookMarked, href: '/admin/library-annexes', color: '#e0b060' },
     { label: 'ورشات دار الثقافة', count: cms.workshops.length, icon: Home, href: '/admin/culture-house', color: '#22C55E' },
     { label: 'مرافق دار الثقافة', count: cms.facilities.length, icon: Home, href: '/admin/culture-house', color: '#3B82F6' },
     { label: 'الأخبار', count: counts.news, icon: Newspaper, href: '/admin/news', color: '#F59E0B' },
@@ -74,8 +74,8 @@ function DashboardContent() {
   ]
 
   const barData = [
-    { name: 'المؤسسات', value: cms.institutions.length, fill: '#B87333' },
-    { name: 'الملحقات', value: cms.libraryAnnexes.length, fill: '#D4956A' },
+    { name: 'المؤسسات', value: cms.institutions.length, fill: '#c9952a' },
+    { name: 'الملحقات', value: cms.libraryAnnexes.length, fill: '#e0b060' },
     { name: 'الورشات', value: cms.workshops.length, fill: '#22C55E' },
     { name: 'المرافق', value: cms.facilities.length, fill: '#3B82F6' },
     { name: 'الأخبار', value: counts.news, fill: '#F59E0B' },
@@ -86,7 +86,7 @@ function DashboardContent() {
     { name: 'شبه حضارية', value: cms.libraryAnnexes.filter(a => a.type === 'شبه حضارية').length },
     { name: 'ريفية', value: cms.libraryAnnexes.filter(a => a.type === 'ريفية').length },
   ]
-  const PIE_COLORS = ['#B87333', '#D4956A']
+  const PIE_COLORS = ['#c9952a', '#e0b060']
 
   return (
     <AdminShell>
@@ -95,14 +95,14 @@ function DashboardContent() {
           <h2 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Tajawal, sans-serif' }}>
             مرحباً بك في لوحة الإدارة
           </h2>
-          <p className="text-sm" style={{ color: '#94A3B8', fontFamily: 'Amiri, serif' }}>
+          <p className="text-sm" style={{ color: '#a89070', fontFamily: 'Amiri, serif' }}>
             إدارة محتوى منصة قطاع الثقافة والفنون - خنشلة
           </p>
         </div>
 
         {isMockMode && (
-          <div className="mb-6 p-3 rounded-lg flex items-center gap-2 text-sm" style={{ backgroundColor: 'rgba(184, 115, 51, 0.12)', border: '1px solid rgba(184, 115, 51, 0.3)', color: '#D4956A', fontFamily: 'Tajawal, sans-serif' }}>
-            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#B87333' }} />
+          <div className="mb-6 p-3 rounded-lg flex items-center gap-2 text-sm" style={{ backgroundColor: 'rgba(201, 149, 42, 0.12)', border: '1px solid rgba(201, 149, 42, 0.3)', color: '#e0b060', fontFamily: 'Tajawal, sans-serif' }}>
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#c9952a' }} />
             وضع المعاينة — البيانات تجريبية ولن تُحفظ بعد إعادة التحميل
           </div>
         )}
@@ -126,7 +126,7 @@ function DashboardContent() {
                 <p className="text-xl font-bold text-white mb-0.5" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                   {loading && (card.label === 'الأخبار' || card.label === 'الخدمات' || card.label === 'الفعاليات') ? '...' : card.count}
                 </p>
-                <p className="text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                <p className="text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                   {card.label}
                 </p>
               </Link>
@@ -142,12 +142,12 @@ function DashboardContent() {
             <div style={{ width: '100%', height: 220 }}>
               <ResponsiveContainer>
                 <BarChart data={barData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
-                  <XAxis dataKey="name" tick={{ fill: '#94A3B8', fontSize: 10, fontFamily: 'Tajawal, sans-serif' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                  <XAxis dataKey="name" tick={{ fill: '#a89070', fontSize: 10, fontFamily: 'Tajawal, sans-serif' }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: '#a89070', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #334155', borderRadius: 8, fontFamily: 'Tajawal, sans-serif', fontSize: 12 }}
-                    labelStyle={{ color: '#D4956A' }}
-                    itemStyle={{ color: '#CBD5E1' }}
+                    contentStyle={{ backgroundColor: '#1a0f0a', border: '1px solid #2a1e14', borderRadius: 8, fontFamily: 'Tajawal, sans-serif', fontSize: 12 }}
+                    labelStyle={{ color: '#e0b060' }}
+                    itemStyle={{ color: '#d4c4a8' }}
                   />
                   <Bar dataKey="value" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -168,7 +168,7 @@ function DashboardContent() {
                     ))}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #334155', borderRadius: 8, fontFamily: 'Tajawal, sans-serif', fontSize: 12 }}
+                    contentStyle={{ backgroundColor: '#1a0f0a', border: '1px solid #2a1e14', borderRadius: 8, fontFamily: 'Tajawal, sans-serif', fontSize: 12 }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -193,7 +193,7 @@ function DashboardContent() {
               return (
                 <Link key={item.text} href={item.href} className="flex items-center gap-3 p-3 rounded-lg transition-all duration-200 hover:scale-[1.01]" style={{ backgroundColor: `${COPPER}08` }}>
                   <Icon size={16} style={{ color: COPPER_LIGHT }} />
-                  <span className="text-sm" style={{ color: '#CBD5E1', fontFamily: 'Tajawal, sans-serif' }}>
+                  <span className="text-sm" style={{ color: '#d4c4a8', fontFamily: 'Tajawal, sans-serif' }}>
                     {item.text}
                   </span>
                 </Link>

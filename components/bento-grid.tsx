@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useCms } from '@/lib/cms-context'
 import type { IconName } from '@/lib/institutions-data'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_LIGHT = '#2a1e14'
 
 const bentoIconMap: Record<IconName, LucideIcon> = {
   'palette': Palette,
@@ -56,8 +56,8 @@ export function BentoGrid() {
           50% { opacity: 0.5; transform: scale(1.1); }
         }
         @keyframes glow-border {
-          0%, 100% { box-shadow: 0 0 20px rgba(184, 115, 51, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(184, 115, 51, 0.5); }
+          0%, 100% { box-shadow: 0 0 20px rgba(201, 149, 42, 0.3); }
+          50% { box-shadow: 0 0 40px rgba(201, 149, 42, 0.5); }
         }
       `}</style>
 

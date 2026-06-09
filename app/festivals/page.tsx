@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { ArrowRight, Home, CalendarX } from 'lucide-react'
 
-const COPPER = '#B87333'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_DARKER = '#0B1120'
+const COPPER = '#c9952a'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_DARKER = '#12100e'
 
 // Firebase collection: festivals
 const festivals: { id: string; title: string; subtitle: string; accentColor: string }[] = []
@@ -113,7 +113,7 @@ export default function FestivalsPage() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #D4A04A 0%, #F5D78E 40%, #B87333 70%, #D4956A 100%)',
+                  background: 'linear-gradient(135deg, #c9952a 0%, #e0b060 40%, #c9952a 70%, #8b3a2a 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -143,7 +143,7 @@ export default function FestivalsPage() {
               <CalendarX size={36} style={{ color: COPPER }} />
             </div>
             <p className="text-white text-lg font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
-            <p className="text-sm max-w-sm" style={{ color: '#64748B' }}>
+            <p className="text-sm max-w-sm" style={{ color: '#a89070' }}>
               سيتم عرض المهرجانات الثقافية هنا بعد إضافتها من لوحة الإدارة
             </p>
           </div>

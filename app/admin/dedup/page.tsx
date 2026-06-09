@@ -7,11 +7,11 @@ import { fetchCollection, deleteDocument, FirestoreDoc } from '@/lib/firestore-h
 import { useToast } from '@/components/admin/toast'
 import { Loader2, ShieldCheck, AlertTriangle, Trash2, RefreshCw } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 interface CollectionConfig {
   name: string
@@ -199,7 +199,7 @@ function DedupContent() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-white">تنظيف البيانات المكررة</h2>
-            <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>
+            <p className="text-xs mt-1" style={{ color: '#a89070' }}>
               يفحص جميع المجموعات، ويحتفظ بالنسخة الأكثر اكتمالاً من كل سجل، ويحذف النسخ المكررة فقط.
             </p>
           </div>
@@ -217,7 +217,7 @@ function DedupContent() {
         <div className="rounded-xl border p-4 mb-6 flex items-start gap-3"
           style={{ backgroundColor: `${COPPER}10`, borderColor: `${COPPER}40` }}>
           <ShieldCheck size={20} style={{ color: COPPER_LIGHT }} className="flex-shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed" style={{ color: '#CBD5E1' }}>
+          <div className="text-xs leading-relaxed" style={{ color: '#d4c4a8' }}>
             <strong style={{ color: COPPER_LIGHT }}>سياسة الأمان:</strong> لكل مجموعة سجلات لها نفس العنوان، يتم الاحتفاظ بالسجل الأعلى نقاطاً (المحتوى الأطول، الصور، الحقول المعبّأة). لا يتم حذف أي عنصر فريد. يجب الضغط على "فحص" أولاً، ثم مراجعة الخطة، ثم تأكيد التنفيذ.
           </div>
         </div>
@@ -239,7 +239,7 @@ function DedupContent() {
                   <div className="text-xs leading-relaxed" style={{ color: '#FCA5A5' }}>
                     سيتم حذف <strong>{totalToDelete}</strong> سجل مكرر نهائياً. الاحتفاظ بنسخة واحدة على الأقل من كل عنصر مضمون.
                     {progress && executing && (
-                      <div className="mt-2" style={{ color: '#CBD5E1' }}>
+                      <div className="mt-2" style={{ color: '#d4c4a8' }}>
                         التقدم: {progress.done} / {progress.total}
                       </div>
                     )}
@@ -261,7 +261,7 @@ function DedupContent() {
                         onClick={() => setConfirmExec(false)}
                         disabled={executing}
                         className="px-3 py-2 rounded-lg text-sm"
-                        style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}` }}
+                        style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}` }}
                       >
                         إلغاء
                       </button>
@@ -311,13 +311,13 @@ function DedupContent() {
                           <div className="text-white font-medium mb-2">{g.displayTitle}</div>
                           <div className="space-y-1">
                             <div style={{ color: '#22C55E' }}>
-                              ✓ سيُحفظ: <code className="text-[10px]" style={{ color: '#94A3B8' }}>{g.keeper.id}</code>
-                              <span className="mr-2" style={{ color: '#64748B' }}>(نقاط: {scoreDoc(g.keeper).toFixed(1)})</span>
+                              ✓ سيُحفظ: <code className="text-[10px]" style={{ color: '#a89070' }}>{g.keeper.id}</code>
+                              <span className="mr-2" style={{ color: '#a89070' }}>(نقاط: {scoreDoc(g.keeper).toFixed(1)})</span>
                             </div>
                             {g.toDelete.map(d => (
                               <div key={d.id} style={{ color: '#FCA5A5' }}>
-                                ✗ سيُحذف: <code className="text-[10px]" style={{ color: '#94A3B8' }}>{d.id}</code>
-                                <span className="mr-2" style={{ color: '#64748B' }}>(نقاط: {scoreDoc(d).toFixed(1)})</span>
+                                ✗ سيُحذف: <code className="text-[10px]" style={{ color: '#a89070' }}>{d.id}</code>
+                                <span className="mr-2" style={{ color: '#a89070' }}>(نقاط: {scoreDoc(d).toFixed(1)})</span>
                               </div>
                             ))}
                           </div>
@@ -333,7 +333,7 @@ function DedupContent() {
 
         {!plans && !scanning && (
           <div className="rounded-xl border p-8 text-center"
-            style={{ backgroundColor: INDIGO_MEDIUM, borderColor: INDIGO_LIGHT, color: '#94A3B8' }}>
+            style={{ backgroundColor: INDIGO_MEDIUM, borderColor: INDIGO_LIGHT, color: '#a89070' }}>
             اضغط على "فحص المجموعات" لبدء مسح قاعدة البيانات بحثاً عن التكرارات.
           </div>
         )}
@@ -346,7 +346,7 @@ function StatCard({ label, value, highlight }: { label: string; value: number; h
   return (
     <div className="rounded-xl border p-3"
       style={{ backgroundColor: INDIGO_MEDIUM, borderColor: highlight ? '#DC262660' : INDIGO_LIGHT }}>
-      <div className="text-xs mb-1" style={{ color: '#94A3B8' }}>{label}</div>
+      <div className="text-xs mb-1" style={{ color: '#a89070' }}>{label}</div>
       <div className="text-2xl font-bold" style={{ color: highlight ? '#FCA5A5' : 'white' }}>{value}</div>
     </div>
   )

@@ -18,9 +18,9 @@ import {
 } from 'lucide-react'
 
 // Deep Indigo & Copper palette
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
 
 const serviceCategories = [
   {
@@ -190,7 +190,7 @@ export default function ServicesPortal() {
                   key={category.id}
                   className="rounded-2xl overflow-hidden transition-all duration-500"
                   style={{
-                    backgroundColor: isExpanded ? '#1E293B' : 'rgba(255,255,255,0.03)',
+                    backgroundColor: isExpanded ? '#1e1610' : 'rgba(255,255,255,0.03)',
                     border: `2px solid ${isExpanded ? COPPER : 'rgba(255,255,255,0.08)'}`,
                     boxShadow: isExpanded ? `0 20px 50px -10px ${COPPER}20` : 'none',
                   }}

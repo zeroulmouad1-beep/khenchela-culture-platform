@@ -109,26 +109,26 @@ export function AdminGuard({ children }: { children: ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0F172A' }}>
-        <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#B87333', borderTopColor: 'transparent' }} />
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1a0f0a' }}>
+        <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#c9952a', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   if (!configured) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#0F172A' }}>
-        <div className="text-center max-w-md rounded-xl border p-8" style={{ backgroundColor: '#1E293B', borderColor: '#334155' }}>
-          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl" style={{ backgroundColor: '#B8733320', color: '#B87333' }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#1a0f0a' }}>
+        <div className="text-center max-w-md rounded-xl border p-8" style={{ backgroundColor: '#1e1610', borderColor: '#2a1e14' }}>
+          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl" style={{ backgroundColor: '#c9952a20', color: '#c9952a' }}>
             ⚠
           </div>
-          <h2 className="text-xl font-bold text-white mb-2" style={{ fontFamily: 'Tajawal, sans-serif' }}>
+          <h2 className="text-xl font-bold mb-2" style={{ color: '#f0e6d3', fontFamily: 'Tajawal, sans-serif' }}>
             بيانات الدخول غير مُهيأة
           </h2>
-          <p className="text-sm mb-4" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+          <p className="text-sm mb-4" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
             يرجى إضافة متغيرات البيئة الخاصة بالمدير لتفعيل لوحة الإدارة
           </p>
-          <div className="text-left text-xs p-3 rounded-lg" style={{ backgroundColor: '#0F172A', color: '#64748B', fontFamily: 'monospace' }} dir="ltr">
+          <div className="text-left text-xs p-3 rounded-lg" style={{ backgroundColor: '#1a0f0a', color: '#a89070', fontFamily: 'monospace' }} dir="ltr">
             ADMIN_EMAIL<br/>
             ADMIN_PASSWORD
           </div>

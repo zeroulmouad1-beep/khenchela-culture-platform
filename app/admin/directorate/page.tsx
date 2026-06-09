@@ -12,11 +12,11 @@ import type { Artist } from '@/lib/artists-data'
 import type { Association, Statistic } from '@/lib/activities-data'
 import type { NationalMonument, InventoryMonument, IntangibleHeritageItem } from '@/lib/heritage-data'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 type Tab = 'departments' | 'artists' | 'associations' | 'statistics' | 'nationalMonuments' | 'inventoryMonuments' | 'intangibleHeritage'
 
@@ -352,7 +352,7 @@ export default function DirectorateAdminPage() {
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all"
                 style={{
                   backgroundColor: active ? `${COPPER}20` : 'rgba(255,255,255,0.04)',
-                  color: active ? COPPER_LIGHT : '#94A3B8',
+                  color: active ? COPPER_LIGHT : '#a89070',
                   border: `1px solid ${active ? COPPER + '40' : INDIGO_LIGHT}`,
                 }}
               >

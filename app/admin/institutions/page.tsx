@@ -9,11 +9,11 @@ import { ImageUpload } from '@/components/admin/image-upload'
 import { Institution } from '@/lib/institutions-data'
 import { Pencil, X, Save, Building2, Loader2, Trash2 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 function InstitutionsContent() {
   const { institutions, updateInstitution, deleteInstitution } = useCms()
@@ -89,7 +89,7 @@ function InstitutionsContent() {
               <h3 className="text-lg font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                 تعديل المؤسسة
               </h3>
-              <button onClick={handleCancel} style={{ color: '#94A3B8' }}><X size={20} /></button>
+              <button onClick={handleCancel} style={{ color: '#a89070' }}><X size={20} /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -161,7 +161,7 @@ function InstitutionsContent() {
             </div>
             <div className="flex gap-3 justify-end">
               <button onClick={handleCancel} className="px-4 py-2 rounded-lg text-sm font-medium"
-                style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
+                style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
               <button onClick={handleSave} disabled={!form.title?.trim() || saving}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium disabled:opacity-50"
                 style={{ backgroundColor: COPPER, fontFamily: 'Tajawal, sans-serif' }}>
@@ -186,11 +186,11 @@ function InstitutionsContent() {
                       <p className="text-xs mt-0.5" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>{inst.subtitle}</p>
                     )}
                     {inst.description && (
-                      <p className="text-xs mt-1" style={{ color: '#94A3B8', fontFamily: 'Amiri, serif' }}>{inst.description}</p>
+                      <p className="text-xs mt-1" style={{ color: '#a89070', fontFamily: 'Amiri, serif' }}>{inst.description}</p>
                     )}
                     <div className="flex flex-wrap gap-3 mt-2">
-                      <span className="text-xs" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>{inst.address}</span>
-                      <span className="text-xs" style={{ color: '#64748B' }} dir="ltr">{inst.phone}</span>
+                      <span className="text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>{inst.address}</span>
+                      <span className="text-xs" style={{ color: '#a89070' }} dir="ltr">{inst.phone}</span>
                     </div>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ function InstitutionsContent() {
                         onClick={() => setDeleteConfirm(null)}
                         disabled={deletingId === inst.id}
                         className="px-2 py-1 rounded text-xs"
-                        style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                        style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
                       >
                         إلغاء
                       </button>
@@ -223,7 +223,7 @@ function InstitutionsContent() {
                     <button
                       onClick={() => setDeleteConfirm(inst.id)}
                       className="p-2 rounded-lg transition-colors hover:bg-red-500/10"
-                      style={{ color: '#94A3B8' }}
+                      style={{ color: '#a89070' }}
                       title="حذف"
                     >
                       <Trash2 size={16} />

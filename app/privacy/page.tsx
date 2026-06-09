@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import { ArrowRight, Shield } from 'lucide-react'
 
-const COPPER = '#B87333'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 export default function PrivacyPage() {
   const sections = [
@@ -51,12 +51,12 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: INDIGO_DEEP }} dir="rtl">
       <div className="relative overflow-hidden py-20 px-4" style={{ background: `linear-gradient(135deg, ${INDIGO_DEEP} 0%, ${INDIGO_MEDIUM} 100%)` }}>
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(184, 115, 51, 0.3) 0%, transparent 50%)' }} />
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(201, 149, 42, 0.3) 0%, transparent 50%)' }} />
         <div className="max-w-4xl mx-auto relative z-10">
           <Link
             href="/?enter=true"
             className="inline-flex items-center gap-2 mb-8 text-sm transition-colors hover:text-white"
-            style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}
+            style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}
           >
             <ArrowRight size={16} />
             العودة للرئيسية
@@ -69,12 +69,12 @@ export default function PrivacyPage() {
               <h1 className="text-3xl md:text-4xl font-bold text-white" style={{ fontFamily: 'Amiri, serif' }}>
                 سياسة الخصوصية
               </h1>
-              <p className="text-sm mt-1" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+              <p className="text-sm mt-1" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                 آخر تحديث: أبريل 2026
               </p>
             </div>
           </div>
-          <p className="text-base leading-relaxed" style={{ color: '#CBD5E1', fontFamily: 'Tajawal, sans-serif' }}>
+          <p className="text-base leading-relaxed" style={{ color: '#d4c4a8', fontFamily: 'Tajawal, sans-serif' }}>
             منصة قطاع الثقافة والفنون - مديرية الثقافة والفنون لولاية خنشلة
           </p>
         </div>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
               </div>
               <div
                 className="text-base leading-loose whitespace-pre-line"
-                style={{ color: '#CBD5E1', fontFamily: 'Tajawal, sans-serif', lineHeight: '2' }}
+                style={{ color: '#d4c4a8', fontFamily: 'Tajawal, sans-serif', lineHeight: '2' }}
               >
                 {section.content}
               </div>

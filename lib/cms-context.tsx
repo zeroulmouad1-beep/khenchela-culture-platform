@@ -26,7 +26,7 @@ function docToInstitution(doc: FirestoreDoc): Institution {
     iconName: doc.iconName || 'palette',
     image: doc.image || '',
     gallery: doc.gallery || [],
-    iconBg: doc.iconBg || '#B87333',
+    iconBg: doc.iconBg || '#c9952a',
     ambientColor: doc.ambientColor || 'rgba(184, 115, 51, 0.15)',
     address: doc.address || '',
     phone: doc.phone || '',

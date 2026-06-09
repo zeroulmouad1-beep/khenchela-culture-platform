@@ -16,7 +16,7 @@ const ImmersiveHero = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div style={{ width: '100vw', height: '100vh', backgroundColor: '#1E293B' }} />
+      <div style={{ width: '100vw', height: '100vh', backgroundColor: '#1a0f0a' }} />
     ),
   }
 )
@@ -30,7 +30,7 @@ export function HomeClient() {
   }
 
   return (
-    <div className="w-full bg-[#0F172A]">
+    <div className="w-full" style={{ backgroundColor: '#1a0f0a' }}>
       <Navbar />
       {/* 1. Upcoming Events - Top after hero */}
       <EventsSlider />

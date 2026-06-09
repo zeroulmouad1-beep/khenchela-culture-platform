@@ -6,11 +6,11 @@ import Link from 'next/link'
 import { fetchCollection, FirestoreDoc } from '@/lib/firestore-helpers'
 import { ArrowRight, Calendar, MapPin, Users, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 export default function EventDetailPage() {
   const params = useParams()
@@ -57,7 +57,7 @@ export default function EventDetailPage() {
   const gallery: string[] = event.gallery || []
   const allImages = [mainImage, ...gallery.filter((g: string) => g && g.trim())]
   const statusLabel = event.status === 'canceled' ? 'ملغي' : event.status === 'finished' ? 'منتهي' : 'نشط'
-  const statusColor = event.status === 'canceled' ? '#EF4444' : event.status === 'finished' ? '#94A3B8' : '#22C55E'
+  const statusColor = event.status === 'canceled' ? '#EF4444' : event.status === 'finished' ? '#a89070' : '#22C55E'
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return ''
@@ -93,7 +93,7 @@ export default function EventDetailPage() {
                   key={i}
                   onClick={() => setGalleryIndex(i)}
                   className="w-2 h-2 rounded-full transition-all"
-                  style={{ backgroundColor: i === galleryIndex ? COPPER : '#64748B' }}
+                  style={{ backgroundColor: i === galleryIndex ? COPPER : '#a89070' }}
                 />
               ))}
             </div>
@@ -149,7 +149,7 @@ export default function EventDetailPage() {
               <h2 className="text-xl font-bold text-white mb-4" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                 عن الفعالية
               </h2>
-              <p className="text-base leading-relaxed" style={{ color: '#CBD5E1', fontFamily: 'Amiri, serif', lineHeight: '2' }}>
+              <p className="text-base leading-relaxed" style={{ color: '#d4c4a8', fontFamily: 'Amiri, serif', lineHeight: '2' }}>
                 {event.description || 'لا يوجد وصف متاح لهذه الفعالية.'}
               </p>
             </div>
@@ -187,7 +187,7 @@ export default function EventDetailPage() {
                       <Calendar size={16} style={{ color: COPPER }} />
                     </div>
                     <div>
-                      <p className="text-xs mb-0.5" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>التاريخ</p>
+                      <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>التاريخ</p>
                       <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{formatDate(event.date)}</p>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function EventDetailPage() {
                       <MapPin size={16} style={{ color: COPPER }} />
                     </div>
                     <div>
-                      <p className="text-xs mb-0.5" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>المكان</p>
+                      <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>المكان</p>
                       <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.location}</p>
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export default function EventDetailPage() {
                       <Users size={16} style={{ color: COPPER }} />
                     </div>
                     <div>
-                      <p className="text-xs mb-0.5" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>السعة</p>
+                      <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>السعة</p>
                       <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.capacity} شخص</p>
                     </div>
                   </div>

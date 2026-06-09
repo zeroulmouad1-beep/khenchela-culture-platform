@@ -5,10 +5,10 @@ import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 // Deep Indigo & Copper palette
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
 
 export function SmartServices() {
   const [isVisible, setIsVisible] = useState(false)

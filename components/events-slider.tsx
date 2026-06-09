@@ -5,10 +5,10 @@ import { ChevronRight, CalendarX } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
 import { fetchCollection, isMockMode } from '@/lib/firestore-helpers'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
 
 interface EventItem {
   id: string
@@ -87,8 +87,8 @@ export function EventsSlider() {
           50% { transform: translateY(-8px); }
         }
         @keyframes glow {
-          0%, 100% { box-shadow: 0 0 15px rgba(184, 115, 51, 0.4); }
-          50% { box-shadow: 0 0 30px rgba(184, 115, 51, 0.6); }
+          0%, 100% { box-shadow: 0 0 15px rgba(201, 149, 42, 0.4); }
+          50% { box-shadow: 0 0 30px rgba(201, 149, 42, 0.6); }
         }
       `}</style>
 
@@ -173,7 +173,7 @@ export function EventsSlider() {
               <CalendarX size={28} style={{ color: COPPER }} />
             </div>
             <p className="text-white font-semibold mb-2">لا توجد فعاليات متاحة حالياً</p>
-            <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الفعاليات هنا بعد إضافتها من لوحة الإدارة</p>
+            <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض الفعاليات هنا بعد إضافتها من لوحة الإدارة</p>
           </div>
         )}
 

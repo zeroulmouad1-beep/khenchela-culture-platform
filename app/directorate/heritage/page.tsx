@@ -13,9 +13,9 @@ import {
   type IntangibleHeritageItem,
 } from '@/lib/heritage-data'
 
-const COPPER = '#B87333'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_DARKER = '#0B1120'
+const COPPER = '#c9952a'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_DARKER = '#12100e'
 
 type ModalContent = {
   title: string
@@ -36,7 +36,7 @@ function DetailModal({ content, onClose }: { content: ModalContent; onClose: () 
       <div
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl animate-[scaleIn_300ms_ease-out]"
         style={{
-          backgroundColor: 'rgba(15,23,42,0.95)',
+          backgroundColor: 'rgba(26,15,10,0.95)',
           border: `1.5px solid ${COPPER}40`,
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
@@ -59,14 +59,14 @@ function DetailModal({ content, onClose }: { content: ModalContent; onClose: () 
             className="object-cover rounded-t-2xl"
             sizes="(max-width: 768px) 100vw, 672px"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f0a] via-transparent to-transparent" />
         </div>
 
         <div className="p-6 -mt-8 relative" dir="rtl">
           <h3
             className="text-2xl font-bold mb-4"
             style={{
-              background: 'linear-gradient(135deg, #D4A04A 0%, #F5D78E 40%, #B87333 70%, #D4956A 100%)',
+              background: 'linear-gradient(135deg, #c9952a 0%, #e0b060 40%, #c9952a 70%, #8b3a2a 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -206,13 +206,13 @@ function InventoryCard({ monument, onClick }: { monument: InventoryMonument; onC
         <button
           onClick={(e) => { e.stopPropagation(); onClick() }}
           className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-300 border"
-          style={{ borderColor: `${COPPER}60`, backgroundColor: 'rgba(184,115,51,0.15)' }}
+          style={{ borderColor: `${COPPER}60`, backgroundColor: 'rgba(201,149,42,0.15)' }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = COPPER
             e.currentTarget.style.boxShadow = `0 0 20px ${COPPER}50`
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(184,115,51,0.15)'
+            e.currentTarget.style.backgroundColor = 'rgba(201,149,42,0.15)'
             e.currentTarget.style.boxShadow = 'none'
           }}
         >
@@ -409,7 +409,7 @@ export default function HeritagePage() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #D4A04A 0%, #F5D78E 40%, #B87333 70%, #D4956A 100%)',
+                  background: 'linear-gradient(135deg, #c9952a 0%, #e0b060 40%, #c9952a 70%, #8b3a2a 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -461,7 +461,7 @@ export default function HeritagePage() {
                       <MapPin size={24} style={{ color: COPPER }} />
                     </div>
                     <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
-                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض المعالم المصنفة هنا بعد إضافتها من لوحة الإدارة</p>
+                    <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض المعالم المصنفة هنا بعد إضافتها من لوحة الإدارة</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -505,7 +505,7 @@ export default function HeritagePage() {
                       <Calendar size={24} style={{ color: '#22D3EE' }} />
                     </div>
                     <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
-                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الجرد الإضافي هنا بعد إضافته من لوحة الإدارة</p>
+                    <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض الجرد الإضافي هنا بعد إضافته من لوحة الإدارة</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -549,7 +549,7 @@ export default function HeritagePage() {
                       <ImageIcon size={24} style={{ color: '#FBBF24' }} />
                     </div>
                     <p className="text-white font-semibold mb-1">لا توجد بيانات متاحة حالياً</p>
-                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض معرض التراث اللامادي هنا بعد إضافته من لوحة الإدارة</p>
+                    <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض معرض التراث اللامادي هنا بعد إضافته من لوحة الإدارة</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[200px] sm:auto-rows-[220px]">

@@ -7,11 +7,11 @@ import { useCms, CultureHouseWorkshop, CultureHouseFacility } from '@/lib/cms-co
 import { useToast } from '@/components/admin/toast'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 const ICON_OPTIONS = [
   'Theater', 'Paintbrush', 'BookText', 'Video', 'Music', 'Landmark',
@@ -114,7 +114,7 @@ function CultureHouseContent() {
       className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
       style={{
         backgroundColor: activeTab === tab ? `${COPPER}20` : 'transparent',
-        color: activeTab === tab ? COPPER_LIGHT : '#94A3B8',
+        color: activeTab === tab ? COPPER_LIGHT : '#a89070',
         border: activeTab === tab ? `1px solid ${COPPER}40` : `1px solid transparent`,
         fontFamily: 'Tajawal, sans-serif',
       }}>
@@ -147,7 +147,7 @@ function CultureHouseContent() {
               <h3 className="text-lg font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                 {editingId ? 'تعديل' : 'إضافة'} {activeTab === 'workshops' ? 'ورشة' : 'مرفق'}
               </h3>
-              <button onClick={resetForm} style={{ color: '#94A3B8' }}><X size={20} /></button>
+              <button onClick={resetForm} style={{ color: '#a89070' }}><X size={20} /></button>
             </div>
 
             {activeTab === 'workshops' ? (
@@ -192,7 +192,7 @@ function CultureHouseContent() {
 
             <div className="flex gap-3 justify-end">
               <button onClick={resetForm} className="px-4 py-2 rounded-lg text-sm font-medium"
-                style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
+                style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
               <button onClick={activeTab === 'workshops' ? handleSaveWorkshop : handleSaveFacility}
                 disabled={(activeTab === 'workshops' ? !wForm.name.trim() : !fForm.name.trim()) || saving}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium disabled:opacity-50"
@@ -221,17 +221,17 @@ function CultureHouseContent() {
                   workshops.map((w) => (
                     <tr key={w.id} style={{ borderBottom: `1px solid ${INDIGO_LIGHT}20` }}>
                       <td className="px-4 py-3 text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{w.name}</td>
-                      <td className="px-4 py-3" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>{w.iconName}</td>
+                      <td className="px-4 py-3" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>{w.iconName}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           <button onClick={() => handleEditWorkshop(w)} className="p-1.5 rounded-md" style={{ color: COPPER_LIGHT }}><Pencil size={14} /></button>
                           {deleteConfirm === w.id ? (
                             <div className="flex items-center gap-1">
                               <button onClick={() => handleDeleteItem(w.id)} className="px-2 py-0.5 rounded text-xs text-white" style={{ backgroundColor: '#DC2626', fontFamily: 'Tajawal, sans-serif' }}>تأكيد</button>
-                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
+                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
                             </div>
                           ) : (
-                            <button onClick={() => setDeleteConfirm(w.id)} className="p-1.5 rounded-md" style={{ color: '#94A3B8' }}><Trash2 size={14} /></button>
+                            <button onClick={() => setDeleteConfirm(w.id)} className="p-1.5 rounded-md" style={{ color: '#a89070' }}><Trash2 size={14} /></button>
                           )}
                         </div>
                       </td>
@@ -242,17 +242,17 @@ function CultureHouseContent() {
                     <tr key={f.id} style={{ borderBottom: `1px solid ${INDIGO_LIGHT}20` }}>
                       <td className="px-4 py-3 text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{f.name}</td>
                       <td className="px-4 py-3 hidden md:table-cell" style={{ color: COPPER_LIGHT, fontFamily: 'Tajawal, sans-serif' }}>{f.subtitle || '-'}</td>
-                      <td className="px-4 py-3" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>{f.iconName}</td>
+                      <td className="px-4 py-3" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>{f.iconName}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           <button onClick={() => handleEditFacility(f)} className="p-1.5 rounded-md" style={{ color: COPPER_LIGHT }}><Pencil size={14} /></button>
                           {deleteConfirm === f.id ? (
                             <div className="flex items-center gap-1">
                               <button onClick={() => handleDeleteItem(f.id)} className="px-2 py-0.5 rounded text-xs text-white" style={{ backgroundColor: '#DC2626', fontFamily: 'Tajawal, sans-serif' }}>تأكيد</button>
-                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
+                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
                             </div>
                           ) : (
-                            <button onClick={() => setDeleteConfirm(f.id)} className="p-1.5 rounded-md" style={{ color: '#94A3B8' }}><Trash2 size={14} /></button>
+                            <button onClick={() => setDeleteConfirm(f.id)} className="p-1.5 rounded-md" style={{ color: '#a89070' }}><Trash2 size={14} /></button>
                           )}
                         </div>
                       </td>
@@ -263,7 +263,7 @@ function CultureHouseContent() {
             </table>
           </div>
           {((activeTab === 'workshops' && workshops.length === 0) || (activeTab === 'facilities' && facilities.length === 0)) && (
-            <div className="p-8 text-center" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+            <div className="p-8 text-center" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
               لا توجد عناصر. اضغط على "إضافة جديد" للبدء.
             </div>
           )}

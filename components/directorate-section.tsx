@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useCms, Department } from '@/lib/cms-context'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
 
 const iconMap: Record<string, LucideIcon> = {
   Palette,
@@ -31,8 +31,8 @@ function FloatingParticles({ type }: { type: string }) {
         <div
           key={i}
           className={`absolute rounded-full ${
-            type === 'sparkle' ? 'bg-[#B87333]' : 
-            type === 'brush' ? 'bg-white' : 'bg-[#D4956A]'
+            type === 'sparkle' ? 'bg-[#c9952a]' : 
+            type === 'brush' ? 'bg-white' : 'bg-[#e0b060]'
           }`}
           style={{
             width: type === 'sparkle' ? '4px' : type === 'brush' ? '3px' : '2px',

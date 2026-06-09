@@ -67,8 +67,8 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: number) =
       style={{ backgroundColor: c.bg, border: `1px solid ${c.border}`, fontFamily: 'Tajawal, sans-serif', backdropFilter: 'blur(12px)' }}
     >
       <Icon size={16} style={{ color: c.icon }} className="flex-shrink-0" />
-      <span style={{ color: '#E2E8F0' }} className="flex-1">{toast.message}</span>
-      <button onClick={() => onRemove(toast.id)} className="flex-shrink-0" style={{ color: '#64748B' }}>
+      <span style={{ color: '#f0e6d3' }} className="flex-1">{toast.message}</span>
+      <button onClick={() => onRemove(toast.id)} className="flex-shrink-0" style={{ color: '#a89070' }}>
         <X size={14} />
       </button>
     </div>

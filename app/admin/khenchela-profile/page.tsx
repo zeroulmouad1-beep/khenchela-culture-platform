@@ -7,11 +7,11 @@ import { useCms, KhenchelaSection } from '@/lib/cms-context'
 import { useToast } from '@/components/admin/toast'
 import { Pencil, X, Save, Eye, EyeOff, Mountain, Loader2 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 function KhenchelaProfileContent() {
   const { khenchelaSections, updateKhenchelaSection } = useCms()
@@ -81,7 +81,7 @@ function KhenchelaProfileContent() {
           <div className="rounded-xl border p-6 mb-6" style={{ backgroundColor: INDIGO_MEDIUM, borderColor: INDIGO_LIGHT }}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>تعديل القسم</h3>
-              <button onClick={handleCancel} style={{ color: '#94A3B8' }}><X size={20} /></button>
+              <button onClick={handleCancel} style={{ color: '#a89070' }}><X size={20} /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -105,7 +105,7 @@ function KhenchelaProfileContent() {
               {form.paragraphs.map((p, i) => (
                 <div key={i} className="mb-3 relative">
                   <div className="flex items-start gap-2">
-                    <span className="text-xs mt-2 flex-shrink-0" style={{ color: '#64748B' }}>{i + 1}</span>
+                    <span className="text-xs mt-2 flex-shrink-0" style={{ color: '#a89070' }}>{i + 1}</span>
                     <textarea value={p} onChange={(e) => updateParagraph(i, e.target.value)}
                       rows={3} className="w-full px-3 py-2 rounded-lg text-white text-sm outline-none resize-none flex-1"
                       style={{ ...inputStyle, fontFamily: 'Amiri, serif' }} />
@@ -120,7 +120,7 @@ function KhenchelaProfileContent() {
             </div>
             <div className="flex gap-3 justify-end">
               <button onClick={handleCancel} className="px-4 py-2 rounded-lg text-sm font-medium"
-                style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
+                style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}>إلغاء</button>
               <button onClick={handleSave} disabled={!form.title.trim() || saving}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium disabled:opacity-50"
                 style={{ backgroundColor: COPPER, fontFamily: 'Tajawal, sans-serif' }}>
@@ -146,7 +146,7 @@ function KhenchelaProfileContent() {
                 </div>
                 <div className="flex items-center gap-2">
                   <button onClick={() => setPreviewId(previewId === section.id ? null : section.id)}
-                    className="p-1.5 rounded-md" style={{ color: '#94A3B8' }} title="معاينة">
+                    className="p-1.5 rounded-md" style={{ color: '#a89070' }} title="معاينة">
                     {previewId === section.id ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                   <button onClick={() => handleEdit(section)} className="p-1.5 rounded-md" style={{ color: COPPER_LIGHT }} title="تعديل">
@@ -154,13 +154,13 @@ function KhenchelaProfileContent() {
                   </button>
                 </div>
               </div>
-              <p className="text-xs mb-2" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+              <p className="text-xs mb-2" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                 {section.paragraphs.length} فقرات
               </p>
               {previewId === section.id && (
                 <div className="mt-3 p-4 rounded-lg space-y-3" style={{ backgroundColor: `${INDIGO_DEEP}`, border: `1px solid ${INDIGO_LIGHT}40` }}>
                   {section.paragraphs.map((p, i) => (
-                    <p key={i} className="text-sm leading-relaxed" style={{ color: '#CBD5E1', fontFamily: 'Amiri, serif' }}>{p}</p>
+                    <p key={i} className="text-sm leading-relaxed" style={{ color: '#d4c4a8', fontFamily: 'Amiri, serif' }}>{p}</p>
                   ))}
                 </div>
               )}

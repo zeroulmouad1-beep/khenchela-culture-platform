@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { ArrowRight, Home, Mountain, Landmark, Music, Droplets, Crown, Scroll, LucideIcon } from 'lucide-react'
 import { useCms } from '@/lib/cms-context'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
 
 const sectionIcons: LucideIcon[] = [Crown, Music, Mountain]
 
@@ -26,7 +26,7 @@ export default function AboutKhenchelaPage() {
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.75) 50%, rgba(15,23,42,1) 100%)',
+            background: 'linear-gradient(to bottom, rgba(26,15,10,0.55) 0%, rgba(26,15,10,0.75) 50%, rgba(26,15,10,1) 100%)',
           }}
         />
 
@@ -35,9 +35,9 @@ export default function AboutKhenchelaPage() {
             href="/?enter=true"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              backgroundColor: 'rgba(30,41,59,0.7)',
+              backgroundColor: 'rgba(30,22,16,0.7)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(184,115,51,0.3)',
+              border: '1px solid rgba(201,149,42,0.3)',
               color: COPPER_LIGHT,
               fontFamily: 'Tajawal, sans-serif',
             }}
@@ -49,9 +49,9 @@ export default function AboutKhenchelaPage() {
             href="/"
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              backgroundColor: 'rgba(30,41,59,0.7)',
+              backgroundColor: 'rgba(30,22,16,0.7)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(184,115,51,0.3)',
+              border: '1px solid rgba(201,149,42,0.3)',
               color: COPPER_LIGHT,
               fontFamily: 'Tajawal, sans-serif',
             }}
@@ -98,7 +98,7 @@ export default function AboutKhenchelaPage() {
                 key={section.title}
                 className="rounded-2xl p-6 sm:p-8 border"
                 style={{
-                  backgroundColor: 'rgba(30,41,59,0.7)',
+                  backgroundColor: 'rgba(30,22,16,0.7)',
                   backdropFilter: 'blur(16px)',
                   borderColor: `${COPPER}25`,
                   animation: `fadeInUp 0.6s ease-out ${0.2 + index * 0.15}s forwards`,
@@ -129,7 +129,7 @@ export default function AboutKhenchelaPage() {
                     <p
                       key={pIndex}
                       className="text-sm sm:text-base leading-relaxed sm:leading-loose"
-                      style={{ color: '#CBD5E1', fontFamily: 'Amiri, serif' }}
+                      style={{ color: '#d4c4a8', fontFamily: 'Amiri, serif' }}
                     >
                       {paragraph}
                     </p>
@@ -152,7 +152,7 @@ export default function AboutKhenchelaPage() {
                 key={item.label}
                 className="rounded-xl p-5 border text-center transition-all duration-300 hover:scale-[1.02]"
                 style={{
-                  backgroundColor: 'rgba(30,41,59,0.6)',
+                  backgroundColor: 'rgba(30,22,16,0.6)',
                   backdropFilter: 'blur(12px)',
                   borderColor: `${COPPER}25`,
                 }}
@@ -166,7 +166,7 @@ export default function AboutKhenchelaPage() {
                 <p className="text-white font-bold text-sm mb-1" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                   {item.label}
                 </p>
-                <p className="text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                <p className="text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                   {item.sub}
                 </p>
               </div>

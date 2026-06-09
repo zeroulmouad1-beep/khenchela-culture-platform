@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Providers } from '@/components/providers'
+import { HeritageBackground } from '@/components/heritage-background'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#800020',
+  themeColor: '#1a0f0a',
   userScalable: true,
 }
 
@@ -48,9 +49,12 @@ export default function RootLayout({
         <meta charSet="utf-8" />
       </head>
       <body className="antialiased">
-        <Providers>
-          {children}
-        </Providers>
+        <HeritageBackground />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <Providers>
+            {children}
+          </Providers>
+        </div>
         <Analytics />
       </body>
     </html>

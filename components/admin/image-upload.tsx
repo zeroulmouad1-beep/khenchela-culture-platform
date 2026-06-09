@@ -4,10 +4,10 @@ import { useState, useRef } from 'react'
 import { Upload, Loader2, ImageIcon, X } from 'lucide-react'
 import { uploadImage, isMockStorage } from '@/lib/storage-helpers'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_LIGHT = '#2a1e14'
 
 interface ImageUploadProps {
   value: string
@@ -75,7 +75,7 @@ export function ImageUpload({ value, onChange, storagePath = 'images', label = '
       </div>
       <input ref={fileRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
       {isMockStorage && (
-        <p className="text-xs mt-1" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+        <p className="text-xs mt-1" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
           وضع المعاينة — الصور المرفوعة مؤقتة
         </p>
       )}
@@ -87,7 +87,7 @@ export function ImageUpload({ value, onChange, storagePath = 'images', label = '
               <img src={value} alt="preview" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: INDIGO_DEEP }}>
-                <ImageIcon size={20} style={{ color: '#64748B' }} />
+                <ImageIcon size={20} style={{ color: '#a89070' }} />
               </div>
             )}
           </div>

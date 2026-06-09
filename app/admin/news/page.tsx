@@ -8,11 +8,11 @@ import { useToast } from '@/components/admin/toast'
 import { ImageUpload } from '@/components/admin/image-upload'
 import { Plus, Pencil, Trash2, X, Save, Loader2 } from 'lucide-react'
 
-const COPPER = '#B87333'
-const COPPER_LIGHT = '#D4956A'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_MEDIUM = '#1E293B'
-const INDIGO_LIGHT = '#334155'
+const COPPER = '#c9952a'
+const COPPER_LIGHT = '#e0b060'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_MEDIUM = '#1e1610'
+const INDIGO_LIGHT = '#2a1e14'
 
 interface NewsItem {
   title: string
@@ -126,7 +126,7 @@ function NewsContent() {
               <h3 className="text-lg font-bold text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>
                 {editingId ? 'تعديل الخبر' : 'إضافة خبر جديد'}
               </h3>
-              <button onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyNews) }} style={{ color: '#94A3B8' }}>
+              <button onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyNews) }} style={{ color: '#a89070' }}>
                 <X size={20} />
               </button>
             </div>
@@ -172,9 +172,9 @@ function NewsContent() {
                     type="checkbox"
                     checked={form.published}
                     onChange={(e) => setForm({ ...form, published: e.target.checked })}
-                    className="w-4 h-4 rounded accent-[#B87333]"
+                    className="w-4 h-4 rounded accent-[#c9952a]"
                   />
-                  <span className="text-sm" style={{ color: '#CBD5E1' }}>منشور</span>
+                  <span className="text-sm" style={{ color: '#d4c4a8' }}>منشور</span>
                 </label>
               </div>
             </div>
@@ -199,7 +199,7 @@ function NewsContent() {
               <button
                 onClick={() => { setShowForm(false); setEditingId(null); setForm(emptyNews) }}
                 className="px-4 py-2 rounded-lg text-sm font-medium"
-                style={{ color: '#94A3B8', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
+                style={{ color: '#a89070', border: `1px solid ${INDIGO_LIGHT}`, fontFamily: 'Tajawal, sans-serif' }}
               >
                 إلغاء
               </button>
@@ -222,7 +222,7 @@ function NewsContent() {
               <Loader2 size={24} className="animate-spin" style={{ color: COPPER }} />
             </div>
           ) : items.length === 0 ? (
-            <div className="p-8 text-center" style={{ color: '#64748B', fontFamily: 'Tajawal, sans-serif' }}>
+            <div className="p-8 text-center" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
               لا توجد أخبار حالياً. اضغط على "خبر جديد" لإضافة خبر.
             </div>
           ) : (
@@ -240,7 +240,7 @@ function NewsContent() {
                   {items.map((item) => (
                     <tr key={item.id} style={{ borderBottom: `1px solid ${INDIGO_LIGHT}20` }}>
                       <td className="px-4 py-3 text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{item.title || '-'}</td>
-                      <td className="px-4 py-3 hidden md:table-cell" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                      <td className="px-4 py-3 hidden md:table-cell" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                         {item.date || formatTimestamp(item.createdAt)}
                       </td>
                       <td className="px-4 py-3">
@@ -248,7 +248,7 @@ function NewsContent() {
                           className="px-2 py-0.5 rounded-full text-xs font-medium"
                           style={{
                             backgroundColor: item.published ? 'rgba(34, 197, 94, 0.15)' : 'rgba(100, 116, 139, 0.15)',
-                            color: item.published ? '#22C55E' : '#94A3B8',
+                            color: item.published ? '#22C55E' : '#a89070',
                             fontFamily: 'Tajawal, sans-serif',
                           }}
                         >
@@ -265,12 +265,12 @@ function NewsContent() {
                               <button onClick={() => handleDelete(item.id)} className="px-2 py-0.5 rounded text-xs text-white" style={{ backgroundColor: '#DC2626', fontFamily: 'Tajawal, sans-serif' }}>
                                 تأكيد
                               </button>
-                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#94A3B8', fontFamily: 'Tajawal, sans-serif' }}>
+                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-0.5 rounded text-xs" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>
                                 إلغاء
                               </button>
                             </div>
                           ) : (
-                            <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-md transition-colors" style={{ color: '#94A3B8' }} title="حذف">
+                            <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-md transition-colors" style={{ color: '#a89070' }} title="حذف">
                               <Trash2 size={14} />
                             </button>
                           )}

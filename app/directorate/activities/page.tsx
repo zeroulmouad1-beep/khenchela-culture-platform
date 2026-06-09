@@ -5,9 +5,9 @@ import { ArrowRight, Home, Users, BookOpen, BarChart3, Calendar } from 'lucide-r
 import { useEffect, useState } from 'react'
 import { getAssociations, getStatistics, type Association, type Statistic } from '@/lib/activities-data'
 
-const COPPER = '#B87333'
-const INDIGO_DEEP = '#0F172A'
-const INDIGO_DARKER = '#0B1120'
+const COPPER = '#c9952a'
+const INDIGO_DEEP = '#1a0f0a'
+const INDIGO_DARKER = '#12100e'
 
 const ASSOC_HEADERS = ['#', 'اسم الجمعية', 'النوع', 'الرئيس', 'تاريخ التأسيس']
 
@@ -28,7 +28,7 @@ function AssociationsTable({ data }: { data: Association[] }) {
           <BookOpen size={28} style={{ color: COPPER }} />
         </div>
         <p className="text-white font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
-        <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض سجل الجمعيات هنا بعد إضافته من لوحة الإدارة</p>
+        <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض سجل الجمعيات هنا بعد إضافته من لوحة الإدارة</p>
       </div>
     )
   }
@@ -39,8 +39,8 @@ function AssociationsTable({ data }: { data: Association[] }) {
         <thead>
           <tr
             style={{
-              backgroundColor: 'rgba(184,115,51,0.12)',
-              borderBottom: '1px solid rgba(184,115,51,0.25)',
+              backgroundColor: 'rgba(201,149,42,0.12)',
+              borderBottom: '1px solid rgba(201,149,42,0.25)',
             }}
           >
             {ASSOC_HEADERS.map((header) => (
@@ -64,7 +64,7 @@ function AssociationsTable({ data }: { data: Association[] }) {
                 backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(184,115,51,0.08)'
+                e.currentTarget.style.backgroundColor = 'rgba(201,149,42,0.08)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'
@@ -245,7 +245,7 @@ export default function ActivitiesPage() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #D4A04A 0%, #F5D78E 40%, #B87333 70%, #D4956A 100%)',
+                  background: 'linear-gradient(135deg, #c9952a 0%, #e0b060 40%, #c9952a 70%, #8b3a2a 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -324,7 +324,7 @@ export default function ActivitiesPage() {
                       <BarChart3 size={28} style={{ color: '#22D3EE' }} />
                     </div>
                     <p className="text-white font-semibold mb-2">لا توجد بيانات متاحة حالياً</p>
-                    <p className="text-sm" style={{ color: '#64748B' }}>سيتم عرض الإحصائيات هنا بعد إضافتها من لوحة الإدارة</p>
+                    <p className="text-sm" style={{ color: '#a89070' }}>سيتم عرض الإحصائيات هنا بعد إضافتها من لوحة الإدارة</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
