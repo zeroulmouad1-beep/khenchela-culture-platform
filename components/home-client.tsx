@@ -30,7 +30,7 @@ export function HomeClient() {
   }
 
   return (
-    <div className="w-full" style={{ backgroundColor: '#1a0f0a' }}>
+    <div className="w-full">
       <Navbar />
       {/* 1. Upcoming Events - Top after hero */}
       <EventsSlider />
