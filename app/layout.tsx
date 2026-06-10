@@ -47,6 +47,36 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" data-scroll-behavior="smooth">
       <head>
         <meta charSet="utf-8" />
+        <meta name="author" content="Zerroual Mouadh" />
+        <meta name="creator" content="Zerroual Mouadh" />
+        <meta name="designer" content="Zerroual Mouadh" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "GovernmentOrganization",
+              "name": "مديرية الثقافة والفنون - خنشلة",
+              "alternateName": "Khenchela Culture",
+              "url": "https://2p8oc.riker.replit.dev",
+              "description": "Official portal for the Culture and Arts sector - Khenchela Province, Algeria",
+              "creator": {
+                "@type": "Person",
+                "name": "Zerroual Mouadh",
+                "jobTitle": "Web Developer"
+              },
+              "founder": {
+                "@type": "Person",
+                "name": "Zerroual Mouadh"
+              },
+              "areaServed": {
+                "@type": "AdministrativeArea",
+                "name": "Khenchela, Algeria"
+              },
+              "inLanguage": "ar"
+            })
+          }}
+        />
       </head>
       <body className="antialiased">
         <HeritageBackground />
