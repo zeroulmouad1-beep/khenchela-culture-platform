@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { doc as fsDoc, getDoc } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { fetchCollection, addDocument, updateDocument, FirestoreDoc } from '@/lib/firestore-helpers'
@@ -56,11 +58,12 @@ const emptyForm = (): StatsForm => ({
 })
 
 function docToForm(doc: FirestoreDoc): StatsForm {
-  const me: MonthRow[] = Array.isArray(doc.monthlyEvents) && doc.monthlyEvents.length === 12
+  // Use whatever Firebase returns; only fall back to defaults if the field is missing entirely
+  const me: MonthRow[] = Array.isArray(doc.monthlyEvents) && doc.monthlyEvents.length > 0
     ? doc.monthlyEvents.map((r: any) => ({ month: r.month ?? '', count: String(r.count ?? 0) }))
     : defaultMonthly()
 
-  const ag: MonthRow[] = Array.isArray(doc.attendanceGrowth) && doc.attendanceGrowth.length === 12
+  const ag: MonthRow[] = Array.isArray(doc.attendanceGrowth) && doc.attendanceGrowth.length > 0
     ? doc.attendanceGrowth.map((r: any) => ({ month: r.month ?? '', count: String(r.count ?? 0) }))
     : defaultMonthly()
 
@@ -192,36 +195,32 @@ function CulturalStatsContent() {
     const COLLECTION = 'culturalStats'
     try {
       const payload = formToPayload(form)
-      console.log(`[cultural-stats] ── SAVE START ──`)
-      console.log(`[cultural-stats] collection path: "${COLLECTION}"`)
-      console.log(`[cultural-stats] docId: ${docId ?? '(none — will create)'}`)
-      console.log(`[cultural-stats] payload:`, JSON.stringify(payload))
+
+      console.log("Saving to Firebase:", payload)
+      console.log("[cultural-stats] collection:", COLLECTION, "| docId:", docId ?? "(new)")
 
       let savedId = docId
       if (docId) {
-        console.log(`[cultural-stats] calling updateDocument("${COLLECTION}", "${docId}", payload)`)
-        await updateDocument(COLLECTION, docId, payload)
-        console.log(`[cultural-stats] updateDocument resolved OK`)
+        const result = await updateDocument(COLLECTION, docId, payload)
+        console.log("Firebase save result:", result)
       } else {
-        console.log(`[cultural-stats] calling addDocument("${COLLECTION}", payload)`)
-        const res = await addDocument(COLLECTION, payload)
-        console.log(`[cultural-stats] addDocument resolved, id="${res?.id}"`)
-        if (res?.id) { setDocId(res.id); savedId = res.id }
+        const result = await addDocument(COLLECTION, payload)
+        console.log("Firebase save result:", result)
+        if (result?.id) { setDocId(result.id); savedId = result.id }
       }
 
-      // Post-save verification: re-fetch the document to confirm it was written
-      console.log(`[cultural-stats] verifying write — re-fetching collection "${COLLECTION}"...`)
-      try {
-        const { fetchCollection } = await import('@/lib/firestore-helpers')
-        const docs = await fetchCollection(COLLECTION)
-        const match = docs.find(d => d.id === savedId)
-        if (match) {
-          console.log(`[cultural-stats] ✅ Verified — doc "${savedId}" found in Firestore. totalEvents=${match.totalEvents}`)
-        } else {
-          console.warn(`[cultural-stats] ⚠️ Doc "${savedId}" NOT found in re-fetch. docs returned:`, docs.map(d => d.id))
+      // getDoc immediately after saving to confirm the data exists in Firestore
+      if (savedId && db) {
+        try {
+          const snap = await getDoc(fsDoc(db, COLLECTION, savedId))
+          if (snap.exists()) {
+            console.log(`getDoc verify ✅ — doc "${savedId}" exists in Firestore:`, snap.data())
+          } else {
+            console.warn(`getDoc verify ❌ — doc "${savedId}" NOT found in Firestore after write`)
+          }
+        } catch (verifyErr) {
+          console.warn('getDoc verify failed:', verifyErr)
         }
-      } catch (verifyErr) {
-        console.warn('[cultural-stats] verify re-fetch failed:', verifyErr)
       }
 
       showToast('تم حفظ الإحصائيات بنجاح', 'success')
@@ -231,7 +230,6 @@ function CulturalStatsContent() {
       showToast(`خطأ في الحفظ: ${msg}`, 'error')
     } finally {
       setSaving(false)
-      console.log(`[cultural-stats] ── SAVE END ──`)
     }
   }
 
