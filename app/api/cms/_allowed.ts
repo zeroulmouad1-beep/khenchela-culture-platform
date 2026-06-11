@@ -13,6 +13,7 @@ export const ALLOWED_COLLECTIONS = new Set<string>([
   'nationalMonuments',
   'inventoryMonuments',
   'intangibleHeritage',
+  'culturalStats',
 ])
 
 export function isAllowedCollection(name: string): boolean {

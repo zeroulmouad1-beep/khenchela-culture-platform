@@ -7,7 +7,7 @@ import { useAuth } from '@/lib/auth-context'
 import {
   LayoutDashboard, Newspaper, Settings, Calendar,
   LogOut, Menu, X, ChevronLeft,
-  Building2, BookMarked, Home, Mountain, Landmark, Sparkles
+  Building2, BookMarked, Home, Mountain, Landmark, Sparkles, BarChart2
 } from 'lucide-react'
 
 const GOLD = '#c9952a'
@@ -26,6 +26,7 @@ const sidebarItems = [
   { href: '/admin/services', label: 'الخدمات', icon: Settings },
   { href: '/admin/events', label: 'الفعاليات', icon: Calendar },
   { href: '/admin/directorate', label: 'مصالح المديرية', icon: Landmark },
+  { href: '/admin/cultural-stats', label: 'إحصائيات النشاطات', icon: BarChart2 },
   { href: '/admin/dedup', label: 'تنظيف التكرارات', icon: Sparkles },
 ]
 
