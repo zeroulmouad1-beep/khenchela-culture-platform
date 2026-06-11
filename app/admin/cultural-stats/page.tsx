@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { doc as fsDoc, getDoc } from 'firebase/firestore'
+import { doc as fsDoc, getDoc, collection, onSnapshot } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
@@ -146,24 +146,53 @@ function Card({ children, style = {} }: { children: React.ReactNode; style?: Rea
 
 function CulturalStatsContent() {
   const { showToast } = useToast()
-  const [loading, setLoading]   = useState(true)
-  const [saving, setSaving]     = useState(false)
-  const [docId, setDocId]       = useState<string | null>(null)
-  const [form, setForm]         = useState<StatsForm>(emptyForm())
+  const [loading, setLoading]     = useState(true)
+  const [saving, setSaving]       = useState(false)
+  const [docId, setDocId]         = useState<string | null>(null)
+  const [form, setForm]           = useState<StatsForm>(emptyForm())
   const [activeTab, setActiveTab] = useState('totals')
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [dbStatus, setDbStatus]   = useState<'checking' | 'connected' | 'no-firebase'>('checking')
 
   useEffect(() => {
-    async function load() {
-      try {
-        const docs = await fetchCollection('culturalStats')
-        if (docs.length > 0) {
-          setDocId(docs[0].id)
-          setForm(docToForm(docs[0]))
-        }
-      } catch { /* ignore */ }
-      finally { setLoading(false) }
+    if (!db) {
+      const msg = 'Firebase غير مهيأ (db = null). تحقق من متغيرات NEXT_PUBLIC_FIREBASE_* في البيئة.'
+      console.warn('[cultural-stats] LOAD:', msg)
+      setLoadError(msg)
+      setDbStatus('no-firebase')
+      setLoading(false)
+      return
     }
-    load()
+
+    setDbStatus('connected')
+    console.log('[cultural-stats] LOAD: db ✅ connected — subscribing to Firestore path "culturalStats"...')
+
+    const unsubscribe = onSnapshot(
+      collection(db, 'culturalStats'),
+      (snapshot) => {
+        console.log('[cultural-stats] LOAD: snapshot received — docs count:', snapshot.docs.length)
+        if (!snapshot.empty) {
+          const first = snapshot.docs[0]
+          const data = first.data()
+          console.log('[cultural-stats] LOAD: ✅ doc id=', first.id, '| keys=', Object.keys(data).join(', '))
+          console.log('[cultural-stats] LOAD: totalEvents=', data.totalEvents, '| totalAttendance=', data.totalAttendance)
+          setDocId(first.id)
+          setForm(docToForm({ id: first.id, ...data }))
+          setLoadError(null)
+        } else {
+          console.log('[cultural-stats] LOAD: collection "culturalStats" is EMPTY — no document saved yet')
+        }
+        setLoading(false)
+      },
+      (err) => {
+        const msg = `Firestore read error: ${err.code} — ${err.message}`
+        console.error('[cultural-stats] LOAD ERROR reading "culturalStats":', err.code, '—', err.message)
+        setLoadError(msg)
+        setLoading(false)
+      }
+    )
+
+    return () => unsubscribe()
   }, [])
 
   const set = (key: keyof StatsForm, value: string) =>
@@ -243,6 +272,31 @@ function CulturalStatsContent() {
 
   return (
     <div dir="rtl" style={{ maxWidth: 900, margin: '0 auto' }}>
+
+      {/* ── Firebase status / error banner ── */}
+      {dbStatus === 'no-firebase' && (
+        <div style={{ marginBottom: 20, padding: '14px 18px', borderRadius: 10, backgroundColor: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.4)', fontFamily: 'Tajawal, sans-serif', fontSize: 13, color: '#fca5a5', lineHeight: 1.6 }}>
+          <strong>⚠️ Firebase غير مهيأ (db = null)</strong><br />
+          متغيرات البيئة <code>NEXT_PUBLIC_FIREBASE_*</code> غير متوفرة في الحزمة. لن تُحفظ البيانات ولن تُقرأ من Firestore.
+        </div>
+      )}
+      {loadError && dbStatus !== 'no-firebase' && (
+        <div style={{ marginBottom: 20, padding: '14px 18px', borderRadius: 10, backgroundColor: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.4)', fontFamily: 'Tajawal, sans-serif', fontSize: 13, color: '#fca5a5', lineHeight: 1.6, direction: 'ltr', textAlign: 'left' }}>
+          <strong>Firestore read failed:</strong> {loadError}<br />
+          <span style={{ fontSize: 12, color: '#f87171' }}>Check: Firestore rules deployed? Firebase env vars correct?</span>
+        </div>
+      )}
+      {dbStatus === 'connected' && !loadError && docId && (
+        <div style={{ marginBottom: 16, padding: '8px 14px', borderRadius: 8, backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', fontFamily: 'Tajawal, sans-serif', fontSize: 12, color: '#86efac', display: 'flex', alignItems: 'center', gap: 8 }}>
+          ✅ متصل بـ Firestore — تم تحميل البيانات من المستند: <code style={{ fontSize: 11 }}>{docId}</code>
+        </div>
+      )}
+      {dbStatus === 'connected' && !loadError && !docId && (
+        <div style={{ marginBottom: 16, padding: '8px 14px', borderRadius: 8, backgroundColor: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.3)', fontFamily: 'Tajawal, sans-serif', fontSize: 12, color: '#fde68a' }}>
+          ⚠️ متصل بـ Firestore لكن لا توجد بيانات محفوظة بعد — اضغط "حفظ التغييرات" لإنشاء السجل الأول
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
