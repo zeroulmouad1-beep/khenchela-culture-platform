@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { AdminGuard } from '@/lib/auth-context'
 import { AdminShell } from '@/components/admin/admin-shell'
 import { fetchCollection, addDocument, updateDocument, FirestoreDoc } from '@/lib/firestore-helpers'
-import { useToast } from '@/components/admin/toast'
+import { useToast, ToastProvider } from '@/components/admin/toast'
 import { Save, Loader2, Plus, Trash2, BarChart2, Users, Building2, Star, TrendingUp, Calendar } from 'lucide-react'
 
 const COPPER = '#c9952a'
@@ -497,9 +497,11 @@ function CulturalStatsContent() {
 export default function CulturalStatsPage() {
   return (
     <AdminGuard>
-      <AdminShell>
-        <CulturalStatsContent />
-      </AdminShell>
+      <ToastProvider>
+        <AdminShell>
+          <CulturalStatsContent />
+        </AdminShell>
+      </ToastProvider>
     </AdminGuard>
   )
 }

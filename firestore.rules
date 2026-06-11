@@ -35,5 +35,6 @@ service cloud.firestore {
     match /nationalMonuments/{doc} { allow read: if true; allow write: if false; }
     match /inventoryMonuments/{doc}{ allow read: if true; allow write: if false; }
     match /intangibleHeritage/{doc}{ allow read: if true; allow write: if false; }
+    match /culturalStats/{doc}     { allow read: if true; allow write: if false; }
   }
 }

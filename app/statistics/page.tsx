@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { fetchCollection, FirestoreDoc } from '@/lib/firestore-helpers'
+import { FirestoreDoc } from '@/lib/firestore-helpers'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
   LineChart, Line, PieChart, Pie, Cell, Legend, Area, AreaChart,
@@ -101,14 +103,26 @@ export default function StatisticsPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function load() {
-      try {
-        const docs = await fetchCollection('culturalStats')
-        if (docs.length > 0) setData(docs[0])
-      } catch { /* ignore */ }
-      finally { setLoading(false) }
+    if (!db) {
+      setLoading(false)
+      return
     }
-    load()
+    const unsubscribe = onSnapshot(
+      collection(db, 'culturalStats'),
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const doc = snapshot.docs[0]
+          setData({ id: doc.id, ...doc.data() } as FirestoreDoc)
+        } else {
+          setData(null)
+        }
+        setLoading(false)
+      },
+      (_err) => {
+        setLoading(false)
+      }
+    )
+    return () => unsubscribe()
   }, [])
 
   if (loading) {
