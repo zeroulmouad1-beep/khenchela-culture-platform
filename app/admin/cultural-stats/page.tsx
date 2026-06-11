@@ -198,8 +198,10 @@ function CulturalStatsContent() {
         if (res?.id) setDocId(res.id)
       }
       showToast('تم حفظ الإحصائيات بنجاح', 'success')
-    } catch {
-      showToast('حدث خطأ أثناء الحفظ', 'error')
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error('[cultural-stats save]', msg)
+      showToast(`خطأ: ${msg}`, 'error')
     } finally {
       setSaving(false)
     }

@@ -42,18 +42,33 @@ export async function fetchCollection(collectionName: string, orderField = 'crea
 }
 
 async function callCmsApi(method: string, path: string, body?: Record<string, any>) {
-  const res = await fetch(`/api/cms/${path}`, {
-    method,
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: body ? JSON.stringify(body) : undefined,
-  })
-  if (!res.ok) {
-    let detail = ''
-    try { detail = (await res.json()).error || '' } catch {}
-    throw new Error(`CMS ${method} ${path} failed: ${res.status}${detail ? ' ' + detail : ''}`)
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 20000)
+  try {
+    const res = await fetch(`/api/cms/${path}`, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      signal: controller.signal,
+      body: body ? JSON.stringify(body) : undefined,
+    })
+    clearTimeout(timeout)
+    if (!res.ok) {
+      let errMsg = `HTTP ${res.status}`
+      try {
+        const j = await res.json()
+        errMsg = j.detail || j.error || errMsg
+      } catch {}
+      throw new Error(`CMS ${method} /${path} failed: ${errMsg}`)
+    }
+    return res.json()
+  } catch (err) {
+    clearTimeout(timeout)
+    if (err instanceof Error && err.name === 'AbortError') {
+      throw new Error(`CMS ${method} /${path} timed out after 20s`)
+    }
+    throw err
   }
-  return res.json()
 }
 
 export async function addDocument(collectionName: string, data: Record<string, any>) {
