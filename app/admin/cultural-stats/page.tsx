@@ -189,21 +189,49 @@ function CulturalStatsContent() {
   const handleSave = async () => {
     if (saving) return
     setSaving(true)
+    const COLLECTION = 'culturalStats'
     try {
       const payload = formToPayload(form)
+      console.log(`[cultural-stats] ── SAVE START ──`)
+      console.log(`[cultural-stats] collection path: "${COLLECTION}"`)
+      console.log(`[cultural-stats] docId: ${docId ?? '(none — will create)'}`)
+      console.log(`[cultural-stats] payload:`, JSON.stringify(payload))
+
+      let savedId = docId
       if (docId) {
-        await updateDocument('culturalStats', docId, payload)
+        console.log(`[cultural-stats] calling updateDocument("${COLLECTION}", "${docId}", payload)`)
+        await updateDocument(COLLECTION, docId, payload)
+        console.log(`[cultural-stats] updateDocument resolved OK`)
       } else {
-        const res = await addDocument('culturalStats', payload)
-        if (res?.id) setDocId(res.id)
+        console.log(`[cultural-stats] calling addDocument("${COLLECTION}", payload)`)
+        const res = await addDocument(COLLECTION, payload)
+        console.log(`[cultural-stats] addDocument resolved, id="${res?.id}"`)
+        if (res?.id) { setDocId(res.id); savedId = res.id }
       }
+
+      // Post-save verification: re-fetch the document to confirm it was written
+      console.log(`[cultural-stats] verifying write — re-fetching collection "${COLLECTION}"...`)
+      try {
+        const { fetchCollection } = await import('@/lib/firestore-helpers')
+        const docs = await fetchCollection(COLLECTION)
+        const match = docs.find(d => d.id === savedId)
+        if (match) {
+          console.log(`[cultural-stats] ✅ Verified — doc "${savedId}" found in Firestore. totalEvents=${match.totalEvents}`)
+        } else {
+          console.warn(`[cultural-stats] ⚠️ Doc "${savedId}" NOT found in re-fetch. docs returned:`, docs.map(d => d.id))
+        }
+      } catch (verifyErr) {
+        console.warn('[cultural-stats] verify re-fetch failed:', verifyErr)
+      }
+
       showToast('تم حفظ الإحصائيات بنجاح', 'success')
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
-      console.error('[cultural-stats save]', msg)
-      showToast(`خطأ: ${msg}`, 'error')
+      console.error('[cultural-stats] ❌ SAVE FAILED:', msg)
+      showToast(`خطأ في الحفظ: ${msg}`, 'error')
     } finally {
       setSaving(false)
+      console.log(`[cultural-stats] ── SAVE END ──`)
     }
   }
 

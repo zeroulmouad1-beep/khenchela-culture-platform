@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
-import { addSession } from '../_session-store'
+import { createSessionToken } from '../_session-store'
 
 const loginAttempts = new Map<string, { count: number; lastAttempt: number }>()
 const MAX_ATTEMPTS = 5
@@ -25,19 +24,15 @@ export async function POST(request: NextRequest) {
     const sessionSecret = process.env.SESSION_SECRET
 
     if (!adminEmail || !adminPassword || !sessionSecret) {
+      console.error('[login] Missing env vars — ADMIN_EMAIL:', !!adminEmail, 'ADMIN_PASSWORD:', !!adminPassword, 'SESSION_SECRET:', !!sessionSecret)
       return NextResponse.json({ error: 'credentials_not_configured' }, { status: 500 })
     }
 
     if (email === adminEmail && password === adminPassword) {
       loginAttempts.delete(clientIp)
 
-      const sessionId = crypto.randomBytes(32).toString('hex')
-      const token = crypto
-        .createHmac('sha256', sessionSecret)
-        .update(sessionId)
-        .digest('hex')
-
-      addSession(token)
+      const token = createSessionToken()
+      console.log('[login] ✅ Login success — stateless token created (no in-memory store)')
 
       const response = NextResponse.json({
         success: true,
@@ -55,9 +50,11 @@ export async function POST(request: NextRequest) {
 
     const current = loginAttempts.get(clientIp) || { count: 0, lastAttempt: 0 }
     loginAttempts.set(clientIp, { count: current.count + 1, lastAttempt: Date.now() })
+    console.log('[login] ❌ Invalid credentials for:', email)
 
     return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 })
-  } catch {
+  } catch (err: any) {
+    console.error('[login] server_error:', err?.message)
     return NextResponse.json({ error: 'server_error' }, { status: 500 })
   }
 }
