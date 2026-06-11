@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { fetchCollection, FirestoreDoc } from '@/lib/firestore-helpers'
-import { ArrowRight, Calendar, MapPin, Users, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, Calendar, MapPin, Users, Loader2, ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 const COPPER = '#c9952a'
 const COPPER_LIGHT = '#e0b060'
@@ -18,6 +18,16 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<FirestoreDoc | null>(null)
   const [loading, setLoading] = useState(true)
   const [galleryIndex, setGalleryIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
+  const touchStartX = useRef(0)
+
+  // Derived early so keyboard effect can reference them before early returns
+  const mainImage = event?.imageUrl || event?.image || '/images/cultural-festival.jpg'
+  const gallery: string[] = (event?.gallery as string[]) || []
+  const allImages: string[] = event
+    ? [mainImage, ...gallery.filter((g: string) => g && g.trim())]
+    : []
 
   useEffect(() => {
     async function loadEvent() {
@@ -33,6 +43,39 @@ export default function EventDetailPage() {
     }
     if (eventId) loadEvent()
   }, [eventId])
+
+  // Keyboard navigation + Escape to close
+  useEffect(() => {
+    if (!lightboxOpen) return
+    const total = allImages.length
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setLightboxOpen(false)
+      // RTL: ArrowLeft → advance, ArrowRight → go back
+      if (e.key === 'ArrowLeft')  setLightboxIndex(i => (i + 1) % total)
+      if (e.key === 'ArrowRight') setLightboxIndex(i => (i - 1 + total) % total)
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightboxOpen, allImages.length])
+
+  // Lock body scroll while lightbox is open
+  useEffect(() => {
+    document.body.style.overflow = lightboxOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [lightboxOpen])
+
+  function openLightbox(index: number) {
+    setLightboxIndex(index)
+    setLightboxOpen(true)
+  }
+
+  function lbPrev() {
+    setLightboxIndex(i => (i - 1 + allImages.length) % allImages.length)
+  }
+
+  function lbNext() {
+    setLightboxIndex(i => (i + 1) % allImages.length)
+  }
 
   if (loading) {
     return (
@@ -53,9 +96,6 @@ export default function EventDetailPage() {
     )
   }
 
-  const mainImage = event.imageUrl || event.image || '/images/cultural-festival.jpg'
-  const gallery: string[] = event.gallery || []
-  const allImages = [mainImage, ...gallery.filter((g: string) => g && g.trim())]
   const statusLabel = event.status === 'canceled' ? 'ملغي' : event.status === 'finished' ? 'منتهي' : 'نشط'
   const statusColor = event.status === 'canceled' ? '#EF4444' : event.status === 'finished' ? '#a89070' : '#22C55E'
 
@@ -70,11 +110,14 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: INDIGO_DEEP }} dir="rtl">
+
+      {/* ── Hero / main image with carousel ── */}
       <div className="relative h-[50vh] min-h-[400px] overflow-hidden">
         <img
           src={allImages[galleryIndex] || mainImage}
           alt={event.title || ''}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover cursor-zoom-in"
+          onClick={() => openLightbox(galleryIndex)}
         />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.6) 40%, rgba(15, 23, 42, 0.2) 100%)' }} />
 
@@ -142,6 +185,7 @@ export default function EventDetailPage() {
         </div>
       </div>
 
+      {/* ── Body content ── */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -163,9 +207,10 @@ export default function EventDetailPage() {
                   {gallery.filter((g: string) => g && g.trim()).map((img: string, i: number) => (
                     <button
                       key={i}
-                      onClick={() => setGalleryIndex(i + 1)}
-                      className="aspect-[4/3] rounded-lg overflow-hidden border transition-all duration-200 hover:border-opacity-100"
-                      style={{ borderColor: galleryIndex === i + 1 ? COPPER : INDIGO_LIGHT }}
+                      onClick={() => openLightbox(i + 1)}
+                      className="aspect-[4/3] rounded-lg overflow-hidden border transition-all duration-200 hover:scale-[1.02] hover:border-opacity-100"
+                      style={{ borderColor: COPPER_LIGHT }}
+                      aria-label={`فتح الصورة ${i + 1}`}
                     >
                       <img src={img} alt={`${event.title} - ${i + 1}`} className="w-full h-full object-cover" />
                     </button>
@@ -188,7 +233,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>التاريخ</p>
-                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{formatDate(event.date)}</p>
+                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{formatDate(event.date as string)}</p>
                     </div>
                   </div>
                 )}
@@ -199,18 +244,18 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>المكان</p>
-                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.location}</p>
+                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.location as string}</p>
                     </div>
                   </div>
                 )}
-                {event.capacity != null && event.capacity > 0 && (
+                {event.capacity != null && (event.capacity as number) > 0 && (
                   <div className="flex items-start gap-3">
                     <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${COPPER}20` }}>
                       <Users size={16} style={{ color: COPPER }} />
                     </div>
                     <div>
                       <p className="text-xs mb-0.5" style={{ color: '#a89070', fontFamily: 'Tajawal, sans-serif' }}>السعة</p>
-                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.capacity} شخص</p>
+                      <p className="text-sm text-white" style={{ fontFamily: 'Tajawal, sans-serif' }}>{event.capacity as number} شخص</p>
                     </div>
                   </div>
                 )}
@@ -219,6 +264,176 @@ export default function EventDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Lightbox modal ── */}
+      {lightboxOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="معرض الصور"
+          onClick={closeLightbox}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            backgroundColor: 'rgba(0,0,0,0.92)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            aria-label="إغلاق"
+            style={{
+              position: 'absolute',
+              top: 16,
+              right: 16,
+              width: 44,
+              height: 44,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(201,149,42,0.15)',
+              border: `1px solid ${COPPER}`,
+              color: COPPER_LIGHT,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 10,
+            }}
+          >
+            <X size={22} />
+          </button>
+
+          {/* Image counter */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 22,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: COPPER_LIGHT,
+              fontSize: 14,
+              fontFamily: 'Tajawal, sans-serif',
+              letterSpacing: '0.05em',
+              zIndex: 10,
+            }}
+          >
+            {lightboxIndex + 1} / {allImages.length}
+          </div>
+
+          {/* Main image — stop click from bubbling to overlay */}
+          <img
+            src={allImages[lightboxIndex]}
+            alt={`${event.title} - ${lightboxIndex + 1}`}
+            onClick={e => e.stopPropagation()}
+            onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+            onTouchEnd={e => {
+              const diff = touchStartX.current - e.changedTouches[0].clientX
+              if (diff > 50) lbNext()
+              else if (diff < -50) lbPrev()
+            }}
+            style={{
+              maxHeight: '88vh',
+              maxWidth: '88vw',
+              objectFit: 'contain',
+              borderRadius: 8,
+              boxShadow: '0 8px 48px rgba(0,0,0,0.7)',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+            }}
+          />
+
+          {/* Prev / Next — only when multiple images */}
+          {allImages.length > 1 && (
+            <>
+              <button
+                onClick={e => { e.stopPropagation(); lbPrev() }}
+                aria-label="الصورة السابقة"
+                style={{
+                  position: 'absolute',
+                  right: 16,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(201,149,42,0.15)',
+                  border: `1px solid ${COPPER}`,
+                  color: COPPER_LIGHT,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <ChevronRight size={24} />
+              </button>
+              <button
+                onClick={e => { e.stopPropagation(); lbNext() }}
+                aria-label="الصورة التالية"
+                style={{
+                  position: 'absolute',
+                  left: 16,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(201,149,42,0.15)',
+                  border: `1px solid ${COPPER}`,
+                  color: COPPER_LIGHT,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <ChevronLeft size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Dot indicators */}
+          {allImages.length > 1 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                gap: 8,
+                zIndex: 10,
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              {allImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLightboxIndex(i)}
+                  style={{
+                    width: i === lightboxIndex ? 20 : 8,
+                    height: 8,
+                    borderRadius: 4,
+                    backgroundColor: i === lightboxIndex ? COPPER : 'rgba(201,149,42,0.35)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'width 0.2s ease, background-color 0.2s ease',
+                    padding: 0,
+                  }}
+                  aria-label={`الصورة ${i + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
+
+  function closeLightbox() {
+    setLightboxOpen(false)
+  }
 }
