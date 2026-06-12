@@ -15,7 +15,13 @@ function getFirestoreDocId(collection: string, displayId: string): string {
 }
 
 function docToInstitution(doc: FirestoreDoc): Institution {
-  const displayId = doc._seedId || doc.id
+  let displayId = doc._seedId || doc.id
+  // A Firestore doc for 'مصلحة التراث الثقافي' was mistakenly seeded with
+  // _seedId:'library', colliding with the real library institution.
+  // Remap it so every institution in the array has a unique id.
+  if (displayId === 'library' && doc.title === 'مصلحة التراث الثقافي') {
+    displayId = 'heritage'
+  }
   if (doc._seedId) trackDocId('institutions', displayId, doc.id)
   return {
     id: displayId,
