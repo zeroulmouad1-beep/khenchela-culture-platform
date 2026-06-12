@@ -100,7 +100,7 @@ export function BentoGrid() {
             return (
               <Link
                 href={`/institution/${inst.id}`}
-                key={inst.id}
+                key={inst.id || idx}
                 className={`relative overflow-hidden rounded-2xl group cursor-pointer transition-all duration-500 flex-shrink-0 w-[280px] h-[320px] snap-center md:w-auto md:h-[320px] block ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
