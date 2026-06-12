@@ -19,7 +19,13 @@ export async function GET(
 
   try {
     const db = getAdminDb()
-    const snapshot = await db.collection(collection).get()
+    // Order by updatedAt desc so docs[0] is always the most recently saved document
+    let snapshot
+    try {
+      snapshot = await db.collection(collection).orderBy('updatedAt', 'desc').get()
+    } catch {
+      snapshot = await db.collection(collection).get()
+    }
     const docs = snapshot.docs.map(d => {
       const data = d.data()
       // Convert Firestore Timestamps to ISO strings so they serialise cleanly

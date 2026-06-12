@@ -3,8 +3,6 @@
 import Link from 'next/link'
 import { ArrowRight, Home, Users, BookOpen, BarChart3, Calendar, Star, Building2, TrendingUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { collection, onSnapshot } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
 import { getAssociations, type Association } from '@/lib/activities-data'
 import { Loader2 } from 'lucide-react'
 
@@ -139,15 +137,11 @@ export default function ActivitiesPage() {
   }, [])
 
   useEffect(() => {
-    if (!db) {
-      setStatsLoading(false)
-      return
-    }
-    const unsubscribe = onSnapshot(
-      collection(db, 'culturalStats'),
-      (snapshot) => {
-        if (!snapshot.empty) {
-          const raw = snapshot.docs[0].data()
+    fetch('/api/public/culturalStats', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(({ docs }) => {
+        if (docs && docs.length > 0) {
+          const raw = docs[0]
           setStats({
             totalEvents: raw.totalEvents ?? 0,
             totalAttendance: raw.totalAttendance ?? 0,
@@ -158,14 +152,10 @@ export default function ActivitiesPage() {
             eventTypes: Array.isArray(raw.eventTypes) ? raw.eventTypes : [],
             monthlyEvents: Array.isArray(raw.monthlyEvents) ? raw.monthlyEvents : [],
           })
-        } else {
-          setStats(null)
         }
-        setStatsLoading(false)
-      },
-      () => setStatsLoading(false)
-    )
-    return () => unsubscribe()
+      })
+      .catch(err => console.error('[activities] failed to load culturalStats:', err))
+      .finally(() => setStatsLoading(false))
   }, [])
 
   const loading = assocLoading || statsLoading

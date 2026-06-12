@@ -232,20 +232,6 @@ function CulturalStatsContent() {
         if (result?.id) { setDocId(result.id); savedId = result.id }
       }
 
-      // getDoc immediately after saving to confirm the data exists in Firestore
-      if (savedId && db) {
-        try {
-          const snap = await getDoc(fsDoc(db, COLLECTION, savedId))
-          if (snap.exists()) {
-            console.log(`getDoc verify ✅ — doc "${savedId}" exists in Firestore:`, snap.data())
-          } else {
-            console.warn(`getDoc verify ❌ — doc "${savedId}" NOT found in Firestore after write`)
-          }
-        } catch (verifyErr) {
-          console.warn('getDoc verify failed:', verifyErr)
-        }
-      }
-
       showToast('تم حفظ الإحصائيات بنجاح', 'success')
       // Re-fetch from server so the displayed form reflects exactly what Firestore has
       await loadFromServer()
