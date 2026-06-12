@@ -255,20 +255,10 @@ function CulturalStatsContent() {
   return (
     <div dir="rtl" style={{ maxWidth: 900, margin: '0 auto' }}>
 
-      {/* ── Firebase status / error banner ── */}
+      {/* ── Error banner only (success/info banners removed for clean UI) ── */}
       {dbStatus === 'error' && loadError && (
         <div style={{ marginBottom: 20, padding: '14px 18px', borderRadius: 10, backgroundColor: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.4)', fontFamily: 'Tajawal, sans-serif', fontSize: 13, color: '#fca5a5', lineHeight: 1.6, direction: 'ltr', textAlign: 'left' }}>
           <strong>❌ Failed to load from server:</strong> {loadError}
-        </div>
-      )}
-      {dbStatus === 'ok' && docId && (
-        <div style={{ marginBottom: 16, padding: '8px 14px', borderRadius: 8, backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', fontFamily: 'Tajawal, sans-serif', fontSize: 12, color: '#86efac', display: 'flex', alignItems: 'center', gap: 8 }}>
-          ✅ متصل بـ Firestore — تم تحميل البيانات (المستند: <code style={{ fontSize: 11 }}>{docId}</code>)
-        </div>
-      )}
-      {dbStatus === 'ok' && !docId && (
-        <div style={{ marginBottom: 16, padding: '8px 14px', borderRadius: 8, backgroundColor: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.3)', fontFamily: 'Tajawal, sans-serif', fontSize: 12, color: '#fde68a' }}>
-          ⚠️ لا توجد بيانات محفوظة بعد — اضغط "حفظ التغييرات" لإنشاء السجل الأول
         </div>
       )}
 
